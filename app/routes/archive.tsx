@@ -7,9 +7,9 @@ export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const path = url.pathname;
   // import Component, { attributes, filename } from `"~${url.pathname}.md"`;
-  const content = require(`"${url.pathname}"`);
+  // const content = require(`"${url.pathname}"`);
   // console.log(url.pathname);
-  console.log(content);
+  // console.log(content);
   return null;
 };
 
