@@ -1,10 +1,30 @@
 // import { useLoaderData, useCatch } from "@remix-run/react";
 
-export async function loader({}) {
+import type { LoaderFunction } from "@remix-run/cloudflare"; // or cloudflare/deno
+import { redirect, json } from "@remix-run/cloudflare"; // or cloudflare/deno
+
+type Path = {
+  path: string;
+};
+
+type Paths = Path[];
+
+// export async function loader({}) {
+export const loader: LoaderFunction = async ({ request }) => {
+  const url = new URL(request.url);
+  const path = url.pathname;
+  const paths = require("~/paths.json") as Paths;
+
+  const pathMatch = paths.find((p) => p.path === path);
+
+  if (pathMatch) {
+    return redirect("/", 301);
+  }
+
   throw new Response("Not Found", {
     status: 404,
   });
-}
+};
 
 export function CatchBoundary() {
   // let caught = useCatch();

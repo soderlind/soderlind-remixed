@@ -1,4 +1,4 @@
-import { json } from "@remix-run/node";
+import { json } from "@remix-run/cloudflare";
 import { Link, useLoaderData } from "@remix-run/react";
 import { parseJSON } from "date-fns";
 import { getPosts, Post } from "~/models/post.server";
@@ -15,7 +15,7 @@ export const loader = async () => {
 export default function Index() {
   const data = useLoaderData() as LoaderData;
 
-  const entries = data.entries as Post[];
+  const entries = data.entries; // as Post[];
   const years = Object.keys(entries) as string[];
   const sortedYears = years.sort((a, b) => b.localeCompare(a));
 
