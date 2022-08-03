@@ -1,4 +1,4 @@
-import { json } from "@remix-run/cloudflare";
+import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { parseJSON } from "date-fns";
 import { getPosts, Post } from "~/models/post.server";
@@ -18,6 +18,7 @@ export default function Posts() {
   const entries = data.entries as Post[];
   const years = Object.keys(entries) as string[];
   const sortedYears = years.sort((a, b) => b.localeCompare(a));
+  const sticky = '<div className="sticky-arrow"></div>';
 
   return sortedYears.map((year) => {
     const y = parseInt(year, 10);

@@ -1,7 +1,7 @@
 // import { prisma } from "~/db.server";
 // import type { Post } from "@prisma/client";
 import { parseJSON } from "date-fns";
-import Posts from "~/routes/posts";
+// import Posts from "~/routes/posts";
 
 type Post = {
   title: string;
@@ -56,9 +56,9 @@ export async function getPosts(): Promise<Posts> {
       },
       {
         slug: "2021-01-05",
-        title: "2021-01-05",
+        title: "Bold ipsum",
         updatedAt: "2021-01-05T00:00:00.000Z",
-        markdown: "lorem ipsum dolores est",
+        markdown: "lorem **ipsum** dolores est",
       },
       {
         slug: "2021-01-06",

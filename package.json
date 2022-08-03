@@ -3,44 +3,40 @@
   "sideEffects": false,
   "scripts": {
     "build": "remix build",
-    "dev:remix": "remix watch",
-    "dev:wrangler": "cross-env NODE_ENV=development wrangler pages dev ./public",
-    "dev": "remix build && run-p \"dev:*\"",
-    "start": "cross-env NODE_ENV=production npm run dev:wrangler",
-    "typecheck": "tsc -b"
+    "dev": "remix dev",
+    "start": "remix-serve build"
   },
   "dependencies": {
-    "@remix-run/cloudflare": "^1.6.7",
-    "@remix-run/cloudflare-pages": "^1.6.7",
+    "@remix-run/node": "^1.6.7",
     "@remix-run/react": "^1.6.7",
+    "@remix-run/serve": "^1.6.7",
     "@types/marked": "^4.0.3",
-    "bcryptjs": "^2.4.3",
-    "cross-env": "^7.0.3",
     "date-fns": "^2.29.1",
-    "graphql": "^16.5.0",
+    "esbuild": "0.14.53",
+    "fast-glob": "^3.2.11",
+    "front-matter": "4.0.2",
     "intl-parse-accept-language": "^1.0.0",
     "marked": "^4.0.18",
+    "mdx-bundler": "9.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rehype-autolink-headings": "6.1.1",
     "rehype-highlight": "^5.0.2",
-    "remix-graphql": "^0.2.1",
+    "rehype-slug": "5.0.1",
+    "rehype-toc": "3.0.2",
+    "remark-gfm": "3.0.1",
     "tiny-invariant": "^1.2.0"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^3.14.1",
     "@remix-run/dev": "^1.6.7",
     "@remix-run/eslint-config": "^1.6.7",
+    "@types/node": "^18.6.3",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "eslint": "^8.21.0",
-    "npm-run-all": "^4.1.5",
-    "typescript": "^4.7.4",
-    "wrangler": "^2.0.24"
+    "typescript": "^4.7.4"
   },
   "engines": {
     "node": ">=14"
-  },
-  "prisma": {
-    "seed": "node prisma/seed.js"
   }
 }

@@ -1,6 +1,6 @@
 import { marked } from "marked";
-import type { LoaderFunction } from "@remix-run/cloudflare";
-import { json } from "@remix-run/cloudflare";
+import type { LoaderFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { parseJSON } from "date-fns";
@@ -16,8 +16,8 @@ type LoaderData = { post: Post; html: string };
 export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.slug, `params.slug is required`);
   const post = await getPost(params.slug);
-  // const html = marked(post.markdown);
-  const html = post.markdown;
+  const html = marked(post.markdown);
+  // const html = post.markdown;
   return json<LoaderData>({ post, html });
 };
 

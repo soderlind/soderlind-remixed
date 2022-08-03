@@ -1,7 +1,7 @@
 // import { useLoaderData, useCatch } from "@remix-run/react";
 
-import type { LoaderFunction } from "@remix-run/cloudflare"; // or cloudflare/deno
-import { redirect, json } from "@remix-run/cloudflare"; // or cloudflare/deno
+import type { LoaderFunction } from "@remix-run/node"; // or cloudflare/deno
+import { redirect, json } from "@remix-run/node"; // or cloudflare/deno
 
 type Path = {
   path: string;

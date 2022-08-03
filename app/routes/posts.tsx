@@ -1,4 +1,4 @@
-import { json } from "@remix-run/cloudflare";
+import { json } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import { parseJSON } from "date-fns";
 import { getPosts, Post } from "~/models/post.server";
