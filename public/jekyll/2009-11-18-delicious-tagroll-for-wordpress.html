@@ -1,0 +1,183 @@
+---
+layout: post
+title: delicious tagroll for WordPress
+date: 2009-11-18 23:13:17.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- wp-plugins
+tags:
+- Delicious
+- tag cloud
+meta:
+  jd_tweet_this: 'yes'
+  _edit_last: '1'
+  wp_jd_target: https://www.soderlind.no/archives/2009/11/18/delicious-tagroll-for-wordpress/
+  wp_jd_clig: https://cli.gs/QDs2g
+  aktt_notify_twitter: 'yes'
+  tweet_this_url: getnew
+  tt_tweeted: 'true'
+  tt_auto_tweet: 'false'
+  tt_auto_tweet_text: 'New blog post: [TITLE] [URL]'
+  autometa: shortcode delicious tagroll tagroll true true showcounts showname
+  oc_commit_id: https://soderlind.no/archives/2009/11/18/delicious-tagroll-for-wordpress/1292756177
+  oc_metadata: "{\t\tversion:'1.1',\t\ttags: {'delicious': {\"text\":\"Delicious\",\"slug\":\"delicious\",\"source\":{\"_className\":\"SocialTag\",\"url\":\"https://d.opencalais.com/dochash-1/5ebebb7e-b024-325e-ae4d-fc20b1c9f2ad/SocialTag/10\",\"subjectURL\":null,\"type\":{\"_className\":\"ArtifactType\",\"url\":\"https://s.opencalais.com/1/type/tag/SocialTag\",\"name\":\"SocialTag\"},\"name\":\"Delicious\",\"makeMeATag\":true,\"importance\":1,\"normalizedRelevance\":1},\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'tag-cloud': {\"text\":\"tag cloud\",\"slug\":\"tag-cloud\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"}}\t}"
+  views: '313'
+  _aktt_hash_meta: ''
+  _yoast_wpseo_focuskw: ''
+  _yoast_wpseo_title: ''
+  _yoast_wpseo_metadesc: ''
+  _yoast_wpseo_metakeywords: ''
+  _yoast_wpseo_meta-robots-noindex: '0'
+  _yoast_wpseo_meta-robots-nofollow: '0'
+  _yoast_wpseo_meta-robots-adv: none
+  _yoast_wpseo_sitemap-include: "-"
+  _yoast_wpseo_sitemap-prio: "-"
+  _yoast_wpseo_canonical: ''
+  _yoast_wpseo_redirect: ''
+  _yoast_wpseo_opengraph-description: ''
+  plugin_url: https://wordpress.org/extend/plugins/delicious-tagroll-shortcode/
+  _plugin_url: field_4f17f54164ed8
+  _yoast_wpseo_google-plus-description: ''
+  download_url: https://downloads.wordpress.org/plugin/delicious-tagroll-shortcode.zip
+  _download_url: field_4f18335371224
+  _syntaxhighlighter_encoded: '1'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<div><strong>The Delicious tagroll for WordPress plugin</strong> adds a new shortcode to WordPress, the <amp-img layout="responsive" class="alignnone size-full wp-image-605"  title="the shortcode" src="{{ site.baseurl }}/assets/ps_delicious_tagroll_shortcode.png" alt="the shortcode" width="243" height="20" /> shortcode. The shortcode creates a tag cloud or a list of tags (see parameters below).</div>
+<p><a href="https://soderlind.no/wp-content/uploads/2009/11/bookmarks.png"><amp-img layout="responsive" class="aligncenter size-medium wp-image-3253" title="My Bookmarks" src="{{ site.baseurl }}/assets/bookmarks-300x851.png" alt="" width="300" height="85" /></a></p>
+<p><!--more--><br />
+<strong>Demo</strong>: <a href="https://soderlind.no/bookmarks/">https://soderlind.no/bookmarks/</a></p>
+<p><strong>Plugin</strong>: You'll find the plugin at <a href="https://wordpress.org/extend/plugins/delicious-tagroll-shortcode/">https://wordpress.org/extend/plugins/delicious-tagroll-shortcode/</a></p>
+<p><strong>Installation</strong>: <a href="https://downloads.wordpress.org/plugin/delicious-tagroll-shortcode.zip">Download the plugin</a> and save it in wp-content/plugins (remember to activate in Plugins) or wp-content/mu-plugins or install it from inside WordPress in Plugins-&gt;Add New (search for "delicious tagroll")</p>
+<p><strong>Usage</strong>: <a title="Adding the shortcode to a Page" href="https://soderlind.no/wp-content/uploads/2009/11/ps_delicious_tagroll_edit_page.png">Add the shortcode to a Page</a>. The shortcode supports the following parameters:</p>
+<ul>
+<li><strong>Mandatory</strong>:
+<ul>
+<li>username="delicious username" (if you forget it, my tagroll is displayed instead ;))</li>
+</ul>
+</li>
+<li>Optional:
+<ul>
+<li>title="tagroll title" (default ="My Delicious Tags", use " " if you don't want a tagroll title)</li>
+<li>count="number of tags" (default="100")</li>
+<li>sort="alpha or freq" (default = "alpha")</li>
+<li>showcounts="true or false" (default = "false", show tag counts)</li>
+<li>mincount (default mincount="10"), eg. show only tags with 10 or more links</li>
+<li>minfont="12"</li>
+<li>maxfont="35"</li>
+<li>tags (default empty), eg. used to filter which tags you'd like to display eg. tags="javascript,jquery,nodejs</li>
+</ul>
+</li>
+</ul>
+<p><strong>Change log</strong></p>
+<p><strong>v 2.1.2</strong></p>
+<ul>
+<li>Bugfix, you need this one if you are running a version less than PHP 5.3, since $xml-&gt;channel-&gt;item-&gt;count() is only supported in PHP 5.3 and newer.<br />
+	{% highlight php %}<br />
+function ps_delicious_tagroll_get_tags($username = 'soderlind',$count = 10){</p>
+<p>	$key = 'delicious_tagroll_' . $username;</p>
+<p>	$feed_url = sprintf(&quot;https://feeds.delicious.com/v2/rss/tags/%s?count=%s&quot;,$username,$count);</p>
+<p>	$rs = get_transient($key);									// read &quot;cache&quot;<br />
+	if ($rs != false) return $rs;</p>
+<p>	$data  = wp_remote_get($feed_url.'');<br />
+	if (is_wp_error($data)) {<br />
+		return (array)get_option($key); 						// retrieve fallback<br />
+	} else {<br />
+		$body = wp_remote_retrieve_body($data);<br />
+		$xml = new SimpleXMLElement($body);<br />
+		$rs = json_decode(json_encode($xml-&gt;channel),TRUE);	// convert xml object to array<br />
+		if (count($rs['item']) &gt; 0) {<br />
+			set_transient($key, $rs, 60*60);					//expire after 1 hour<br />
+			update_option($key, $rs); 							//fallback storage<br />
+		} else {<br />
+			$rs = (array)get_option($key); 						// retrieve fallback<br />
+		}<br />
+		return $rs;<br />
+	}<br />
+}<br />
+{% endhighlight %}
+</li>
+</ul>
+<p><strong>v 2.1.1</strong></p>
+<ul>
+<li>Replaced LastRSS with WordPress built in methods and set/get transient for caching:<br />
+{% highlight php %}<br />
+function ps_delicious_tagroll_get_tags($username = 'soderlind',$count = 10){</p>
+<p>	$key = 'delicious_tagroll_' . $username;</p>
+<p>	$feed_url = sprintf(&quot;https://feeds.delicious.com/v2/rss/tags/%s?count=%s&quot;,$username,$count);</p>
+<p>	$rs = get_transient($key);									// read cache<br />
+	if ($rs != false) return $rs;</p>
+<p>	$data  = wp_remote_get($feed_url.'');<br />
+	if (is_wp_error($data)) {<br />
+		return (array)get_option($key); 						// retrieve fallback<br />
+	} else {<br />
+		$body = wp_remote_retrieve_body($data);</p>
+<p>		$xml = new SimpleXMLElement($body);</p>
+<p>		if ($xml-&gt;channel-&gt;item-&gt;count() &gt; 0) {<br />
+			$rs = json_decode(json_encode($xml-&gt;channel),TRUE);	// convert xml object to array<br />
+			set_transient($key, $rs, 60*60);					//save cache, expire after 1 hour<br />
+			update_option($key, $rs); 							//save fallback<br />
+		} else {<br />
+			$rs = (array)get_option($key); 						// retrieve fallback<br />
+		}<br />
+		return $rs;<br />
+	}<br />
+}<br />
+{% endhighlight %}</li>
+<li>Added a new optional attribute:
+<ul>
+<li>tags (default empty), used to filter which tags you'd like to display eg. tags="javascript,jquery,nodejs"</li>
+</ul>
+</li>
+</ul>
+<p><strong>v 2.0</strong></p>
+<ul>
+<li>Delicious removed their JavaScript feed so I had to do a <a href="https://plugins.trac.wordpress.org/changeset/455721/delicious-tagroll-shortcode/trunk/ps_delicious_tagroll.php">total rewrite</a>
+<ul>
+<li>Creates the tag cloud server-side (good for SEO) and lets you change the look and feel using the included style sheet.</li>
+<li>Uses the <a href="https://delicious.com/help/feeds">Delicious RSS feed API</a></li>
+<li>Caches the feed for one hour. Delicious might block you if you access their feed API too often.</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>Some attributes are removed from the shortcode (you can change these using the ps_delicious_tagroll.css style sheet in the plugin directory):
+<ul>
+<li>mincolor</li>
+<li>maxcolor</li>
+<li>flow</li>
+</ul>
+</li>
+<li>Also removed the attributes
+<ul>
+<li>showname</li>
+<li>showadd</li>
+<li>icon</li>
+</ul>
+</li>
+<li>Added a new attribute:
+<ul>
+<li>mincount (default mincount="10"), eg. show only tags with 10 or more links</li>
+</ul>
+</li>
+</ul>
+<p><strong>v 1.1</strong></p>
+<ul>
+<li>changed parameter name="true" to showname="true"</li>
+<li>added missing parameter showcounts="false"</li>
+</ul>
+<p><strong>v 1.0</strong></p>
+<ul>
+<li>initial release<strong><br />
+</strong></li>
+</ul>

@@ -1,0 +1,62 @@
+---
+layout: post
+title: An SVG logo Custom Control for the WordPress Customizer
+redirect_from:
+- /read-offline/5037/a-svg-logo-custom-control-for-wordpress-customizer.pdf
+date: 2016-11-18 15:44:52.000000000 +01:00
+type: post
+gist: true
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- customizer
+- proof of concept
+tags: []
+meta:
+  _edit_last: '1'
+  _oembed_f99b619dbf0e7a90457bfecaaeabf918: "{{unknown}}"
+  _yoast_wpseo_content_score: '60'
+  _yoast_wpseo_primary_category: '349'
+  _yoast_wpseo_opengraph-image: https://soderlind.no/wp-content/uploads/2016/11/svg-logo.gif
+  _yoast_wpseo_twitter-image: https://soderlind.no/wp-content/uploads/2016/11/svg-logo.gif
+  _yoast_wpseo_metadesc: A proof of concept showing how you can add a SVG logo using
+    the WordPress customizer.
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p><amp-img layout="responsive" class="aligncenter size-full wp-image-5044" src="{{ site.baseurl }}/assets/svg-logo_ibtcvt.gif" alt="svg-logo" width="963" height="514" /></p>
+<p>Another proof of concept.</p>
+<p><!--more--></p>
+<h2>The custom control</h2>
+<p>You create a custom control by <a href="https://developer.wordpress.org/themes/advanced-topics/customizer-api/#custom-controls-sections-and-panels">extending the WP_Customize_Control</a> class. I check for WP_Customizer_Control existence before adding custom control because WP_Customize_Control is loaded on customizer page only.</p>
+<p><amp-gist data-gistid="20d3be280a948a31be5308e6b9c7eef7" data-file="class-dss-svg-picker-option.php" layout="fixed-height" height="185"></amp-gist></p>
+<h2>list_svg()</h2>
+<p>Create a option list with URLs to SVG files. The SVG files are defined in svg.json</p>
+<blockquote><p>You should only add SVG's that you created or at least trust the content of.</p></blockquote>
+<p>That's the reason I'm not using the media manager to add the SVG,  they are <a href="https://bjornjohansen.no/svg-in-wordpress">very unsecure</a>.</p>
+<p><amp-gist data-gistid="20d3be280a948a31be5308e6b9c7eef7" data-file="list_svg.php" layout="fixed-height" height="185"></amp-gist></p>
+<h2>svg.json</h2>
+<p>The <code>svg.json</code> file has the relative path to each logo</p>
+<p><amp-gist data-gistid="20d3be280a948a31be5308e6b9c7eef7" data-file="svg.json" layout="fixed-height" height="185"></amp-gist></p>
+<h2>The Image Picker jQuery plugin</h2>
+<blockquote><p><a href="https://rvera.github.io/image-picker/">Image Picker</a> is a simple jQuery plugin that transforms a select element into a more user friendly graphical interface.</p></blockquote>
+<p>&nbsp;</p>
+<p>Worth noting here is the <code>$("#selected_svg").change();</code>, it triggers Save &amp; Publish in the customizer.</p>
+<p><amp-gist data-gistid="20d3be280a948a31be5308e6b9c7eef7" data-file="customizer_svg_enqueue_scripts.php" layout="fixed-height" height="185"></amp-gist></p>
+<h2>Adding the custom control to the customizer</h2>
+<p><amp-gist data-gistid="20d3be280a948a31be5308e6b9c7eef7" data-file="svg-customizer-config.php" layout="fixed-height" height="185"></amp-gist></p>
+<h2>Answering the postmessage</h2>
+<p>Using <a href="https://developer.wordpress.org/themes/advanced-topics/customizer-api/#using-postmessage-for-improved-setting-previewing">postmessage</a>, I'm updating the SVG URL in the preview using the JavaSript below. 'svg_logo_url' is the name of the setting, as added by the $wp_customize-&gt;add_setting call above.</p>
+<p><amp-gist data-gistid="20d3be280a948a31be5308e6b9c7eef7" data-file="svg-postmessage.js" layout="fixed-height" height="185"></amp-gist></p>
+<p>&nbsp;</p>
+<h2>Adding the SVG logo to the theme</h2>
+<p>Most modern themes are using <a href="https://make.wordpress.org/core/2016/03/10/custom-logo/">the_custom_logo()</a> function to display the logo, so here I hook into the function through <a href="https://developer.wordpress.org/reference/hooks/get_custom_logo/">get_custom_logo filter</a> to change it.</p>
+<p><amp-gist data-gistid="20d3be280a948a31be5308e6b9c7eef7" data-file="change-custom-logo.php" layout="fixed-height" height="185"></amp-gist></p>
+<h2>Demo</h2>
+<p>I've added the custom control to the <a href="https://github.com/soderlind/2016-customizer-demo">2016-customizer-demo</a> theme. The files used are `<a href="https://github.com/soderlind/2016-customizer-demo/blob/master/functions.php#L153-L257">functions.php</a>`, `<a href="https://github.com/soderlind/2016-customizer-demo/blob/master/svg.json">svg.json</a>`, `<a href="https://github.com/soderlind/2016-customizer-demo/tree/master/svg">svg/*.svg</a>`, `<a href="https://github.com/soderlind/2016-customizer-demo/blob/master/js/customizer.js#L43-L61">js/customizer.js</a>` and image picker plugin in the `<a href="https://github.com/soderlind/2016-customizer-demo/tree/master/js/image-picker">js/image-picker</a>` folder.</p>

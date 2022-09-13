@@ -1,0 +1,122 @@
+---
+layout: post
+title: Adding WP-PageNavi to the Yoko theme
+date: 2012-01-31 16:13:51.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+tags:
+- navigation
+- wordpress theme
+meta:
+  _msp_google_plus_ones: '0'
+  _msp_tweets: '3'
+  _msp_fb_likes: '0'
+  _msp_total_shares: '3'
+  _aktt_hash_meta: ''
+  aktt_notify_twitter: 'yes'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  plugin_url: ''
+  _plugin_url: field_4f17f54164ed8
+  download_url: ''
+  _download_url: field_4f18335371224
+  _yoast_wpseo_focuskw: ''
+  _yoast_wpseo_title: ''
+  _yoast_wpseo_metadesc: ''
+  _yoast_wpseo_metakeywords: ''
+  _yoast_wpseo_meta-robots-noindex: '0'
+  _yoast_wpseo_meta-robots-nofollow: '0'
+  _yoast_wpseo_meta-robots-adv: none
+  _yoast_wpseo_sitemap-include: "-"
+  _yoast_wpseo_sitemap-prio: "-"
+  _yoast_wpseo_canonical: ''
+  _yoast_wpseo_redirect: ''
+  _yoast_wpseo_opengraph-description: ''
+  _yoast_wpseo_google-plus-description: ''
+  oc_metadata: "{\t\tversion:'1.1',\t\ttags: {}\t}"
+  aktt_tweeted: '1'
+  oc_commit_id: https://soderlind.no/archives/2012/01/31/adding-wp-pagenavi-to-the-yoko-theme/1328022835
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>I'm using the <a href="https://wordpress.org/extend/themes/yoko">Yoko theme</a> and <a href="https://wordpress.org/extend/plugins/wp-pagenavi/">WP-PageNavi</a> here at soderlind.no</p>
+<p><a href="https://soderlind.no/wp-content/uploads/2012/01/wp-pagenavi-wide.png"><amp-img layout="responsive" class="aligncenter size-medium wp-image-3174"  title="Positioning WP-PageNavi on a wide screen" src="{{ site.baseurl }}/assets/wp-pagenavi-wide-293x3001.png" alt="" width="293" height="300" /></a><br />
+<a href="https://soderlind.no/wp-content/uploads/2012/01/wp-pagenavi-narrow.png"><amp-img layout="responsive" class="aligncenter size-medium wp-image-3173"  title="Positioning WP-PageNavi on a screen 680px wide or less" src="{{ site.baseurl }}/assets/wp-pagenavi-narrow-230x3001.png" alt="" width="230" height="300" /></a></p>
+<blockquote><p><a href="https://www.elmastudio.de/wordpress-themes/yoko/">Yoko</a> is a modern three-column blog theme. A responsive layout optimizes the theme for mobile devices like tablet pcs and modern smartphones (the layout switches to a two- or one-column layout depending on the screen size the theme is viewed on).</p></blockquote>
+<p><!--more Here's how I added WP-PageNavi--></p>
+<p><strong>Here's how I added WP-PageNavi:</strong></p>
+<ol>
+<li>Downloaded WP-PageNavi from the <a href="https://wordpress.org/extend/plugins/wp-pagenavi/">WordPress plugin directory</a></li>
+<li>From the Yoko theme folder, copied author.php, category.php, index.php, search.php and tag.php to my <a href="https://www.elmastudio.de/wp-content/uploads/themes/yokochildthemefolder.zip">Yoko child theme</a> folder and <a href="https://wordpress.org/extend/plugins/wp-pagenavi/installation/">added wp_pagenavi();</a> to each file. I replaced<br />
+{% highlight php %}<br />
+&lt;nav id=&quot;nav-below&quot;&gt;<br />
+	&lt;div class=&quot;nav-previous&quot;&gt;&lt;?php next_posts_link( __( '&lt;span class=&quot;meta-nav&quot;&gt;&amp;larr;&lt;/span&gt; Older posts', 'yoko' ) ); ?&gt;&lt;/div&gt;<br />
+	&lt;div class=&quot;nav-next&quot;&gt;&lt;?php previous_posts_link( __( 'Newer posts &lt;span class=&quot;meta-nav&quot;&gt;&amp;rarr;&lt;/span&gt;', 'yoko' ) ); ?&gt;&lt;/div&gt;<br />
+&lt;/nav&gt;<br />
+{% endhighlight %}</p>
+<p>with</p>
+<p>{% highlight php %}<br />
+&lt;nav id=&quot;nav-below&quot;&gt;<br />
+	&lt;div id=&quot;pagenavi&quot;&gt;&lt;?php if(function_exists('wp_pagenavi')) { wp_pagenavi(); } ?&gt;&lt;/div&gt;<br />
+&lt;/nav&gt;<br />
+{% endhighlight %}</li>
+<li>Configured WP-PageNavi (in Settings -&gt; PageNavi)
+<pre>Page Navigation Text
+
+Text For Number Of Pages:    &lt;blank&gt;
+Text For Current Page:       <strong>%PAGE_NUMBER%</strong>
+Text For Page:               <strong>%PAGE_NUMBER%</strong>
+Text For First Page:         <strong>1</strong>
+Text For Last Page:          <strong>%TOTAL_PAGES%</strong>
+Text For Previous Page:	     <strong>«</strong>
+Text For Next Page:	     <strong>»</strong>
+Text For Previous:           <strong>...</strong>
+Text For Next:               <strong>...</strong>
+
+Page Navigation Options
+
+Use pagenavi-css.css:        <strong>unchecked</strong>
+Page Navigation Style:       <strong>Normal</strong>
+Always Show Page Navigation: <strong>checked</strong>
+Number Of Pages To Show:     <strong>5</strong>
+Number Of Larger Page
+Numbers To Show:             <strong>0</strong>
+Show Larger Page Numbers
+In Multiples Of:             <strong>10</strong></pre>
+</li>
+<li>Added the following to the style.css in my <a href="https://www.elmastudio.de/wp-content/uploads/themes/yokochildthemefolder.zip">Yoko child theme</a> folder:<br />
+[css]<br />
+.wp-pagenavi {<br />
+	clear: both;<br />
+	text-align:center;<br />
+	height:30px;<br />
+	padding-left: 22.507%;<br />
+}</p>
+<p>@media screen and (max-width : 620px) {<br />
+	.wp-pagenavi {<br />
+		padding-left: 0;<br />
+	}<br />
+}</p>
+<p>.wp-pagenavi a, .wp-pagenavi span, #pagenavi .page {<br />
+    border: 1px solid #BFBFBF;<br />
+    margin: 2px;<br />
+    padding: 3px 5px;<br />
+    text-decoration: none;<br />
+}<br />
+.wp-pagenavi a:hover, .wp-pagenavi span.current {<br />
+    border-color: #000000;<br />
+}<br />
+.wp-pagenavi span.current {<br />
+    font-weight: bold;<br />
+}<br />
+[/css]</li>
+</ol>

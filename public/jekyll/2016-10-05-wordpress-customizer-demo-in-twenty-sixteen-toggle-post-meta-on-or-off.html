@@ -1,0 +1,43 @@
+---
+layout: post
+title: 'WordPress Customizer Demo: In Twenty Sixteen, toggle post meta on or off'
+date: 2016-10-05 20:31:24.000000000 +02:00
+type: post
+gist: true
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- customizer
+- how-to
+- proof of concept
+tags: []
+meta:
+  _edit_last: '1'
+  _yoast_wpseo_content_score: '30'
+  _yoast_wpseo_primary_category: '348'
+  _yoast_wpseo_opengraph-image: https://soderlind.no/wp-content/uploads/2016/10/customizer-post-meta.gif
+  _yoast_wpseo_twitter-image: https://soderlind.no/wp-content/uploads/2016/10/customizer-post-meta.gif
+  _yoast_wpseo_metadesc: How to use the customizer postmessage transport and a preview
+    script to toggle complex theme elements on or off.
+  _wp_old_slug: wordpress-customizer-how-to-toggle-breadcrumbs-on-or-off
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p><amp-img layout="responsive" class="aligncenter size-full wp-image-4981" src="{{ site.baseurl }}/assets/customizer-post-meta_bj2zye.gif" alt="customizer-post-meta" width="683" height="264" /><br />
+<!--more--></p>
+<p>Purpose of this demo is to demonstrate, for the theme developer, how to use the customizer postmessage transport and a preview script to toggle complex theme elements on or off.</p>
+<p>In this demo I'll toggle displaying the author and post date.</p>
+<p>Theme code:</p>
+<p><amp-gist data-gistid="1880bd6ddf3b1c6d85ea5c4cc9109b58" data-file="2016-post-meta.html" layout="fixed-height" height="185"></amp-gist></p>
+<p>When the post meta is toggled off, the theme will create an post meta wrapper without the post meta html, and the preview script doesn't have anything to toggle:</p>
+<p><amp-gist data-gistid="1880bd6ddf3b1c6d85ea5c4cc9109b58" data-file="2016-no-post-meta.html" layout="fixed-height" height="185"></amp-gist></p>
+<p>I solve this by adding the missing html using jQuery<a href="https://api.jquery.com/prependTo/">.prependTo()</a>. The html is just for the preview and will not be added to the theme:</p>
+<p><amp-gist data-gistid="1880bd6ddf3b1c6d85ea5c4cc9109b58" data-file="customizer.js" layout="fixed-height" height="185"></amp-gist></p>
+<p><amp-gist data-gistid="1880bd6ddf3b1c6d85ea5c4cc9109b58" data-file="customizer-js-L12.L15" layout="fixed-height" height="185"></amp-gist></p>
+<p>You'll find a <a href="https://github.com/soderlind/2016-customizer-demo">complete demo at GitHub</a></p>

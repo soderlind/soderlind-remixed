@@ -1,0 +1,131 @@
+---
+layout: post
+title: Fade away and hide the WordPress 3.1 Admin Bar
+date: 2011-02-25 19:25:41.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- wp-plugins
+tags:
+- WordPress Admin Bar
+meta:
+  views: '415'
+  aktt_notify_twitter: 'yes'
+  tweet_this_url: getnew
+  _aktt_hash_meta: ''
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  oc_metadata: "{\t\tversion:'1.1',\t\ttags: {'wordpress': {\"text\":\"WordPress\",\"slug\":\"wordpress\",\"source\":{\"_className\":\"SocialTag\",\"url\":\"https://d.opencalais.com/dochash-1/9ac3c648-4494-39c9-9d1f-e9341f29ce1b/SocialTag/5\",\"subjectURL\":null,\"type\":{\"_className\":\"ArtifactType\",\"url\":\"https://s.opencalais.com/1/type/tag/SocialTag\",\"name\":\"SocialTag\"},\"name\":\"WordPress\",\"makeMeATag\":true,\"importance\":1,\"normalizedRelevance\":1},\"bucketName\":\"blacklisted\",\"bucketPlacement\":\"user\",\"_className\":\"Tag\"},
+    'fade': {\"text\":\"Fade\",\"slug\":\"fade\",\"source\":{\"_className\":\"SocialTag\",\"url\":\"https://d.opencalais.com/dochash-1/9ac3c648-4494-39c9-9d1f-e9341f29ce1b/SocialTag/6\",\"subjectURL\":null,\"type\":{\"_className\":\"ArtifactType\",\"url\":\"https://s.opencalais.com/1/type/tag/SocialTag\",\"name\":\"SocialTag\"},\"name\":\"Fade\",\"makeMeATag\":true,\"importance\":1,\"normalizedRelevance\":1},\"bucketName\":\"blacklisted\",\"bucketPlacement\":\"user\",\"_className\":\"Tag\"},
+    'wordpress-admin-bar': {\"text\":\"WordPress Admin Bar\",\"slug\":\"wordpress-admin-bar\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"}}\t}"
+  aktt_tweeted: '1'
+  oc_commit_id: https://soderlind.no/archives/2011/02/25/fade-away-wordpress-admin-bar/1298654742
+  _yoast_wpseo_focuskw: ''
+  _yoast_wpseo_title: ''
+  _yoast_wpseo_metadesc: ''
+  _yoast_wpseo_metakeywords: ''
+  _yoast_wpseo_meta-robots-noindex: '0'
+  _yoast_wpseo_meta-robots-nofollow: '0'
+  _yoast_wpseo_meta-robots-adv: none
+  _yoast_wpseo_sitemap-include: "-"
+  _yoast_wpseo_sitemap-prio: "-"
+  _yoast_wpseo_canonical: ''
+  _yoast_wpseo_redirect: ''
+  _yoast_wpseo_opengraph-description: ''
+  plugin_url: https://wordpress.org/extend/plugins/pers-fade-away-wp-admin-bar/
+  _plugin_url: field_4f17f54164ed8
+  _yoast_wpseo_google-plus-description: ''
+  download_url: https://downloads.wordpress.org/plugin/pers-fade-away-wp-admin-bar.zip
+  _download_url: field_4f18335371224
+  _msp_fb_likes: '0'
+  _msp_tweets: '3'
+  _msp_google_plus_ones: '0'
+  _msp_total_shares: '3'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>Instead of disabling the WordPress 3.1 Admin Bar, use this plugin,  based on <a href="https://tympanus.net/Tutorials/FixedFadeOutMenu/">Codrops Fixed Fade Out Menu</a>,  to <a href="https://screencast.com/t/13NEaWQBV">fade away the WordPress Admin Bar</a> when you scroll down the page. <strong>The plugin is availeable in the <a href="https://wordpress.org/extend/plugins/pers-fade-away-wp-admin-bar/">WordPress Plugin Directory</a></strong></p>
+<p><!--more Read more about the pluging--></p>
+<p><strong>Changelog</strong>:</p>
+<ul>
+<li>1.0.1 - Thanks to @TheFrosty, added is_admin_bar_showing()</li>
+<li>1.0.0 - initial release</li>
+</ul>
+<p><strong>Source:</strong><br />
+{% highlight php %}<br />
+&lt;?php<br />
+/*<br />
+Plugin Name: PerS Fade Away WordPress Admin Bar<br />
+Plugin URI: https://soderlind.no/archives/2011/02/25/fade-away-wordpress-admin-bar/<br />
+Description: Fade away the WordPress Admin Bar when you scroll down the page.<br />
+Version: 1.0.1<br />
+Author: PerS<br />
+Author URI: https://soderlind.no<br />
+*/</p>
+<p>/*<br />
+Change log:<br />
+	1.0.1 - Thanks to @TheFrosty, added is_admin_bar_showing()<br />
+    1.0.0 - initial release<br />
+*/</p>
+<p>if (!class_exists('ps_pers_fade_wp_admin_bar')) {<br />
+    class ps_pers_fade_wp_admin_bar {<br />
+		var $url = '';<br />
+		function __construct(){<br />
+			$this-&gt;url = plugins_url(basename(__FILE__), __FILE__);<br />
+			add_action('wp_print_scripts', array(&amp;$this,'ps_pers_fade_wp_admin_bar_script'));<br />
+		}<br />
+		function ps_pers_fade_wp_admin_bar_script() {<br />
+				if (is_admin_bar_showing()) {<br />
+					wp_enqueue_script('jQuery('); // other scripts included with Wordpress: https://tinyurl.com/y875age<br />
+					wp_enqueue_script('ps_pers_fade_wp_admin_bar_script', $this-&gt;url.'?ps_pers_fade_wp_admin_bar_javascript'); // embed javascript, see end of this file<br />
+				}<br />
+			}<br />
+	} //End Class<br />
+} //End if class exists statement</p>
+<p>if (isset($_GET['ps_pers_fade_wp_admin_bar_javascript'])) {<br />
+	//embed javascript<br />
+	Header(&quot;content-type: application/x-javascript&quot;);<br />
+	echo&lt;&lt;&lt;ENDJS<br />
+/**<br />
+* @desc PerS Fade Away WP Admin Bar<br />
+* @author PerS - https://soderlind.no<br />
+*/<br />
+// Script from https://tympanus.net/codrops/2009/12/11/fixed-fade-out-menu-a-css-and-jquery-tutorial/<br />
+jQuery(document).ready(function(){<br />
+		jQuery(window).scroll(function(){<br />
+			var scrollTop = jQuery(window).scrollTop();<br />
+			if(scrollTop != 0)<br />
+				jQuery('#wpadminbar').stop().animate({'opacity':'0.2'},400);<br />
+			else<br />
+				jQuery('#wpadminbar').stop().animate({'opacity':'1'},400);<br />
+		});</p>
+<p>		jQuery('#wpadminbar').hover(<br />
+			function (e) {<br />
+				var scrollTop = jQuery(window).scrollTop();<br />
+				if(scrollTop != 0){<br />
+					jQuery('#wpadminbar').stop().animate({'opacity':'1'},400);<br />
+				}<br />
+			},<br />
+			function (e) {<br />
+				var scrollTop = jQuery(window).scrollTop();<br />
+				if(scrollTop != 0){<br />
+					jQuery('#wpadminbar').stop().animate({'opacity':'0.2'},400);<br />
+				}<br />
+			}<br />
+		);<br />
+});</p>
+<p>ENDJS;</p>
+<p>} else {<br />
+	if (class_exists('ps_pers_fade_wp_admin_bar')) {<br />
+    	$ps_pers_fade_wp_admin_bar_var = new ps_pers_fade_wp_admin_bar();<br />
+	}<br />
+}<br />
+?&gt;<br />
+{% endhighlight %}</p>

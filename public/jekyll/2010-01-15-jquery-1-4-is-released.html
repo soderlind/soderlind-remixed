@@ -1,0 +1,53 @@
+---
+layout: post
+title: jQuery 1.4 Released
+date: 2010-01-15 14:09:44.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+tags: []
+meta:
+  autometa: appendto test active  jquery jquery addclass toggleclass focusin
+  _syntaxhighlighter_encoded: '1'
+  _edit_last: '1'
+  tt_auto_tweet: 'true'
+  tt_auto_tweet_text: 'New blog post: [TITLE] [URL]'
+  tweet_this_url: getnew
+  tt_tweeted: 'true'
+  views: '122'
+  oc_commit_id: https://soderlind.no/archives/2010/01/15/jquery-1-4-is-released/1298481414
+  aktt_tweeted: '1'
+  _aktt_hash_meta: ''
+  aktt_notify_twitter: 'yes'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>*DRUM ROLL*  <a href="https://jquery14.com/day-01/jquery-14"><strong>jQuery 1.4</strong></a><strong> is released !!! </strong></p>
+<p><strong></strong>It has a lot of <a href="https://api.jquery.com/category/version/1.4/">new features and enhancements</a> like the <a href="https://net.tutsplus.com/tutorials/javascript-ajax/jquery-1-4-released-the-15-new-features-you-must-know/">examples</a> below:</p>
+<p>[sourcecode language="javascript" gutter="true"]<br />
+jQuery(&quot;&lt;div&gt;&quot;, {<br />
+    &quot;class&quot;: &quot;test&quot;,<br />
+    text: &quot;Click me!&quot;,<br />
+    click: function(){<br />
+        $(this).toggleClass(&quot;test&quot;);<br />
+    }<br />
+}).appendTo(&quot;body&quot;);</p>
+<p>jQuery(&quot;&lt;input&gt;&quot;, {<br />
+    type: &quot;text&quot;,<br />
+    val: &quot;Test&quot;,<br />
+    focusin: function() {<br />
+        $(this).addClass(&quot;active&quot;);<br />
+    },<br />
+    focusout: function() {<br />
+        $(this).removeClass(&quot;active&quot;);<br />
+    }<br />
+}).appendTo(&quot;form&quot;);<br />
+[/sourcecode]</p>

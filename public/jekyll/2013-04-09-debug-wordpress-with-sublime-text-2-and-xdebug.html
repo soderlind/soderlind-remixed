@@ -1,0 +1,84 @@
+---
+layout: post
+title: Debug WordPress with Sublime Text 2 and XDebug
+redirect_from:
+- /debug-wordpress-with-&
+- /debug-wordpress-with-sublime
+- /debug-wordpress-with-sublime-text
+- /debug-wordpress-with-sublime-text-2-and-xdebug/comment-page-1/
+date: 2013-04-09 21:55:53.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+- how-to
+- tools
+tags:
+- sublime text
+- xdebug
+meta:
+  _edit_last: '1'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p><a href="https://soderlind.no/wp-content/uploads/2013/04/sublime-text-plugin-debug.png"><amp-img layout="responsive" class="aligncenter size-medium wp-image-4001" alt="sublime-text-plugin-debug" src="{{ site.baseurl }}/assets/sublime-text-plugin-debug-300x1891.png" width="300" height="189" /></a></p>
+<p><!--more Read the step by step guide--></p>
+<h3>XDebug installation</h3>
+<ol>
+<li>Run the <a href="https://www.xdebug.org/wizard.php">Xdebug wizard</a> and follow the instructions.I develop on <a href="https://soderlind.no/my-digital-tool-chest/">Mac OS X Mountain Lion</a>, and phpize complained that autoconf is missing.
+<pre>Cannot find autoconf. Please check your autoconf installation and the $PHP_AUTOCONF environment variable is set correctly and then rerun this script.</pre>
+<p>Luckily Sebastien has the <a href="https://jsdelfino.blogspot.no/2012/08/autoconf-and-automake-on-mac-os-x.html">recipe</a> on how to add autoconf to Mountain Lion</li>
+<li>When you're editing php.ini, add the following to the [xdebug] section
+<pre class="lang:default decode:true">xdebug.remote_enable=On
+xdebug.remote_host="localhost"
+xdebug.remote_port=9000
+xdebug.remote_handler="dbgp"
+xdebug.remote_autostart=1</pre>
+</li>
+<li>Save php.ini and restart your webserver. I do <a href="https://soderlind.no/running-wordpress-locally-on-mac-os-x-lion/">sudo apachectl restart</a></li>
+</ol>
+<h3>Debug your WordPress plugin in Sublime Text 2</h3>
+<ol>
+<li>If you haven't allready, add the <a href="https://github.com/Kindari/SublimeXdebug#readme">SublimeXdebug</a> package using <a href="https://wbond.net/sublime_packages/package_control">Sublime Package Control</a>
+<ul>
+<li>Shift-Cmd P and select Package Install</li>
+<li>Find Xdebug and install it</li>
+</ul>
+</li>
+<li>Open the folder with the plugin you want to debug in Sublime Text and save as project (Project -&gt; Save Project As...)</li>
+<li>Edit project properties (Project-&gt;Edit Project) and add the "settings": {"xdebug" : url-to-your-test-site}. Mine is:<br />
+[javascript]<br />
+{<br />
+	"folders":<br />
+	[<br />
+		{<br />
+			"path": "/Users/&lt;user&gt;/Sites/wp.local/wp-content/plugins/acf-field-date-time-picker"<br />
+		}<br />
+	],<br />
+	"settings": {<br />
+		"xdebug": { "url": "https://wp.local/" }<br />
+	}<br />
+}<br />
+[/javascript]</li>
+<li>Now you're ready to debug:
+<ul>
+<li>Select the line where you want a breakpoint. Shift + F8 opens the debug menu. Select Add Breakpoint</li>
+<li>Shift + F8, and choose Start debugging. Your default broweser will open with the url you set in project properties. Browse to the page where you know the plugin will be triggered, and go back to Sublime Text.</li>
+<li>Use the following shortcut keys to step through the code:
+<ul>
+<li>Ctrl+Shift+F6 - Step over</li>
+<li>Ctrl+Shift+F7 - Step into</li>
+<li>Ctrl+Shift+F8 - Step out from</li>
+<li>Ctrl+Shift+F5 - Continue (until next breakpoint)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>

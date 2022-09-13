@@ -1,0 +1,42 @@
+---
+layout: post
+title: CassiniEx Web Server
+date: 2004-03-17 10:25:17.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+tags:
+- HTTP
+- lightweight Web service endpoints
+- Web Server
+- Web Server Second generation
+meta:
+  tweet_this_url: getnew
+  views: '95'
+  oc_commit_id: https://soderlind.no/archives/2004/03/17/cassiniex-web-server/1298481658
+  _aktt_hash_meta: ''
+  aktt_notify_twitter: 'yes'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>Second generation pure .NET web server (written in C#, source available). Based on <a href="https://www.asp.net/Projects/Cassini/Download/Default.aspx?tabindex=0&tabid=1">Cassini</a> Personal Web Server (the one in WebMatrix).</p>
+<p>New features:
+<ul>
+<li>Run multiple web applications in a single instance of CassiniEx</li>
+<li>CassiniEx loads in system tray</li>
+<li>Supports multiple host headers and ports per web application</li>
+<li>Supports multiple virtual folders</li>
+<li>Each web app has a log file in W3C extended log file format</li>
+<li>Each web app can allow or deny remote connections</li>
+<li>Custom default documents per web app</li>
+</ul>
+<p>Why CassiniEx? It's a useful alternative to IIS for developer machines and possibly lightweight Web service endpoints, since it handles nothing but HTTP traffic, thus eliminating a large amount of IIS' overhead.
+<p><a href="https://www.systemex.net/CassiniEx/" class="offsite">more ...</a></p>

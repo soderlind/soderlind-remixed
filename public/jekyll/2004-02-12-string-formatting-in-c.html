@@ -1,0 +1,27 @@
+---
+layout: post
+title: String formatting in C#
+date: 2004-02-12 12:01:44.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+tags:
+- USD
+meta:
+  tweet_this_url: getnew
+  views: '62'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>Here's an excellent article showing how to utilize the <code>String.Format()</code> to the max.</p>
+<p>Example taken from the article:<br /><code>String.Format("{0:$#,##0.00;($#,##0.00);Zero}", value);</code></p>
+<p>This will output "$1,240.00" if passed 1243.50.  It will output the same format but in parentheses if the number is negative, and will output the string "Zero" if the number is zero.
+<p><a href="https://www.stevex.org/dottext/articles/158.aspx" class="offsite">more ...</a></p>

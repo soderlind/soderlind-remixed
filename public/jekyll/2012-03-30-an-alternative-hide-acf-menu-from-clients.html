@@ -1,0 +1,76 @@
+---
+layout: post
+title: An alternative Hide ACF Menu from Clients
+redirect_from:
+- /an-alternative-hide-acf-menu-from-clients/comment-page-1/
+- /archives/2012/03/30/an-alternative-hide-acf-menu-from-clients/
+
+date: 2012-03-30 00:47:31.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+tags:
+- acf
+- advanced custom fields
+- WordPress
+meta:
+  _edit_last: '1'
+  _aktt_hash_meta: ''
+  aktt_notify_twitter: 'yes'
+  _syntaxhighlighter_encoded: '1'
+  plugin_url: ''
+  _plugin_url: field_4f17f54164ed8
+  download_url: ''
+  _download_url: field_4f18335371224
+  _yoast_wpseo_focuskw: ''
+  _yoast_wpseo_title: ''
+  _yoast_wpseo_metadesc: ''
+  _yoast_wpseo_metakeywords: ''
+  _yoast_wpseo_meta-robots-noindex: '0'
+  _yoast_wpseo_meta-robots-nofollow: '0'
+  _yoast_wpseo_meta-robots-adv: none
+  _yoast_wpseo_sitemap-include: "-"
+  _yoast_wpseo_sitemap-prio: "-"
+  _yoast_wpseo_canonical: ''
+  _yoast_wpseo_redirect: ''
+  _yoast_wpseo_opengraph-description: ''
+  _yoast_wpseo_google-plus-description: ''
+  oc_metadata: "{\t\tversion:'1.1',\t\ttags: {'wordpress': {\"text\":\"WordPress\",\"slug\":\"wordpress\",\"source\":{\"url\":\"https://d.opencalais.com/dochash-1/29bb1378-da21-358f-8b1b-51ecc669c80a/SocialTag/5\",\"subjectURL\":null,\"type\":{\"url\":\"https://s.opencalais.com/1/type/tag/SocialTag\",\"name\":\"SocialTag\",\"_className\":\"ArtifactType\"},\"name\":\"WordPress\",\"makeMeATag\":true,\"importance\":1,\"_className\":\"SocialTag\",\"normalizedRelevance\":1},\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'acf': {\"text\":\"acf\",\"slug\":\"acf\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'advanced-custom-fields': {\"text\":\"advanced custom fields\",\"slug\":\"advanced-custom-fields\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"}}\t}"
+  aktt_tweeted: '1'
+  oc_commit_id: https://soderlind.no/archives/2012/03/30/an-alternative-hide-acf-menu-from-clients/1333061253
+  _simple_gist: "a:1:{i:2493364;a:3:{s:2:\"id\";s:7:\"2493364\";s:11:\"description\";s:43:\"An
+    alternative \"Hide ACF Menu from Clients\"\";s:6:\"syntax\";s:1124:\"<div class=\"gistem\"><div
+    id=\"gist-2493364\" class=\"gist\">\n\n        <div class=\"gist-file\">\n          <div
+    class=\"gist-data gist-syntax\">\n              <div class=\"highlight\"><pre><div
+    class='line' id='LC1'><span class=\"x\">add_action( &#39;admin_menu&#39;, function()
+    {</span></div><div class='line' id='LC2'><span class=\"x\">\tif (! current_user_can(&#39;administrator&#39;))
+    {</span></div><div class='line' id='LC3'><span class=\"x\">\t\tremove_menu_page(&#39;edit.php?post_type=acf&#39;);</span></div><div
+    class='line' id='LC4'><span class=\"x\">\t}</span></div><div class='line' id='LC5'><span
+    class=\"x\">});</span></div></pre></div>\n          </div>\n\n          <div class=\"gist-meta\">\n
+    \           <a href=\"https://gist.github.com/raw/2493364/d4b48fd1f4ce42925a1cbfd5a64f725c90f7bdee/file1.php\"
+    style=\"float:right;\">view raw</a>\n            <a href=\"https://gist.github.com/2493364#file_file1.php\"
+    style=\"float:right;margin-right:10px;color:#666\">file1.php</a>\n            <a
+    href=\"https://gist.github.com/2493364\">This Gist</a> brought to you by <a href=\"https://github.com\">GitHub</a>.\n
+    \         </div>\n        </div>\n</div>\n</div>\";}}"
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>Here's an alternative to <a href="https://www.advancedcustomfields.com/docs/tutorials/hide-acf-menu-from-clients/">Hide ACF Menu from Clients</a>, add it to your functions.php:</p>
+<p>{% highlight php %}<br />
+add_action( 'admin_menu', function() {<br />
+	if (! current_user_can('administrator')) {<br />
+		remove_menu_page('edit.php?post_type=acf');<br />
+	}<br />
+});<br />
+{% endhighlight %}<br />
+Note, <a href="https://codex.wordpress.org/Function_Reference/remove_menu_page">remove_menu_page()</a> needs WordPress 3.1 or newer</p>

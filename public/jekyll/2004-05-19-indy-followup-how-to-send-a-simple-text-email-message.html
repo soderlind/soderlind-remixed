@@ -1,0 +1,48 @@
+---
+layout: post
+title: Indy followup - How to send a simple text email message
+date: 2004-05-19 21:19:24.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+tags:
+- code
+meta:
+  _edit_last: '1'
+  _wp_old_slug: indy-followup---how-to-send-a-simple-text-email-message
+  tweet_this_url: getnew
+  views: '77'
+  oc_commit_id: https://soderlind.no/archives/2004/05/19/indy-followup-how-to-send-a-simple-text-email-message/1298481591
+  _aktt_hash_meta: ''
+  aktt_notify_twitter: 'yes'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>[sourcecode language='c#']<br />
+//The following code is the basic structure for constructing a message:<br />
+Indy.Sockets.IndyMessage.Message LMsg = new Indy.Sockets.IndyMessage.Message();</p>
+<p>LMsg.From.Text = AFrom;<br />
+LMsg.Recipients.Add().Text = ATo;<br />
+LMsg.Subject = ASubject;<br />
+LMsg.Body.Text = AMsg;</p>
+<p>SMTP LSMTP = new SMTP();<br />
+LSMTP.OnStatus += new Indy.Sockets.IndyComponent.TIdStatusEvent(SMTPStatus);<br />
+LSMTP.Host = "mail.domain.tld";<br />
+LSMTP.Connect();</p>
+<p>try {<br />
+    LSMTP.Send(LMsg);<br />
+    Status("Completed");<br />
+}</p>
+<p>finally {<br />
+    LSMTP.Disconnect();<br />
+}<br />
+[/sourcecode]</p>
+<p><a href="https://www.codeproject.com/useritems/IndySMTP.asp" class="offsite">more ...</a></p>

@@ -1,0 +1,69 @@
+---
+layout: post
+title: When .LESS is more
+date: 2010-03-04 00:01:06.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+tags:
+- ASP.NET
+meta:
+  autometa: styles compiler 4guysfromrolla color base border dotless curious
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  tt_auto_tweet: 'true'
+  tt_auto_tweet_text: 'New blog post: [TITLE] [URL]'
+  tweet_this_url: getnew
+  tt_tweeted: 'true'
+  views: '145'
+  oc_commit_id: https://soderlind.no/archives/2010/03/04/when-less-is-more/1298481387
+  aktt_tweeted: '1'
+  _aktt_hash_meta: ''
+  aktt_notify_twitter: 'yes'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>[sourcecode language="css"]<br />
+@the-border: 1px;<br />
+@base-color: #111;</p>
+<p>#header {<br />
+	color: @base-color * 3;<br />
+	border-left: @the-border;<br />
+	border-right: @the-border * 2;<br />
+}</p>
+<p>#footer {<br />
+	color: (@base-color + #111) * 1.5;<br />
+}</p>
+<p>ul<br />
+{<br />
+	list-style-type: none;<br />
+	height: 30px;</p>
+<p>	li<br />
+	{<br />
+		float: left;<br />
+		padding-right: 15px;</p>
+<p>		a<br />
+		{<br />
+			padding: 5px;<br />
+			display: block;<br />
+			color: black;<br />
+			text-decoration: none;<br />
+		}</p>
+<p>		a:hover<br />
+		{<br />
+			background-color: @menu_color - #222;<br />
+		}<br />
+	}<br />
+}</p>
+<p>[/sourcecode]</p>
+<p>Curious? 4GuysFromRolla has a nice <a href="https://www.4guysfromrolla.com/articles/030310-1.aspx">article about .LESS</a></p>
+<p>btw, if you're not doing ASP.NET, you can create css from .less by using the command line compiler:</p>
+<pre><span ><strong>dotless.Compiler.exe -m Styles.less Styles.css</strong></span></pre>

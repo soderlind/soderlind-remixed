@@ -1,0 +1,48 @@
+---
+layout: post
+title: Upgraded to WordPress 3.2 and nothing worked (internal error ...)
+date: 2011-07-05 00:43:38.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+tags: []
+meta:
+  _yoast_wpseo_focuskw: ''
+  _yoast_wpseo_title: ''
+  _yoast_wpseo_metadesc: ''
+  _yoast_wpseo_metakeywords: ''
+  views: '434'
+  aktt_notify_twitter: 'yes'
+  _yoast_wpseo_canonical: ''
+  _yoast_wpseo_meta-robots-nofollow: '0'
+  _yoast_wpseo_sitemap-prio: "-"
+  _syntaxhighlighter_encoded: '1'
+  aktt_tweeted: '1'
+  oc_metadata: "{\t\tversion:'1.1',\t\ttags: {}\t}"
+  _aktt_hash_meta: "#soderlind"
+  _edit_last: '1'
+  _yoast_wpseo_sitemap-include: "-"
+  _yoast_wpseo_meta-robots-adv: none
+  _yoast_wpseo_meta-robots-noindex: '0'
+  _yoast_wpseo_redirect: ''
+  oc_commit_id: https://soderlind.no/archives/2011/07/05/upgraded-to-wordpress-3-2-and-nothing-worked-internal-error/1309819424
+  _msp_fb_likes: '0'
+  _msp_tweets: '3'
+  _msp_google_plus_ones: '0'
+  _msp_total_shares: '3'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>Luckily I log all PHP errors and the error log told me where the error was (an old plugin I've forgotten to remove) .. phew</p>
+<p>To log errors, I have the following statement at the top of my wp-config.php:</p>
+<p>{% highlight php %}@ini_set('log_errors','On');<br />
+@ini_set('display_errors','Off');<br />
+@ini_set('error_log','/PATH/log/php_errors.'.date('Y-m-d').'.log');{% endhighlight %}</p>

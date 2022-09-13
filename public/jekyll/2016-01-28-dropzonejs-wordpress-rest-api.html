@@ -1,0 +1,44 @@
+---
+layout: post
+title: DropzoneJS & WordPress REST API
+redirect_from:
+- /dropzonejs-wordpress-rest-api/comment-page-1/
+date: 2016-01-28 05:19:07.000000000 +01:00
+type: post
+gist: true
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- proof of concept
+- wp-plugins
+tags: []
+meta:
+  _edit_last: '1'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p><a href="https://res.cloudinary.com/soderlind/image/upload/v1452851653/dropzonejs-wordpress-1_hhieme.gif" rel="attachment wp-att-4735"><amp-img layout="responsive" class="aligncenter size-medium wp-image-4735" src="{{ site.baseurl }}/assets/dropzonejs-wordpress-1_hhieme.gif" alt="dropzonejs-wordpress" width="300" height="124" /></a></p>
+<p>The plugin provides <a href="https://www.dropzonejs.com/">drag’n’drop file uploads</a> and uses the <a href="https://v2.wp-api.org/">wp rest api</a> to upload the file. BTW, I've written <a href="https://soderlind.no/dropzonejs-wordpress-demo-plugin/">a similar plugin that uses the WordPress AJAX API for file uploads</a>.</p>
+<p><!--more--></p>
+<h2>dropzonejs-wp-rest-api.php</h2>
+<p><amp-gist data-gistid="38bb3abe89f1fc417827" data-file="dropzonejs-wp-rest-api.php" layout="fixed-height" height="185"></amp-gist></p>
+<h2>dropzonejs-wp-rest-api.js</h2>
+<p><amp-gist data-gistid="38bb3abe89f1fc417827" data-file="dropzonejs-wp-rest-api.js" layout="fixed-height" height="185"></amp-gist></p>
+<h2>Installation</h2>
+<p>Save dropzonejs-wp-rest-api.php in wp-content/plugins/dropzonejs-wp-rest-api/<br />
+Save dropzonejs-wp-rest-api.js in wp-content/plugins/dropzonejs-wp-rest-api/js/</p>
+<h2>Use</h2>
+<p>After activating the plugin, add the [dropzonerest] shortcode to a post</p>
+<h2>Credits</h2>
+<p><a href="https://www.dropzonejs.com/">https://www.dropzonejs.com/</a><br />
+<a href="https://github.com/WP-API/WP-API">https://github.com/WP-API/WP-API</a>, I learned a lot reading the wp-api source</p>
+<h2>Copyright</h2>
+<p>The plugin is copyright Per Soderlind - per@soderlind.no</p>
+<h2>License</h2>
+<p>GPL, please feel free to modify the plugin as long as you make it GPL</p>

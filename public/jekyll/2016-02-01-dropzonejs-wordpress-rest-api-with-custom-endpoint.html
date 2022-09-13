@@ -1,0 +1,45 @@
+---
+layout: post
+title: DropzoneJS & WordPress REST API with Custom Endpoint
+date: 2016-02-01 20:02:08.000000000 +01:00
+type: post
+gist: true
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+- proof of concept
+tags: []
+meta:
+  _edit_last: '1'
+  _oembed_3465d7a393bfee1c8737f1b53da6244c: "{{unknown}}"
+  _oembed_ca775e03b273e2be8ba9c25d2eecb8b4: "{{unknown}}"
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p><a href="https://res.cloudinary.com/soderlind/image/upload/v1452851653/dropzonejs-wordpress-1_hhieme.gif" rel="attachment wp-att-4735"><amp-img layout="responsive" class="aligncenter size-medium wp-image-4735" src="{{ site.baseurl }}/assets/dropzonejs-wordpress-1_hhieme.gif" alt="dropzonejs-wordpress" width="300" height="124" /></a></p>
+<p>The plugin provides drag’n’drop file uploads and uses the wp rest api to upload the file.<br />
+<strong>This version adds a custom endpoint, has code for handling the upload and uploads the file to uploads/yyyy/mm without adding the file to the media library.</strong>  If you need to upload the file to the media library, see  <a href="https://soderlind.no/dropzonejs-wordpress-rest-api/">DropzoneJS &amp; WordPress REST API</a>.</p>
+<p><!--more Get the plugin--></p>
+<h2>dropzonejs-wp-rest-api-custom-endpoint.php</h2>
+<p><amp-gist data-gistid="92593c6fb6d1c633fdb9" data-file="dropzonejs-wp-rest-api-custom-endpoint.php" layout="fixed-height" height="185"></amp-gist></p>
+<h2>dropzonejs-wp-rest-api-custom-endpoint.js</h2>
+<p><amp-gist data-gistid="92593c6fb6d1c633fdb9" data-file="dropzonejs-wp-rest-api-custom-endpoint.js" layout="fixed-height" height="185"></amp-gist></p>
+<h2>Installation</h2>
+<p>Save dropzonejs-wp-rest-api-custom-endpoint.php in wp-content/plugins/dropzonejs-wp-rest-api-custom-endpoint/<br />
+Save dropzonejs-wp-rest-api-custom-endpoint.js in wp-content/plugins/dropzonejs-wp-rest-api-custom-endpoint/js/</p>
+<h2>Use</h2>
+<p>After activating the plugin, add the [dropzonerest] shortcode to a post</p>
+<h2>Credits</h2>
+<p>https://www.dropzonejs.com/<br />
+https://github.com/WP-API/WP-API, I learned a lot reading the wp-api source</p>
+<h2>Copyright</h2>
+<p>The plugin is copyright Per Soderlind - per@soderlind.no</p>
+<h2>License</h2>
+<p>GPL, please feel free to modify the plugin as long as you make it GPL</p>

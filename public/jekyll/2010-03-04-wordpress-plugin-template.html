@@ -1,0 +1,175 @@
+---
+layout: post
+title: WordPress plugin template
+redirect_from:
+- /read-offline/873/wordpress-plugin-template.mobi
+date: 2010-03-04 12:21:45.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+- wp-plugins
+tags:
+- admin_print_scripts
+- author
+- JavaScript
+- jquery
+- PHP
+- plugins_url
+- wp_enqueue_script
+- wp_localize_script
+- wp_print_scripts
+meta:
+  _wp_old_slug: wordpress-plugin-template-2
+  autometa: localizationdomain template personalized at pressography pressography
+    gutter creator array
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  tt_auto_tweet: 'true'
+  tt_auto_tweet_text: 'New blog post: [TITLE] [URL]'
+  tweet_this_url: getnew
+  tt_tweeted: 'true'
+  views: '540'
+  aktt_tweeted: '1'
+  oc_commit_id: https://soderlind.no/archives/2010/03/04/wordpress-plugin-template/1298481383
+  _aktt_hash_meta: ''
+  aktt_notify_twitter: 'yes'
+  _yoast_wpseo_focuskw: ''
+  _yoast_wpseo_title: ''
+  _yoast_wpseo_metadesc: ''
+  _yoast_wpseo_metakeywords: ''
+  _yoast_wpseo_meta-robots-noindex: '0'
+  _yoast_wpseo_meta-robots-nofollow: '0'
+  _yoast_wpseo_meta-robots-adv: none
+  _yoast_wpseo_sitemap-include: "-"
+  _yoast_wpseo_sitemap-prio: "-"
+  _yoast_wpseo_canonical: ''
+  _yoast_wpseo_redirect: ''
+  _yoast_wpseo_opengraph-description: ''
+  _yoast_wpseo_google-plus-description: ''
+  oc_metadata: "{\t\tversion:'1.1',\t\ttags: {'admin_print_scripts': {\"text\":\"admin_print_scripts\",\"slug\":\"admin_print_scripts\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'author': {\"text\":\"author\",\"slug\":\"author\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'javascript': {\"text\":\"JavaScript\",\"slug\":\"javascript\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'jquery': {\"text\":\"jquery\",\"slug\":\"jquery\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'php': {\"text\":\"PHP\",\"slug\":\"php\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'plugins_url': {\"text\":\"plugins_url\",\"slug\":\"plugins_url\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'wp_enqueue_script': {\"text\":\"wp_enqueue_script\",\"slug\":\"wp_enqueue_script\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'wp_localize_script': {\"text\":\"wp_localize_script\",\"slug\":\"wp_localize_script\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'wp_print_scripts': {\"text\":\"wp_print_scripts\",\"slug\":\"wp_print_scripts\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"}}\t}"
+  download_url: ''
+  _download_url: field_4f18335371224
+  plugin_url: ''
+  _plugin_url: field_4f17f54164ed8
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p><strong>UPDATE</strong>: As of WordPress 3.3, <a href="https://wpdevel.wordpress.com/2011/12/12/use-wp_enqueue_scripts-not-wp_print_styles-to-enqueue-scripts-and-styles-for-the-frontend/">you shouldn't use the wp_print_styles hook</a>, I've updated the <a href="#adding_javascript">Adding JavaScript</a> section below to reflect this change.</p>
+<blockquote><p>You can create a personalized plugin template by using my <a href="https://soderlind.no/wordpress-plugin-template-creator/">WordPress Plugin Template Creator</a></p></blockquote>
+<p>When I  rewrote my <a href="https://soderlind.no/archives/2008/04/18/wp-denyhost/">WP-DenyHost</a> plugin, I wanted to do it as fast as possible. Instead of reinventing the wheel (again), I googled after a plugin template and found a very good one at <a href="https://pressography.com/plugins/wordpress-plugin-template/">Pressography</a>. It had most of what I needed in a plugin template.</p>
+<p><!--more--></p>
+<h3>Modifications to the Pressography plugin template</h3>
+<p>I've made some changes to the Pressography plugin template and I have explained them below. Before you continue to read this article, you should view the video at <a href="https://pressography.com/plugins/wordpress-plugin-template/">Pressography</a>, it presents the idea behind the plugin template and how it works. You get the full source of my modified plugin template by using my <a href="https://soderlind.no/wordpress-plugin-template-creator/">WordPress Plugin Template Creator</a></p>
+<p>Being able to use new functionality in WordPress, I've decided that my plugins will only support WordPress one <a href="https://en.wikipedia.org/wiki/Software_versioning#Incrementing_sequences">minor version</a> lower than the current i.e. the current is 2.9 and hence my plugins and this plugin template will only supports WordPress 2.8 and later.</p>
+<h3>plugins_url()</h3>
+<p>WordPress 2.8 extended the <a href="https://codex.wordpress.org/Function_Reference/plugins_url">plugins_url</a>() function which makes it easy to find the plugin location. In the plugin template constructor, I use plugins_url() to find the languages files and the plugin itself:</p>
+<p>[sourcecode language="php" gutter="false"]<br />
+function __construct(){<br />
+	//Language Setup<br />
+	$locale = get_locale();<br />
+	$mo = plugin_dir_path(__FILE__) . 'languages/' . $this-&gt;localizationDomain . '-' . $locale . '.mo';<br />
+	load_textdomain($this-&gt;localizationDomain, $mo);</p>
+<p>	//&quot;Constants&quot; setup<br />
+	$this-&gt;url = plugins_url(basename(__FILE__), __FILE__);<br />
+	$this-&gt;urlpath = plugins_url('', __FILE__);</p>
+<p>	//Initialize the options<br />
+	$this-&gt;getOptions();</p>
+<p>	//Actions<br />
+	add_action(&quot;admin_menu&quot;, array(&amp;$this,&quot;admin_menu_link&quot;));<br />
+	add_action('admin_enqueue_scripts', array(&amp;$this,'{plugin_slug}_script')); // or wp_enqueue_scripts or login_enqueue_scripts<br />
+	add_action(&quot;init&quot;, array(&amp;$this,&quot;{plugin_slug}_init&quot;));<br />
+}<br />
+[/sourcecode]</p>
+<p><a name="adding_javascript"></a></p>
+<h3>Adding JavaScript</h3>
+<p>I've done it and I still see plugin authors adding scripts using the wp_head function. There's only one correct way of adding scripts, and that's using <a href="https://codex.wordpress.org/Function_Reference/wp_enqueue_script">wp_enqueue_script</a> via one of the script hooks (<del datetime="2012-01-10T19:23:36+00:00">admin_print_scripts, wp_print_scripts</del> <a href="https://wpdevel.wordpress.com/2011/12/12/use-wp_enqueue_scripts-not-wp_print_styles-to-enqueue-scripts-and-styles-for-the-frontend/">wp_enqueue_scripts, login_enqueue_scripts and admin_enqueue_scripts</a>). wp_enqueue_script makes sure that the script loads in the correct order and that a script is only loaded once (e.g. If another plugin has already loaded jQuery, my plugin will not load jQuery, but use the script already loaded).</p>
+<p>I've added the <del datetime="2012-01-10T19:23:36+00:00">wp_print_scripts</del> admin_enqueue_scripts hook to the plugin template (see the constructor above). Use the wp_enqueue_scripts or login_enqueue_scripts if you want to load the script on the front-end or login page. The <del datetime="2012-01-10T19:23:36+00:00">wp_print_scripts</del> admin_enqueue_scripts hook adds the  {plugin_slug}_script function in which  I enqueue the scripts:</p>
+<p>[sourcecode language="php" gutter="false"]<br />
+function {plugin_slug}_script() {<br />
+	wp_enqueue_script('jquery'); // other scripts included with Wordpress: https://tinyurl.com/y875age<br />
+	wp_enqueue_script('jquery-validate', 'https://ajax.microsoft.com/ajax/jquery.validate/1.6/jquery.validate.min.js', array('jquery'));<br />
+	wp_enqueue_script('{plugin_slug}_script', $this-&gt;url.'?{plugin_slug}_javascript', array('jquery-validate')); // load embedded javascript<br />
+	wp_localize_script( '{plugin_slug}_script', '{plugin_slug}_lang', array(<br />
+		'required' =&gt; __('Please enter a number.', $this-&gt;localizationDomain),<br />
+		'number'   =&gt; __('Please enter a number.', $this-&gt;localizationDomain),<br />
+		'min'	   =&gt; __('Please enter a value greater than or equal to 1.', $this-&gt;localizationDomain),<br />
+	));<br />
+}<br />
+[/sourcecode]</p>
+<p>wp_localize_script, in the code above, creates a JavaScript object that passes the language strings to the embedded JavaScript:</p>
+<p>[sourcecode language="javascript" gutter="false"]<br />
+&lt;script type='text/javascript'&gt;<br />
+/* CDATA[ */<br />
+var {plugin_slug}_lang = {<br />
+	required: &quot;Please enter a number.&quot;,<br />
+	number: &quot;Please enter a number.&quot;,<br />
+	min: &quot;Please enter a value greater than or equal to 1.&quot;<br />
+};<br />
+/* ]]&gt; */<br />
+&lt;/script&gt;<br />
+[/sourcecode]</p>
+<h3>Embedding JavaScript</h3>
+<p>When I write my plugins I like to keep the code in one file, that's why I also embed the JavaScript code:</p>
+<p>[sourcecode language="php" gutter="false"]<br />
+if (isset($_GET['{plugin_slug}_javascript'])) {</p>
+<p>	Header(&quot;content-type: application/x-javascript&quot;);<br />
+	echo&lt;&lt;&lt;ENDJS<br />
+/**<br />
+* @desc {Full Plugin Name}<br />
+* @author {Author} - {URL}<br />
+*/</p>
+<p>jQuery(document).ready(function(){<br />
+	jQuery(&quot;#{plugin_slug}_options&quot;).validate({<br />
+		rules: {<br />
+			{plugin_slug}_option1: {<br />
+				required: true,<br />
+				number: true,<br />
+				min: 1<br />
+			}<br />
+		},<br />
+		messages: {<br />
+			{plugin_slug}_option1: {<br />
+				// the {plugin_slug}_lang object is define using wp_localize_script() in function {plugin_slug}_script()<br />
+				required: {plugin_slug}_lang.required,<br />
+				number: {plugin_slug}_lang.number,<br />
+				min: {plugin_slug}_lang.min<br />
+			}<br />
+		}<br />
+	});<br />
+});</p>
+<p>ENDJS;<br />
+}<br />
+[/sourcecode]</p>
+<p>Note: If you prefer to keep your JavaScript code in a separate file, you can add it by adding the following to {plugin_slug}_script:</p>
+<p>[sourcecode language="php" gutter="false" highlight="5"]<br />
+function {plugin_slug}_script() {<br />
+	if (is_admin()){ // Only run when in wp-admin. Other conditional tags at https://codex.wordpress.org/Conditional_Tags<br />
+		wp_enqueue_script('jquery'); // other scripts included with Wordpress: https://tinyurl.com/y875age<br />
+		wp_enqueue_script('jquery-validate', 'https://ajax.microsoft.com/ajax/jquery.validate/1.6/jquery.validate.min.js', array('jquery'));<br />
+		wp_enqueue_script('{plugin_slug}_script', $this-&gt;urlpath.'/myscript.js', array('jquery)); //load your script<br />
+		wp_localize_script( '{plugin_slug}_script', '{plugin_slug}_lang', array(<br />
+			'required' =&gt; __('Please enter a number.', $this-&gt;localizationDomain),<br />
+			'number'   =&gt; __('Please enter a number.', $this-&gt;localizationDomain),<br />
+			'min'	   =&gt; __('Please enter a value greater than or equal to 1.', $this-&gt;localizationDomain),<br />
+		));<br />
+	}<br />
+}<br />
+[/sourcecode]</p>
+<h3>WordPress Plugin Template Creator</h3>
+<p>While writing this article, I decided to create a tool that will create a personalized plugin template. The <a href="https://soderlind.no/wordpress-plugin-template-creator/">WordPress Plugin Template Creator</a> takes your input, creates the necessary slugs and returns a personalized plugin template you can build your own plugin with.</p>

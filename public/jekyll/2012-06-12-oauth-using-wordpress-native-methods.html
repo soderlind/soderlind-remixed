@@ -1,0 +1,115 @@
+---
+layout: post
+title: oAuth, using WordPress native methods
+date: 2012-06-12 19:46:34.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+tags:
+- oauth
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ''
+  _edit_last: '1'
+  plugin_url: ''
+  _plugin_url: field_4f17f54164ed8
+  download_url: ''
+  _download_url: field_4f18335371224
+  _syntaxhighlighter_encoded: '1'
+  _yoast_wpseo_focuskw: ''
+  _yoast_wpseo_title: ''
+  _yoast_wpseo_metadesc: ''
+  _yoast_wpseo_metakeywords: ''
+  _yoast_wpseo_meta-robots-noindex: '0'
+  _yoast_wpseo_meta-robots-nofollow: '0'
+  _yoast_wpseo_meta-robots-adv: none
+  _yoast_wpseo_sitemap-include: always
+  _yoast_wpseo_sitemap-prio: "-"
+  _yoast_wpseo_canonical: ''
+  _yoast_wpseo_redirect: ''
+  _yoast_wpseo_opengraph-description: ''
+  _yoast_wpseo_google-plus-description: ''
+  aktt_tweeted: '1'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>I like to use the WordPress native methods when I can, here's my take on oAuth. The examples below retrieves the access token</p>
+<p><!--more See the examples--><br />
+<strong><a href="https://developers.facebook.com/docs/authentication/server-side/">Facebook</a></strong></p>
+<p>{% highlight php %}<br />
+&lt;?php<br />
+define('FACEBOOK_APPID','123'); // replace 123 with your app id<br />
+define('FACEBOOK_APPSECRET','abc'); // replace abc with your app secret<br />
+define('REDIRECTURI','https://your.redirect.url');</p>
+<p>if ($_GET['code'] != '') {<br />
+	if ($_GET['state'] != '' &amp;&amp; wp_verify_nonce($_GET['state'], 'my-nonce')) {</p>
+<p>		$api_url = sprintf(&quot;https://graph.facebook.com/oauth/access_token?client_id=%s&amp;redirect_uri=%s&amp;client_secret=%s&amp;code=%s&quot;,<br />
+			urlencode(FACEBOOK_APPID),<br />
+			urlencode(REDIRECTURI),<br />
+			urlencode(FACEBOOK_APPSECRET),<br />
+			urlencode($_GET['code'])<br />
+		);</p>
+<p>		$response = wp_remote_request($api_url, array(<br />
+			'timeout' =&gt; 60,<br />
+			'sslverify' =&gt; false,<br />
+			'method' =&gt; 'GET'<br />
+		));</p>
+<p>		if( is_wp_error( $response ) ) {<br />
+		   echo 'ERROR';<br />
+		} else {<br />
+			$args = wp_parse_args( wp_remote_retrieve_body($response), array() );<br />
+			echo $args['access_token'];<br />
+		}<br />
+	}<br />
+} else {<br />
+     $facebook_dialog_url = sprintf(&quot;https://www.facebook.com/dialog/oauth?client_id=%s&amp;redirect_uri=%s&amp;state=%s&quot;,<br />
+     	FACEBOOK_APPID,<br />
+     	urlencode(REDIRECTURI),<br />
+     	wp_create_nonce ('my-nonce')<br />
+     );</p>
+<p>	echo '&lt;a href=&quot;'. $facebook_dialog_url .'&quot;&gt;LOGIN TO FACEBOOK&lt;/a&gt; &lt;br /&gt;';<br />
+}<br />
+?&gt;<br />
+{% endhighlight %}</p>
+<p><strong><a href="https://developer.github.com/v3/">GitHub</a></strong></p>
+<p>{% highlight php %}<br />
+&lt;?php<br />
+define('GIST_CLIENTID','123'); // replace 123 with your client id<br />
+define('GIST_CLIENTSECRET','abc'); // replace abc with your client secret<br />
+define('REDIRECTURI','https://your.redirect.url');</p>
+<p>if ($_GET['code'] != '') {<br />
+	$response = wp_remote_request('https://github.com/login/oauth/access_token', array(<br />
+		'method' =&gt; 'POST',<br />
+		'timeout' =&gt; 60,<br />
+		'sslverify' =&gt; false,<br />
+		'body' =&gt;  array(<br />
+			'client_id' =&gt; GIST_CLIENTID,<br />
+			'client_secret' =&gt; GIST_CLIENTSECRET,<br />
+			'code' =&gt; $_GET['code'],<br />
+			'redirect_uri' =&gt; REDIRECTURI<br />
+		)<br />
+	));</p>
+<p>	if (is_wp_error( $response )) {<br />
+	   echo 'Something went wrong! &lt;br /&gt;';<br />
+	} else {<br />
+		$args = wp_parse_args( wp_remote_retrieve_body($response), array() );<br />
+		echo $args['access_token'];<br />
+	}<br />
+} else {<br />
+	$gist_dialog_url =   sprintf(&quot;https://github.com/login/oauth/authorize?client_id=%s&amp;redirect_uri=%s&quot;,<br />
+		GIST_CLIENTID,<br />
+		urlencode(REDIRECTURI)<br />
+	);<br />
+	echo '&lt;a href=&quot;'. $gist_dialog_url .'&quot;&gt;LOGIN IN TO GIST (GITHUB)&lt;/a&gt; &lt;br /&gt;';<br />
+}<br />
+?&gt;<br />
+{% endhighlight %}</p>
+<p>.. more will be added when I get time to play with other services and their oAuth implementation.</p>

@@ -1,0 +1,67 @@
+---
+layout: post
+title: WordPress - Hook into another hook
+redirect_from:
+- /wordpress-hook-into-another-hook/comment-page-1/
+date: 2013-09-13 12:16:38.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- wp-plugins
+tags: []
+meta:
+  _edit_last: '1'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>This is a hack, so if you know a better way of doing this please tell me. I wanted to add a filter to get_permalink, but only when get_permalink was called from a function in another plugin.
+<!--more See how I did it:-->
+Here's the function I wanted to hook into, it's part of the <a href="https://wordpress.org/plugins/digg-digg/">Digg Digg</a> plugin and you'll find it in the digg-digg.php file (In the example below I've removed most of the code):</p>
+<p>{% highlight php linenos %}
+add_filter( 'the_content', 'dd_hook_wp_content' );
+function dd_hook_wp_content($content = ''){
+	.
+	.
+	$postlink = get_permalink($id); //get post link
+	.
+	.
+	return $content;
+}
+{% endhighlight %}
+<p>This is what I did:</p>
+<p>{% highlight php linenos %}
+function get_soderlind_permalink($permalink, $post, $leavename) {
+	if ( function_exists('wp_debug_backtrace_summary') && stristr(wp_debug_backtrace_summary(), 'dd_hook_wp_content') !== FALSE) {
+		/*
+    	do stuff
+    	*/
+  	}
+	return $permalink;
+}
+add_filter( 'post_link','get_soderlind_permalink', 10, 3 );
+{% endhighlight %}</p>
+<p><a href="https://queryposts.com/function/wp_debug_backtrace_summary/">wp_debug_backtrace_summary</a> return a comma separated string of functions that have been called to get to the current point in code.</p>
+<p>So why did I need this hack? I needed to <a href="https://encosia.com/preserving-social-sharing-counters-through-a-url-change/">preserve my social sharing counters</a> after I changed my permalink structure. My old permalink was <code>/archives/%year%/%monthnum%/%day%/%postname%/</code> and the new is <code>/%postname%/</code>. I Changed my permalink structure on the 12.1.2013</p>
+<p>The working hack, which I added to the child theme functions.php, is:</p>
+<p>{% highlight php linenos %}
+function get_soderlind_permalink($permalink, $post, $leavename) {
+	// only run when get_permalink is called from dd_hook_wp_content
+	if ( function_exists('wp_debug_backtrace_summary') &amp;&amp; stristr(wp_debug_backtrace_summary(), 'dd_hook_wp_content') !== FALSE) {
+		$url_change_date = strtotime( "12.1.2013" ); // use a date format strtotime understands. see notes at https://php.net/manual/en/function.strtotime.php
+		$post_date = strtotime( get_the_date( ) );
+		if ( $post_date &lt; $url_change_date ) {
+			$url_date_prefix = sprintf("/archives/%s/%s/%s", date( "Y", $post_date ),  date( "m", $post_date ), date( "d", $post_date ));
+			$permalink = str_replace( site_url(), site_url() . $url_date_prefix, $permalink );
+  		}
+	}
+	return $permalink;
+}
+add_filter( 'post_link','get_soderlind_permalink', 20, 3 );
+{% endhighlight %} </p>

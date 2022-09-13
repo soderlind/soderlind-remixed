@@ -1,0 +1,115 @@
+---
+layout: post
+title: MemCachier backend for the WP Object Cache
+date: 2012-12-19 00:36:08.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- wp-plugins
+tags:
+- AppFog
+- appharbor
+- cache
+- cloudbees
+- cloudcontrol
+- dotcloud
+- ec2
+- heroku
+- joyent
+- manage cache
+- Memcached
+- Memcachier
+- object cache
+- WP Object Cache
+meta:
+  _yoast_wpseo_title: ''
+  _yoast_wpseo_focuskw: ''
+  _plugin_url: field_4f17f54164ed8
+  download_url: https://downloads.wordpress.org/plugin/memcachier.zip
+  _download_url: field_4f18335371224
+  plugin_url: https://wordpress.org/extend/plugins/memcachier/
+  _edit_last: '1'
+  _yoast_wpseo_metadesc: MemCachier manages and scales clusters of memcache servers.
+  _yoast_wpseo_meta-robots-noindex: '0'
+  _yoast_wpseo_meta-robots-nofollow: '0'
+  _yoast_wpseo_meta-robots-adv: none
+  _yoast_wpseo_sitemap-include: "-"
+  _yoast_wpseo_sitemap-prio: "-"
+  _yoast_wpseo_canonical: ''
+  _yoast_wpseo_redirect: ''
+  _yoast_wpseo_opengraph-description: ''
+  _yoast_wpseo_google-plus-description: ''
+  _syntaxhighlighter_encoded: '1'
+  _wpas_done_all: '1'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p><amp-img layout="responsive" class="aligncenter size-medium wp-image-3704" alt="memcachier" src="{{ site.baseurl }}/assets/memcachier-300x85.png" width="300" height="85" /></p>
+<p>I have a test site at AppFog running <a href="https://www.appfog.com/products/appfog/jumpstarts/">WordPress</a>. Being the geek I am, I had to test <a href="https://www.memcachier.com/">MemCachier</a> (you'll find it in <a href="https://www.appfog.com/products/appfog/add-ons/">AppFog Add-Ons</a>)</p>
+<blockquote><p>MemCachier manages and scales clusters of memcache servers so you can focus on your app. Memcache is commonly used to speed up page load time and increase scalability by allowing you to cache expensive database queries and view renders.</p></blockquote>
+<p><!--more--><br />
+Using the <a href="https://wordpress.org/extend/plugins/memcached/">Memcached Object Cache</a> source code as a starting point it was rather simple to implement MemCachier, all I had to do was to modify WP_Object_Cache::close(), WP_Object_Cache::flush() and rewrite the WP_Object_Cache constructor (line 4-28):</p>
+<pre class="lang:php decode:1 ">
+// WP_Object_Cache constructor
+function WP_Object_Cache() {
+
+include_once('plugins/memcachier/MemcacheSASL.php');
+
+global $memcachier_servers;
+
+if ( isset($memcachier_servers) )
+$buckets = $memcachier_servers;
+else
+$buckets = array(
+'default' =&gt; array(
+getenv("MEMCACHIER_SERVERS")
+)
+);
+
+reset($buckets);
+
+foreach ( $buckets as $bucket =&gt; $servers) {
+$this-&gt;mc[$bucket] = new MemcacheSASL;
+foreach ( $servers as $server ) {
+list ( $node, $port ) = explode(':', $server);
+
+$this-&gt;mc[$bucket]-&gt;addServer($node, $port);
+$this-&gt;mc[$bucket]-&gt;setSaslAuthData(getenv("MEMCACHIER_USERNAME"), getenv("MEMCACHIER_PASSWORD"));
+
+}
+}
+
+global $blog_id, $table_prefix;
+$this-&gt;global_prefix = '';
+$this-&gt;blog_prefix = '';
+if ( function_exists( 'is_multisite' ) ) {
+$this-&gt;global_prefix = ( is_multisite() || defined('CUSTOM_USER_TABLE') &amp;&amp; defined('CUSTOM_USER_META_TABLE') ) ? '' : $table_prefix;
+$this-&gt;blog_prefix = ( is_multisite() ? $blog_id : $table_prefix ) . ':';
+}
+
+$this-&gt;cache_hits =&amp; $this-&gt;stats['get'];
+$this-&gt;cache_misses =&amp; $this-&gt;stats['add'];
+}
+</pre>
+<p><strong>Installation</strong></p>
+<blockquote><p>The instructions are simple, and although they’re catered specifically for AppFog, the MemCachier WordPress plugin will work in any of our supported partners. As long as you’ve configured the MEMCACHIER_SERVERS, MEMCACHIER_USERNAME, and MEMCACHIER_PASSWORD environment variables, the plugin will work.<br />
+<cite><a href="https://www.memcachier.com/2012/12/19/memcachier-powered-wordpress-object-caching/">MemCachier blog</a></cite></p></blockquote>
+<ol>
+<li>Add <a href="https://www.appfog.com/products/appfog/add-ons/">MemCachier</a> to your WordPress site at AppFog</li>
+<li>Install the plugin by copying it to the plugins/memcachier folder</li>
+<li>Move plugins/memcachier/object-cache.php to wp-content/object-cache.php</li>
+</ol>
+<p><strong>Changelog</strong></p>
+<p>1.0</p>
+<ul>
+<li>Initial release</li>
+</ul>
+<p><strong>Credits</strong></p>
+<p>I've only changed the WP_Object_Cache constructor, so the credits goes to <a href="https://profiles.wordpress.org/ryan/">ryan</a> and <a href="https://profiles.wordpress.org/sivel/">sivel</a> for creating the excellent <a href="https://wordpress.org/extend/plugins/memcached/">Memcached Object Cache</a>, and ronnywang for <a href="https://github.com/ronnywang/PHPMemcacheSASL">PHPMemcacheSASL</a></p>

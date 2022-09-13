@@ -1,0 +1,35 @@
+---
+layout: post
+title: Microsoft Hyper-V gotcha
+date: 2008-10-15 22:58:18.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+tags:
+- firewall
+- Microsoft
+- RAID
+- test server
+meta:
+  _edit_last: '1'
+  tweet_this_url: getnew
+  views: '152'
+  oc_commit_id: https://soderlind.no/archives/2008/10/15/microsoft-hyper-v-gotcha/1298481438
+  _aktt_hash_meta: ''
+  aktt_notify_twitter: 'yes'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>..i.e. lack of documentation.</p>
+<p>Today I installed <a href="https://www.microsoft.com/servers/hyper-v-server/">Microsoft Hyper-V</a> on <a href="https://www.netconnect.com/">our</a> new test server, a HP DL380 with 32GB memory and plenty of disk (800GB in RAID 5 and a hot spare). The install was quick and easy, but getting it on net was not. With a new router/firewall, configuration new to us, we thought it was causing all the "pain" and struggled for hours until we decided enough is enough, let's continue tomorrow.</p>
+<p>Luckily, surfing the net, I stumbled upon the solution to our grieve. Microsoft Hyper-V has its firewall enabled per default (yes, I know, I should have known it was). To managed the hidden features of Microsoft Hyper-V, you have to use <a href="https://technet.microsoft.com/en-us/library/cc754516.aspx">netsh</a> from the command prompt, and to disable the firewall (remember I said, we're using an external firewall, and hence we don't need the on-board firewall) all you have to do is:</p>
+<pre >netsh firewall set opmode disable</pre>
+<p>Hopefully this information will help you when you install your Hyper-V, and hopefully Microsoft will add this to their <a href="https://www.microsoft.com/servers/hyper-v-server/faq.mspx">FAQ</a>.</p>

@@ -1,0 +1,190 @@
+---
+layout: post
+title: Running WordPress locally on Mac OS X Lion, Mountain Lion and Mavericks
+redirect_from:
+- /archives/2011/08/26/running-wordpress-locally-on-mac-os-x-lion/
+date: 2011-08-26 03:45:34.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- how-to
+tags:
+- Installation
+- Mac OS X
+- MAMP
+- MySQL
+- WordPress
+meta:
+  _edit_last: '1'
+  _aktt_hash_meta: ''
+  _yoast_wpseo_focuskw: ''
+  _syntaxhighlighter_encoded: '1'
+  _yoast_wpseo_title: ''
+  _yoast_wpseo_metadesc: ''
+  _yoast_wpseo_metakeywords: ''
+  _yoast_wpseo_meta-robots-noindex: '0'
+  _yoast_wpseo_sitemap-include: "-"
+  _yoast_wpseo_meta-robots-adv: none
+  _yoast_wpseo_meta-robots-nofollow: '0'
+  aktt_notify_twitter: 'yes'
+  _yoast_wpseo_sitemap-prio: "-"
+  _yoast_wpseo_canonical: ''
+  _yoast_wpseo_redirect: ''
+  oc_metadata: "{\t\tversion:'1.1',\t\ttags: {'computing': {\"text\":\"Computing\",\"slug\":\"computing\",\"source\":{\"_className\":\"SocialTag\",\"url\":\"https://d.opencalais.com/dochash-1/f2872b5e-57e7-3e31-a12c-aa540c843355/SocialTag/1\",\"subjectURL\":null,\"type\":{\"_className\":\"ArtifactType\",\"url\":\"https://s.opencalais.com/1/type/tag/SocialTag\",\"name\":\"SocialTag\"},\"name\":\"Computing\",\"makeMeATag\":true,\"importance\":1,\"normalizedRelevance\":1},\"bucketName\":\"blacklisted\",\"bucketPlacement\":\"user\",\"_className\":\"Tag\"},
+    'system-software': {\"text\":\"System software\",\"slug\":\"system-software\",\"source\":{\"_className\":\"SocialTag\",\"url\":\"https://d.opencalais.com/dochash-1/f2872b5e-57e7-3e31-a12c-aa540c843355/SocialTag/2\",\"subjectURL\":null,\"type\":{\"_className\":\"ArtifactType\",\"url\":\"https://s.opencalais.com/1/type/tag/SocialTag\",\"name\":\"SocialTag\"},\"name\":\"System
+    software\",\"makeMeATag\":true,\"importance\":1,\"normalizedRelevance\":1},\"bucketName\":\"blacklisted\",\"bucketPlacement\":\"user\",\"_className\":\"Tag\"},
+    'php-programming-language': {\"text\":\"PHP programming language\",\"slug\":\"php-programming-language\",\"source\":{\"_className\":\"SocialTag\",\"url\":\"https://d.opencalais.com/dochash-1/f2872b5e-57e7-3e31-a12c-aa540c843355/SocialTag/3\",\"subjectURL\":null,\"type\":{\"_className\":\"ArtifactType\",\"url\":\"https://s.opencalais.com/1/type/tag/SocialTag\",\"name\":\"SocialTag\"},\"name\":\"PHP
+    programming language\",\"makeMeATag\":true,\"importance\":1,\"normalizedRelevance\":1},\"bucketName\":\"blacklisted\",\"bucketPlacement\":\"user\",\"_className\":\"Tag\"},
+    'world-wide-web': {\"text\":\"World Wide Web\",\"slug\":\"world-wide-web\",\"source\":{\"_className\":\"SocialTag\",\"url\":\"https://d.opencalais.com/dochash-1/f2872b5e-57e7-3e31-a12c-aa540c843355/SocialTag/4\",\"subjectURL\":null,\"type\":{\"_className\":\"ArtifactType\",\"url\":\"https://s.opencalais.com/1/type/tag/SocialTag\",\"name\":\"SocialTag\"},\"name\":\"World
+    Wide Web\",\"makeMeATag\":true,\"importance\":1,\"normalizedRelevance\":1},\"bucketName\":\"blacklisted\",\"bucketPlacement\":\"user\",\"_className\":\"Tag\"},
+    'blog-software': {\"text\":\"Blog software\",\"slug\":\"blog-software\",\"source\":{\"_className\":\"SocialTag\",\"url\":\"https://d.opencalais.com/dochash-1/f2872b5e-57e7-3e31-a12c-aa540c843355/SocialTag/5\",\"subjectURL\":null,\"type\":{\"_className\":\"ArtifactType\",\"url\":\"https://s.opencalais.com/1/type/tag/SocialTag\",\"name\":\"SocialTag\"},\"name\":\"Blog
+    software\",\"makeMeATag\":true,\"importance\":1,\"normalizedRelevance\":1},\"bucketName\":\"blacklisted\",\"bucketPlacement\":\"user\",\"_className\":\"Tag\"},
+    'content-management-systems': {\"text\":\"Content management systems\",\"slug\":\"content-management-systems\",\"source\":{\"_className\":\"SocialTag\",\"url\":\"https://d.opencalais.com/dochash-1/f2872b5e-57e7-3e31-a12c-aa540c843355/SocialTag/6\",\"subjectURL\":null,\"type\":{\"_className\":\"ArtifactType\",\"url\":\"https://s.opencalais.com/1/type/tag/SocialTag\",\"name\":\"SocialTag\"},\"name\":\"Content
+    management systems\",\"makeMeATag\":true,\"importance\":1,\"normalizedRelevance\":1},\"bucketName\":\"blacklisted\",\"bucketPlacement\":\"user\",\"_className\":\"Tag\"},
+    'mamp': {\"text\":\"MAMP\",\"slug\":\"mamp\",\"source\":{\"_className\":\"SocialTag\",\"url\":\"https://d.opencalais.com/dochash-1/f2872b5e-57e7-3e31-a12c-aa540c843355/SocialTag/7\",\"subjectURL\":null,\"type\":{\"_className\":\"ArtifactType\",\"url\":\"https://s.opencalais.com/1/type/tag/SocialTag\",\"name\":\"SocialTag\"},\"name\":\"MAMP\",\"makeMeATag\":true,\"importance\":1,\"normalizedRelevance\":1},\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'web-development-software': {\"text\":\"Web development software\",\"slug\":\"web-development-software\",\"source\":{\"_className\":\"SocialTag\",\"url\":\"https://d.opencalais.com/dochash-1/f2872b5e-57e7-3e31-a12c-aa540c843355/SocialTag/8\",\"subjectURL\":null,\"type\":{\"_className\":\"ArtifactType\",\"url\":\"https://s.opencalais.com/1/type/tag/SocialTag\",\"name\":\"SocialTag\"},\"name\":\"Web
+    development software\",\"makeMeATag\":true,\"importance\":1,\"normalizedRelevance\":1},\"bucketName\":\"blacklisted\",\"bucketPlacement\":\"user\",\"_className\":\"Tag\"},
+    'wordpress': {\"text\":\"WordPress\",\"slug\":\"wordpress\",\"source\":{\"_className\":\"SocialTag\",\"url\":\"https://d.opencalais.com/dochash-1/f2872b5e-57e7-3e31-a12c-aa540c843355/SocialTag/9\",\"subjectURL\":null,\"type\":{\"_className\":\"ArtifactType\",\"url\":\"https://s.opencalais.com/1/type/tag/SocialTag\",\"name\":\"SocialTag\"},\"name\":\"WordPress\",\"makeMeATag\":true,\"importance\":1,\"normalizedRelevance\":1},\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'mysql': {\"text\":\"MySQL\",\"slug\":\"mysql\",\"source\":{\"_className\":\"SocialTag\",\"url\":\"https://d.opencalais.com/dochash-1/f2872b5e-57e7-3e31-a12c-aa540c843355/SocialTag/10\",\"subjectURL\":null,\"type\":{\"_className\":\"ArtifactType\",\"url\":\"https://s.opencalais.com/1/type/tag/SocialTag\",\"name\":\"SocialTag\"},\"name\":\"MySQL\",\"makeMeATag\":true,\"importance\":1,\"normalizedRelevance\":1},\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'installation': {\"text\":\"Installation\",\"slug\":\"installation\",\"source\":{\"_className\":\"SocialTag\",\"url\":\"https://d.opencalais.com/dochash-1/f2872b5e-57e7-3e31-a12c-aa540c843355/SocialTag/11\",\"subjectURL\":null,\"type\":{\"_className\":\"ArtifactType\",\"url\":\"https://s.opencalais.com/1/type/tag/SocialTag\",\"name\":\"SocialTag\"},\"name\":\"Installation\",\"makeMeATag\":true,\"importance\":1,\"normalizedRelevance\":1},\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'technologyinternet': {\"text\":\"Technology/Internet\",\"slug\":\"technologyinternet\",\"source\":{\"_className\":\"SocialTag\",\"url\":\"https://d.opencalais.com/dochash-1/f2872b5e-57e7-3e31-a12c-aa540c843355/SocialTag/12\",\"subjectURL\":null,\"type\":{\"_className\":\"ArtifactType\",\"url\":\"https://s.opencalais.com/1/type/tag/SocialTag\",\"name\":\"SocialTag\"},\"name\":\"Technology_Internet\",\"makeMeATag\":true,\"importance\":1,\"normalizedRelevance\":1},\"bucketName\":\"blacklisted\",\"bucketPlacement\":\"user\",\"_className\":\"Tag\"},
+    'mac-os-x': {\"text\":\"Mac OS X\",\"slug\":\"mac-os-x\",\"source\":{\"_className\":\"Entity\",\"url\":\"https://d.opencalais.com/genericHasher-1/e0feb730-9fc5-3365-9862-a384af633ecc\",\"subjectURL\":null,\"type\":{\"_className\":\"ArtifactType\",\"url\":\"https://s.opencalais.com/1/type/em/e/OperatingSystem\",\"name\":\"OperatingSystem\"},\"name\":\"Mac
+    OS X\",\"rawRelevance\":0.381,\"normalizedRelevance\":0.381},\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'mysql-ab': {\"text\":\"MySQL AB\",\"slug\":\"mysql-ab\",\"source\":{\"_className\":\"Entity\",\"url\":\"https://d.opencalais.com/er/company/ralg-tr1r/bc3a3647-6fe5-3ae2-89f0-6551dc1124a7\",\"subjectURL\":\"https://d.opencalais.com/comphash-1/1778bdda-c512-315d-a937-b29edc876437\",\"type\":{\"_className\":\"ArtifactType\",\"url\":\"https://s.opencalais.com/1/type/er/Company\",\"name\":\"Company\"},\"name\":\"MySQL
+    AB\",\"rawRelevance\":0.714,\"normalizedRelevance\":0.714},\"bucketName\":\"blacklisted\",\"bucketPlacement\":\"user\",\"_className\":\"Tag\"}}\t}"
+  views: '891'
+  aktt_tweeted: '1'
+  oc_commit_id: https://soderlind.no/archives/2011/08/26/running-wordpress-locally-on-mac-os-x-lion/1314323138
+  _yoast_wpseo_opengraph-description: ''
+  plugin_url: ''
+  _plugin_url: field_4f17f54164ed8
+  download_url: ''
+  _download_url: field_4f18335371224
+  _yoast_wpseo_google-plus-description: ''
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p ><span ><amp-img layout="responsive" class="size-medium wp-image-1839 aligncenter" alt="Apple and WordPress" src="{{ site.baseurl }}/assets/AppleWP1-300x128.png" width="300" height="128" />Want to run WordPress on OSX? I've wanted to do it for a long time and finally got a round to do it.</span></p>
+<p><strong>Multisite</strong>: See <a href="https://soderlind.no/archives/2011/08/26/running-wordpress-locally-on-mac-os-x-lion/#multisite">notes below</a> if you plan to run a Network of WordPress (aka multisite) on your Mac.</p>
+<p><strong>New</strong>: Here's an alternative, take a look at <a href="https://soderlind.no/archives/2012/12/02/wordpress-and-pow/">WordPress on Pow</a> (includes a "how-to add<strong> MySQL, PHP5.4.9 and Ruby 1.9.3</strong>")</p>
+<p><!--more Here’s how I did it--><br />
+Update: <strong>Mountain Lion and Mavericks</strong></p>
+<div >Web Sharing in Mountain Lion is removed from System Preferences-&gt;Sharing (no idea why), so to start the web server, open Terminal (or <a href="https://iterm.sourceforge.net/">iTerm</a>) and enter:<br />
+[shell light="true"]<br />
+$ sudo apachectl start<br />
+[/shell]&nbsp;</p>
+<p>apachectl main commands are: start, stop and restart. You can learn more about apachectl by entering the following in Terminal</p>
+<p>[shell light="true"]<br />
+$ man apachectl<br />
+[/shell]</p>
+<p>apachectl is sufficient when you need to start, restart or stop the server while testing, but if you want the web server to start automatically after a reboot, you'll have to enable the launch daemon for the server:</p>
+<p>[shell light="true"]<br />
+sudo defaults write /System/Library/LaunchDaemons/org.apache.httpd Disabled -bool false<br />
+[/shell]</p>
+<p>Create /var/mysql/mysql.sock if it doesn't exist (or replace /var/mysql/mysql.sock with /tmp/mysql.sock further below)<br />
+[shell light="true"]<br />
+$ sudo mkdir /var/mysql<br />
+$ sudo ln -s /tmp/mysql.sock /var/mysql/mysql.sock<br />
+[/shell]</p>
+<p>Also, If you followed the instructions below earlier and upgraded your Lion to Mountain Lion, you'll have to reenable PHP:</p>
+<p>[shell light="true"]<br />
+$ sudo sh -c "grep php /etc/apache2/httpd.conf|grep LoadModule|cut -d'#' -f2 &gt; /etc/apache2/other/php5-loadmodule.conf"<br />
+$ sudo cp -a /etc/php.ini.default /etc/php.ini<br />
+$ sudo sh -c "cat &gt;&gt; /etc/php.ini &lt;&lt;'EOF'<br />
+;;<br />
+;; User customizations below<br />
+;;</p>
+<p>; Original - memory_limit = 128M<br />
+memory_limit = 196M<br />
+; Original - post_max_size = 8M<br />
+post_max_size = 200M<br />
+; Original - upload_max_filesize = 2M<br />
+upload_max_filesize = 100M<br />
+; Original - default_socket_timeout = 60<br />
+default_socket_timeout = 600<br />
+; Original - max_execution_time = 30<br />
+max_execution_time = 300<br />
+; Original - max_input_time = 60<br />
+max_input_time = 600<br />
+; Original - display_errors = Off<br />
+display_errors = on<br />
+; Original - display_startup_errors = Off<br />
+display_startup_errors = on<br />
+; Original - ;date.timezone =<br />
+date.timezone = 'America/New_York' // Change to your timezone: https://www.php.net/manual/en/timezones.php<br />
+EOF"</p>
+<p>$ sudo sh -c "cat &gt;&gt; /etc/php.ini &lt;&lt;'EOF'<br />
+; Original - ;include_path = ".:/php/includes"<br />
+include_path = ".:/usr/lib/php/pear"<br />
+EOF"</p>
+<p>$ sudo sed -i "" 's#/var/mysql/mysql.sock#/tmp/mysql.sock#g' /etc/php.ini</p>
+<p>$ sudo apachectl restart<br />
+[/shell]</p>
+</div>
+<p><strong>How I installed MAMP + WordPress</strong></p>
+<p>1 ) Installed Apache, MySQL and PHP on <a href="https://soderlind.no/archives/2008/10/04/my-digital-tool-chest/">my Mac</a>. I followed this excellent guide: <a href="https://echodittolabs.org/blog/2011/08/os-x-107-lion-development-native-mamp-mysql-installer">OS X 10.7 Lion Development: Native MAMP with MySQL installer</a>. Here's the /Users/&lt;username&gt;/Sites/httpd-vhosts.conf I made:</p>
+<p>[xml]<br />
+#<br />
+# Use name-based virtual hosting.<br />
+#<br />
+NameVirtualHost *:80</p>
+<p>#<br />
+# Set up permissions for VirtualHosts in ~/Sites<br />
+#<br />
+&lt;Directory "/Users/&lt;username&gt;/Sites"&gt;<br />
+Options Indexes FollowSymLinks MultiViews<br />
+AllowOverride All<br />
+Order allow,deny<br />
+Allow from all<br />
+&lt;/Directory&gt;</p>
+<p># For https://localhost in the OS X default location<br />
+&lt;VirtualHost _default_:80&gt;<br />
+ServerName localhost<br />
+DocumentRoot /Library/WebServer/Documents<br />
+&lt;/VirtualHost&gt;</p>
+<p>#<br />
+# VirtualHosts below<br />
+#</p>
+<p># wp.local<br />
+&lt;VirtualHost *:80&gt;<br />
+ServerName wp.local<br />
+CustomLog "/Users/&lt;username&gt;/Sites/logs/wp.local-access_log" combined<br />
+ErrorLog "/Users/&lt;username&gt;/Sites/logs/wp.local-error_log"<br />
+DocumentRoot "/Users/&lt;username&gt;/Sites/wordpress"<br />
+&lt;/VirtualHost&gt;<br />
+[/xml]</p>
+<p>2) <a href="https://codex.wordpress.org/Installing_WordPress#Famous_5-Minute_Install">Installed WordPress</a> in /Users/&lt;username&gt;/Sites/wordpress</p>
+<p>When I tried to install the first plugin, I got the dreaded <strong>FTP Connection Information required :/</strong></p>
+<p><amp-img layout="responsive" class="aligncenter size-medium wp-image-1811" title="connection_info_needed" alt="" src="{{ site.baseurl }}/assets/connection_info_needed-300x167.jpg" width="300" height="167" /></p>
+<p>Luckily, <a href="https://www.google.com/search?q=wordpress+mac+osx+lion">Google to the rescue</a>, I found this fix to allow WordPress automatic plugin installation/update:</p>
+<p>A) Changed the owner and permissions for the entire WordPress installation, assuming you installed WordPress in /Users/&lt;username&gt;/Sites:</p>
+<p>[shell]<br />
+$ cd /Users/&lt;username&gt;/Sites<br />
+$ sudo chown -R :_www wordpress<br />
+$ sudo chmod -R g+w wordpress<br />
+[/shell]</p>
+<p>B) Added the following to /Users/&lt;username&gt;/Sites/wordpress/wp-config.php:</p>
+<p>{% highlight php %}<br />
+define('FS_METHOD', 'direct');<br />
+{% endhighlight %}</p>
+<p><a name="multisite"></a><br />
+<strong>How to create a WordPress multisite locally</strong></p>
+<p>1) Follow the instructions above, and create a separate database per multisite</p>
+<p>Easiest is to create a path-based (that is use sub-directories) multisite. My multisite virtual host looks like this:</p>
+<p>[xml]<br />
+&lt;VirtualHost *:80&gt;<br />
+ServerName mu.local<br />
+CustomLog "/Users/&lt;username&gt;/Sites/logs/mu.local-access_log" combined<br />
+ErrorLog "/Users/&lt;username&gt;/Sites/logs/mu.local-error_log"<br />
+DocumentRoot "/Users/&lt;username&gt;/Sites/mu.local"<br />
+&lt;/VirtualHost&gt;<br />
+[/xml]</p>
+<p>2) When WordPress is up and running, follow steps 2 - 6 in the <a href="https://codex.wordpress.org/Create_A_Network#Step_2:_Allow_Multisite">Create a Network guide</a>.</p>
+<p>If you have any questions, please don't hesitate to <a href="#comments">ask below</a>. I'll try to answer as soon as possible.</p>

@@ -1,0 +1,122 @@
+---
+layout: post
+title: Read Offline
+date: 2012-10-01 01:15:06.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- wp-plugins
+tags: []
+meta:
+  _yoast_wpseo_title: ''
+  _yoast_wpseo_focuskw: ''
+  _download_url: field_4f18335371224
+  download_url: https://downloads.wordpress.org/plugin/read-offline.zip
+  _plugin_url: field_4f17f54164ed8
+  plugin_url: https://wordpress.org/extend/plugins/read-offline/
+  _edit_last: '1'
+  _yoast_wpseo_metadesc: ''
+  _yoast_wpseo_meta-robots-noindex: '0'
+  _yoast_wpseo_meta-robots-nofollow: '0'
+  _yoast_wpseo_meta-robots-adv: none
+  _yoast_wpseo_sitemap-include: "-"
+  _yoast_wpseo_sitemap-prio: "-"
+  _yoast_wpseo_canonical: ''
+  _yoast_wpseo_redirect: ''
+  _yoast_wpseo_opengraph-description: ''
+  _yoast_wpseo_google-plus-description: ''
+  _syntaxhighlighter_encoded: '1'
+  _thumbnail_id: '4550'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>[gallery link="file" columns="4" ids="4239,4537,4538,4539"]<br />
+<strong>19.1.2015: v 0.2.0 is <a href="https://github.com/soderlind/read-offline">avaliable at GitHub</a>, please read the <a href="https://github.com/soderlind/read-offline/blob/master/CHANGELOG.md">changelog</a> prior to installing this version. </strong></p>
+<p><!--more--></p>
+<h2>Issues</h2>
+<p>Please report issues at <a href="https://github.com/soderlind/read-offline/issues">https://github.com/soderlind/read-offline/issues</a></p>
+<h2>To-do</h2>
+<ul>
+<li><a href="https://github.com/soderlind/read-offline/issues/10">Widget</a></li>
+<li><a href="https://github.com/soderlind/read-offline/issues/6">Shortcode</a></li>
+<li><a href="https://github.com/soderlind/read-offline/issues/3">Footnotes</a></li>
+<li><a href="https://github.com/soderlind/read-offline/issues/9">apply_filters</a></li>
+<li><a href="https://github.com/soderlind/read-offline/issues/7">Reduce plugin size</a> (aka remove fonts)</li>
+<li><a href="https://github.com/soderlind/read-offline/issues/8">PDF Font management</a></li>
+</ul>
+<h2><strong>Features</strong></h2>
+<ul class="task-list">
+<li>Add download links to the top and bottom of a post or page (configurable in Read Offline-&gt;General Options)</li>
+<li>You can download a PDF, ePub or mobi file containing the current post or page, or you can print the post / page.</li>
+<li>The download filename is based on the posts slug (<code>$post-&gt;post_name</code>)</li>
+<li>Adds meta data to the file
+<ul class="task-list">
+<li>Title, Author, Date, Copyright message etc.</li>
+</ul>
+</li>
+<li>PDF features (set in Read Offline-&gt;PDF)
+<ul class="task-list">
+<li>Paper formats (A0 - A10, B0 - B10, C0 - C10, 4A0, 2A0, RA0 - RA4, SRA0 - SRA4, Letter, Legal, Executive, Folio, Demy and Royal)</li>
+<li>Table of Contents</li>
+<li>Cover Page</li>
+<li>Header and Footer</li>
+<li>Theme or Custom CSS</li>
+<li>Watermark</li>
+<li>Protection</li>
+</ul>
+</li>
+<li>ePub (set in Read Offline-&gt;ePub)
+<ul class="task-list">
+<li>Cover Page</li>
+<li>Custom CSS</li>
+</ul>
+</li>
+<li>mobi (set in Read Offline-&gt;mobi)
+<ul class="task-list">
+<li>Cover Page</li>
+</ul>
+</li>
+<li>Print features (set in Read Offline-&gt;print)
+<ul class="task-list">
+<li>Add print header text</li>
+<li>Custom print style</li>
+</ul>
+</li>
+<li>Permalink support (/read-offline/"postid"/"post-name"."type"). I've written a "<a href="https://soderlind.no/archives/2012/11/01/wordpress-plugins-and-permalinks-how-to-use-pretty-links-in-your-plugin/">how-to add a permalink to your plugin</a>" guide at soderlind.no</li>
+<li>Google Analytics read-offline event tracking. You can find these under Content » Events in your Google Analytics reports. Assumes you’re using the <a href="https://code.google.com/apis/analytics/docs/tracking/asyncTracking.html">Asynchronous version of Google Analytics</a></li>
+<li>languages/read-offline.po for easy translation.</li>
+</ul>
+<h2>Changelog</h2>
+<p>Please <a href="https://github.com/soderlind/read-offline/blob/master/CHANGELOG.md">see the CHANGELOG.md</a> at GitHub</p>
+<h2><a id="user-content-installation" class="anchor" href="https://github.com/soderlind/read-offline#installation"></a>Installation</h2>
+<p>Latest version is at <a href="https://github.com/soderlind/read-offline">GitHub</a></p>
+<ol class="task-list">
+<li>Download the plugin and extract the read-online.zip</li>
+<li>Upload the extracted <code>read-online</code> folder to the <code>/wp-content/plugins/</code> directory</li>
+<li>Activate the plugin through the 'Plugins' menu in WordPress</li>
+</ol>
+<h2><strong>Use</strong></h2>
+<p>Add it to the top or bottom of each post and/or page (See Settings-&gt;Read Offline)</p>
+<p>(<a href="https://github.com/soderlind/read-offline/issues/6">shortcode</a> and <a href="https://github.com/soderlind/read-offline/issues/10">widget</a> comming soon)</p>
+<h2><a name="shortcode"></a><br />
+<strong>Credits</strong></h2>
+<p>The plugin is using the following libraries</p>
+<ul>
+<li><a href="https://www.phpclasses.org/package/6115">Epub</a> , License: GNU LGPL, Attribution required for commercial implementations, requested for everything else.</li>
+<li><a href="https://www.phpclasses.org/package/6110">Zip</a>, License: GNU LGPL, Attribution required for commercial implementations, requested for everything else.</li>
+<li><a href="https://github.com/raiju/phpMobi">phpMobi</a>, License: Apache license (version 2.0)</li>
+<li><a href="https://www.mpdf1.com/mpdf/index.php">mpdf</a>, License: GNU General Public License version 2</li>
+</ul>
+<p>The plugin is using the following icons</p>
+<ul>
+<li>PDF icon from the <a href="https://p.yusukekamiyamane.com/">Fugue Icons set</a> by Yusuke Kamiyamane, released under a <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons attribution license</a></li>
+<li><a href="https://smithsrus.com/e-book-download-icons/">ePub and mobi icons by Doug Smith</a>, also released under a <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons attribution license</a></li>
+</ul>
+<h2></h2>

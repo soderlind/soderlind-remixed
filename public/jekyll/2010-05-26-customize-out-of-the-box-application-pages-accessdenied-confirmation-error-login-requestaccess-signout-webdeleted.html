@@ -1,0 +1,49 @@
+---
+layout: post
+title: 'SharePoint 2010: Customize out of the box Application Pages (AccessDenied,
+  Confirmation, Error, Login, RequestAccess, Signout, WebDeleted )'
+date: 2010-05-26 15:38:26.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- sharepoint 2010
+tags:
+- Microsoft
+- PS Command
+- web app url
+- Web Server
+meta:
+  autometa: spcustomlayoutspage requestaccess login requestaccess pages technet confirmation
+    layouts
+  _edit_last: '1'
+  tt_auto_tweet: 'true'
+  tt_auto_tweet_text: 'New blog post: [TITLE] [URL]'
+  tweet_this_url: getnew
+  tt_tweeted: 'true'
+  views: '1264'
+  oc_commit_id: https://soderlind.no/archives/2010/05/26/customize-out-of-the-box-application-pages-accessdenied-confirmation-error-login-requestaccess-signout-webdeleted/1298481367
+  aktt_tweeted: '1'
+  _aktt_hash_meta: ''
+  aktt_notify_twitter: 'yes'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>In SharePoint 2010, for security reasons, master pages are not applied to the application pages AccessDenied, Confirmation, Error, Login, RequestAccess, Signout and WebDeleted, instead you’ll have to create a new custom application page and run the power shell command Set-SPCustomLayoutsPage.(source <a href="https://live.visitmix.com/MIX10/Sessions/PR02">https://live.visitmix.com/MIX10/Sessions/PR02</a> - a must-see):</p>
+<p><!--more--></p>
+<div id="_mcePaste" >In WSS3.0 and MOSS2007 it was a real headache to customise pages such as the Access Denied page or Sign Out page without editing the out of the box SharePointRoot files.</div>
+<div id="_mcePaste" >In SPF2010 and SPS2010 this has changed with the introduction of PowerShell commands to point the location of the application page to a newly created customised one.</div>
+<pre >Get-SPCustomLayoutsPage -Identity "AccessDenied | Confirmation | Error | Login | RequestAccess | Signout | WebDeleted</pre>
+<pre >Set-SPCustomLayoutsPage</pre>
+<div id="_mcePaste" >"Following PS Command replaces Request Access Page (reqacc.aspx) in layouts folder, assuming customized version of Request Access page is deployed to custompages folder under layouts directory</div>
+<pre >Set-SPCustomLayoutsPage -Identity "RequestAccess" -RelativePath "/_layouts/custompages/reqacc.aspx" -WebApplication "{replace with web app url}"</pre>
+<pre ><span >(source <a href="https://www.sharepointadminwiki.com/display/sp2010/Customise+out+of+the+box+Application+Pages">https://www.sharepointadminwiki.com/display/sp2010/Customise+out+of+the+box+Application+Pages</a>)</span></pre>
+<div id="_mcePaste">Set-SPCustomLayoutsPage: <a href="https://technet.microsoft.com/en-us/library/ff607768.aspx">https://technet.microsoft.com/en-us/library/ff607768.aspx</a></div>
+<div id="_mcePaste">Get-SPCustomLayoutsPage: <a href="https://technet.microsoft.com/en-us/library/ff607821.aspx">https://technet.microsoft.com/en-us/library/ff607821.aspx</a></div>
+<p>So, don’t change the files (error.aspx, login.aspx etc) in C:Program FilesCommon FilesMicrosoft SharedWeb Server Extensions14TEMPLATELAYOUTS, but use them as templates for the new custom pages</p>

@@ -1,0 +1,91 @@
+---
+layout: post
+title: WordPress and WebPutty
+date: 2011-12-20 00:24:53.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- wp-plugins
+tags:
+- Cascading Style Sheets
+- CDN
+- CSS
+- syntax-highlighting CSS editor
+- WordPress
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: "#soderlind"
+  _edit_last: '1'
+  _yoast_wpseo_focuskw: ''
+  _yoast_wpseo_title: ''
+  _yoast_wpseo_metadesc: ''
+  _yoast_wpseo_metakeywords: ''
+  _yoast_wpseo_meta-robots-noindex: '0'
+  _yoast_wpseo_meta-robots-nofollow: '0'
+  _yoast_wpseo_meta-robots-adv: none
+  _yoast_wpseo_sitemap-include: "-"
+  _yoast_wpseo_sitemap-prio: "-"
+  _yoast_wpseo_canonical: ''
+  _yoast_wpseo_redirect: ''
+  _yoast_wpseo_opengraph-description: ''
+  _yoast_wpseo_google-plus-description: ''
+  oc_metadata: ''
+  aktt_tweeted: '1'
+  oc_commit_id: https://soderlind.no/archives/2011/12/20/wordpress-and-webputty/1324333497
+  _syntaxhighlighter_encoded: '1'
+  plugin_url: https://wordpress.org/extend/plugins/webputty/
+  _plugin_url: field_4f17f54164ed8
+  download_url: https://downloads.wordpress.org/plugin/webputty.zip
+  _download_url: field_4f18335371224
+  _msp_fb_likes: '1'
+  _msp_tweets: '4'
+  _msp_google_plus_ones: '1'
+  _msp_total_shares: '6'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p><a href="https://soderlind.no/wp-content/uploads/2011/12/webputty07.png"><amp-img layout="responsive" class="aligncenter size-medium wp-image-3036" title="Modify the style" src="{{ site.baseurl }}/assets/webputty07-300x2251.png" alt="" width="300" height="225" /></a><br />
+I've written a simple <a href="https://wordpress.org/extend/plugins/webputty/">plugin</a> that allows you to modify your WordPress sites using <a href="https://www.webputty.net/">WebPutty</a>.</p>
+<p><!--more Continue to learn more about WebPutty and how to integrate it with WordPress--><br />
+<strong>So what's WebPutty?</strong></p>
+<pre ><a href="https://www.webputty.net/">WebPutty</a> is a simple CSS editing and hosting service.
+WebPutty gives you a syntax-highlighting CSS editor you can use from anywhere, the power of <a href="https://sass-lang.com/">SCSS</a> and <a href="https://compass-style.org/">Compass</a>, a side-by-side preview pane, and instant publishing with minification, compression, and automatic cache control.</pre>
+<p>There's a <a href="https://youtu.be/FNaN789JsUc?hd=1">video at YouTube</a></p>
+<p><strong>Integration</strong>:<br />
+In WordPress, add the WebPutty integration code to your theme, or add it using my plugin. The integration code looks like:</p>
+<p>{% highlight php %}<br />
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;//webputty.commondatastorage.googleapis.com/[KEY].css&quot; /&gt;<br />
+&lt;script type=&quot;text/javascript&quot;&gt;<br />
+(function(w,d){<br />
+	if(w.location!=w.parent.location||w.location.search.indexOf('__preview_css__')&gt;-1){<br />
+		var t=d.createElement('script');<br />
+		t.type='text/javascript';<br />
+		t.async=true;<br />
+		t.src='https://www.webputty.net/js/[KEY]';<br />
+		(d.body||d.documentElement).appendChild(t);<br />
+	}<br />
+})(window,document);<br />
+&lt;/script&gt;<br />
+{% endhighlight %}</p>
+<p><strong>Plugin installtion and activation:</strong></p>
+<ol>
+<li>The plugin is available in the <a href="https://wordpress.org/extend/plugins/webputty/">WordPress Plugin Directory</a></li>
+<li>Install and activate it.</li>
+<li>Go to Settings -&gt; WebPutty Helper and add the integration code from <a href="https://www.webputty.net/">WebPutty</a> (see images below)</li>
+</ol>
+<p><strong>Integrating WebPutty and WordPress using my plugin:</strong><br />
+[gallery columns="4"]</p>
+<p><strong>Change log:</strong><br />
+0.0.1: Initial version</p>
+<p><strong>Todo:</strong></p>
+<ul>
+<li>Add option to remove local styles</li>
+<li>Anything else? Please add your wishes as a comment below</li>
+</ul>

@@ -1,0 +1,33 @@
+---
+layout: post
+title: DropzoneJS & WordPress AJAX API
+date: 2016-01-14 22:36:42.000000000 +01:00
+type: post
+gist: true
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- proof of concept
+- wp-plugins
+tags: []
+meta:
+  _edit_last: '1'
+  _amt_description: This plugin demos how to integrate DropzoneJS with WordPress.
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>&nbsp;</p>
+<p><a href="https://res.cloudinary.com/soderlind/image/upload/v1452851653/dropzonejs-wordpress-1_hhieme.gif" rel="attachment wp-att-4735"><amp-img layout="responsive" class="aligncenter size-medium wp-image-4735" src="{{ site.baseurl }}/assets/dropzonejs-wordpress-1_hhieme.gif" alt="dropzonejs-wordpress" width="300" height="124" /></a>The plugin below demos how to integrate <a href="https://www.dropzonejs.com/">DropzoneJS</a> with WordPress. BTW, I've written <a href="https://soderlind.no/dropzonejs-wordpress-rest-api/">a similar plugin that uses the WP REST API for file upload</a>.<br />
+<!--more Get the plugin--></p>
+<p>Install and activate the plugin, and use the `[dropzonejs]` shortcode to display the drop zone.</p>
+<h2>Plugin</h2>
+<p><amp-gist data-gistid="f9e8b06cc205fb8c493d" data-file="dropzonejs-wordpress.php" layout="fixed-height" height="185"></amp-gist></p>
+<h2>customize_dropzonejs.js</h2>
+<p>Here's a sample customize_dropzonejs.js, the options are documented at <a href="https://www.dropzonejs.com/#configuration-options">dropzonejs.com#configuration-options</a>.</p>
+<p><amp-gist data-gistid="f9e8b06cc205fb8c493d" data-file="customize_dropzonejs.js" layout="fixed-height" height="185"></amp-gist></p>

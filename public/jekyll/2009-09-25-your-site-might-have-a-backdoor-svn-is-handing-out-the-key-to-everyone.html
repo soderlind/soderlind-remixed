@@ -1,0 +1,39 @@
+---
+layout: post
+title: Your site might have a backdoor, SVN is handing out the key to everyone
+date: 2009-09-25 22:42:42.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+tags:
+- HTML
+meta:
+  jd_tweet_this: 'yes'
+  _edit_last: '1'
+  wp_jd_target: https://www.soderlind.no/archives/2009/09/25/your-site-might-have-a-backdoor-svn-is-handing-out-the-key-to-everyone/
+  wp_jd_clig: https://cli.gs/Bpng5
+  tweet_this_url: getnew
+  views: '98'
+  oc_commit_id: https://soderlind.no/archives/2009/09/25/your-site-might-have-a-backdoor-svn-is-handing-out-the-key-to-everyone/1298481428
+  _aktt_hash_meta: ''
+  aktt_notify_twitter: 'yes'
+  _syntaxhighlighter_encoded: '1'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>A<a href="https://www.smashingmagazine.com/2009/09/25/svn-strikes-back-a-serious-vulnerability-found/"> lot of sites</a> have forgotten to protect their <a href="https://en.wikipedia.org/wiki/Subversion_%28software%29">SVN</a>. It's easy to check if your site is <a href="https://www.smashingmagazine.com/2009/09/25/svn-strikes-back-a-serious-vulnerability-found/">open for grabs</a>,  just see if you can access  https://YOURSITE/.svn/entries</p>
+<p>To protect your site, add the following to your .htaccess file:</p>
+<p>[sourcecode language='html']<br />
+<ifmodule mod_rewrite.c><br />
+RewriteRule ^(.*/)?.svn/ - [F,L]<br />
+ErrorDocument 403 "Access Forbidden"<br />
+</ifmodule><br />
+[/sourcecode]</p>

@@ -1,0 +1,39 @@
+---
+layout: post
+title: ".NET Reflector 4.0 Release Notes"
+date: 2004-05-03 09:30:09.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+tags:
+- reference search windows
+- search window
+- XML
+meta:
+  tweet_this_url: getnew
+  views: '81'
+  oc_commit_id: https://soderlind.no/archives/2004/05/03/net-reflector-40-release-notes/1298481609
+  _aktt_hash_meta: ''
+  aktt_notify_twitter: 'yes'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>Reflector is a class browser for .NET components. It allows browsing and searching the meta data, IL instructions, resources and XML documentation stored in a .NET assembly. Reflector was first released in October 2000 running on .NET Framework 1.0 Beta 2. </p>
+<p><strong>Code Model:</strong> While previous versions of Reflector partly used the CLR Reflection infrastructure, the new version 4.0 has changed to use a code model library for reading assembly files into memory. As a result Unload and Refresh operations really unload files from memory and Reflector is no longer locking files on disk. </p>
+<p><strong>Reflector and .NET Framework 2.0:</strong> Reflector.exe runs on all .NET Framework versions. The new code model library loads .NET Framework 2.0 assemblies with no .NET Framework 2.0 installed. However, a <a href="https://www.aisto.com/roeder/dotnet/Reflector.exe.config">Reflector.exe.config</a> file is still going to make Reflector run faster on .NET Framework 2.0. </p>
+<p><strong>Assembly Cache:</strong> When resolving an assembly reference, Reflector will first search the local path and then falls back to the cache directories defined in the Reflector.cfg file. Reflector doesn't search the GAC unless you add '%SystemRoot%Assembly' to the cache directories list. </p>
+<p><strong>Search and Callee Graph:</strong> There is now only one search window (F3). You can click on the icon on the top-right to switch to search members (this was previously called member search). The reference search windows are replaced with a callee graph window that shows any kind of dependencies of a type or member. </p>
+<p><strong>Command Line:</strong> The /configuration switch allows you to specify a config file different from Reflector.cfg. The /fontsize and /fontname switches can be used to increase the font size for overhead demos. </p>
+<p><strong>Assembly Versioning:</strong> By default, assembly version numbers are ignored when resolving type and member references. You can enable side-by-side versioning in the options dialog but it is suggested to avoid this if possible. </p>
+<p><strong>Add-Ins:</strong> Reflector add-ins and hosting projects can be found <a href="https://workspaces.gotdotnet.com/reflector">here</a>. An introduction to the add-in model is available <a href="https://www.gotdotnet.com/Community/Workspaces/UploadedHtmlPage.aspx?FileID=f1751793-88aa-4c36-935d-3d4c654d9300">here</a>. </p>
+<p><strong>WinFX Help:</strong> To view the Longhorn MSDN documentation instead of the .NET Framework MSDN documentation add a [WebSearch] section to your Reflector.cfg file with Msdn="https://longhorn.msdn.microsoft.com". </p>
+<p>The most recent version of .NET Reflector is available <a href="https://www.aisto.com/roeder/dotnet">here</a>.</p>
+<p><a href="https://www.aisto.com/roeder/dotnet" class="offsite">more ...</a></p>

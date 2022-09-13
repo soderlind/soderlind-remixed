@@ -1,0 +1,42 @@
+---
+layout: post
+title: Continuous Deployment from GitHub to WordPress Azure
+date: 2015-02-07 20:07:13.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+- how-to
+tags: []
+meta:
+  _edit_last: '1'
+  _oembed_62ab37e9e11a88c74df05e049287e853: <iframe width="625" height="352" src="https://www.youtube.com/embed/kE0qNV2UBmA?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_time_62ab37e9e11a88c74df05e049287e853: '1424374739'
+  _oembed_049cac78170e5d5948565157546e1581: <iframe width="629" height="354" src="https://www.youtube.com/embed/kE0qNV2UBmA?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_time_049cac78170e5d5948565157546e1581: '1470930593'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>&nbsp;</p>
+<p><a href="https://res.cloudinary.com/soderlind/image/upload/v1423679924/github-choose-a-repository-to-deploy_wbscgd.jpg"><amp-img layout="responsive" class="aligncenter wp-image-4565 size-medium" src="{{ site.baseurl }}/assets/github-choose-a-repository-to-deploy_wbscgd.jpg" alt="github-choose-a-repository-to-deploy" width="300" height="221" /></a></p>
+<p><strong>TL;DR: Create a .deployment file and push it to GitHub:</strong></p>
+<pre class="lang:ini decode:true" title=".deployment">[config]
+DEPLOYMENT_TARGET=D:\home\site\wwwroot\wp-content\themes\my-theme</pre>
+<p><!--more--></p>
+<p>At work we are developing a new theme for our WordPress sites. We use git and GitHub, and to test changes we do continuous deployment to a free <a href="https://wplift.com/wordpress-microsoft-azure">WordPress site at Azure</a>.</p>
+<p>Setting up contious deployment from GitHub to Azure is simple as shown in the video below. The video shows how to deploy a ASP.NET MVC site. It's similar for WordPress, but with a twist. More about that after the video.</p>
+<p><amp-youtube data-videoid="kE0qNV2UBmA" layout="responsive" width="480" height="270"></amp-youtube></p>
+<p>The default when doing continous deployment from GiHub to Azure, is to copy everything from your repo to wwwroot at Azure. We don't want that when developing a WordPress pluging or theme, we want to copy the files in the repo to a folder under wp-content/plugins or wp-content/themes.</p>
+<p>To control where to copy the files, create the file <em>.deployment</em> and push it to the root of your repo at GitHub <strong>before</strong> you configure Azure deployment from GitHub. In the file, tell Azure where you want your files</p>
+<pre class="lang:ini decode:true " title=".deployment">[config]
+DEPLOYMENT_TARGET=D:\home\site\wwwroot\wp-content\themes\my-theme</pre>
+<p>You'll find more information about publishing to Azure websites with git over at <a href="https://azure.microsoft.com/en-us/documentation/articles/web-sites-publish-source-control/">Microsoft Azure</a>.</p>

@@ -1,0 +1,112 @@
+---
+layout: post
+title: WordPress linting using Code Climate, the Swiss Army knife of code linting
+date: 2016-10-10 17:47:37.000000000 +02:00
+type: post
+gist: true
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+tags: []
+meta:
+  _edit_last: '1'
+  _yoast_wpseo_content_score: '30'
+  _yoast_wpseo_primary_category: ''
+  _yoast_wpseo_opengraph-image: https://soderlind.no/wp-content/uploads/2016/10/codeclimate-wordpress.gif
+  _yoast_wpseo_twitter-image: https://soderlind.no/wp-content/uploads/2016/10/codeclimate-wordpress.gif
+  _yoast_wpseo_metadesc: Code Climate is a very easy to implement linter for PHP,
+    JavaScript, CSS etc.
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>&nbsp;</p>
+<p><amp-img layout="responsive" class="aligncenter size-full wp-image-4988" src="{{ site.baseurl }}/assets/codeclimate-wordpress_qpjfgm.gif" alt="codeclimate-wordpress" width="712" height="572" /></p>
+<p><strong>tl;dr -  <a href="https://codeclimate.com">Code Climate</a> is a very easy to implement linter for PHP, JavaScript, CSS etc.</strong></p>
+<p><!--more--></p>
+<blockquote><p>[A linter] find code that doesn't correspond to certain style guidelines</p>
+<p>source: <a href="https://en.wikipedia.org/wiki/Lint_(software)">Wikipedia</a></p></blockquote>
+<p>When I <a href="https://soderlind.no/wordpress-plugins-ready-4-6/">upgraded my plugins</a> to support WordPress 4.6, I decided that I wanted to follow the <a href="https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards">WordPress Coding Standards</a>. I could have installed PHP CodeSniffer + the WordPress Coding Standards add-on, ES Lint, CSSlint etc, but why do that when I get it all from Code Climate ? Code Climate includes <a href="https://gist.github.com/soderlind/4386fd6a1fe83aa7da5d4944dbfb64f3">more than 30 different code analysis engines</a>.</p>
+<h2>Prerequisite</h2>
+<p>I'm on a Mac, so I already had:</p>
+<ul>
+<li><a href="https://docs.docker.com/docker-for-mac/">docker</a></li>
+<li><a href="https://brew.sh/">Homebrew</a></li>
+</ul>
+<p>If you're not on a Mac, please see the Code Climate CLI <a href="https://github.com/codeclimate/codeclimate#prerequisites">README</a>.</p>
+<h2>Installation</h2>
+<pre class="toolbar:2 lang:sh decode:true ">brew tap codeclimate/formulae
+brew install codeclimate</pre>
+<p>That's it :)</p>
+<h2>Setup</h2>
+<p>Go to your projectfolder and create the Code Climate config file  -  <code>.codeclimate.yml</code></p>
+<pre class="">cd PROJECTFOLDER
+codeclimate init
+codeclimate engines:install</pre>
+<p>`codeclimate init` will scan the files and folders in `PROJECTFOLDER` and create a `.codeclimate.yml` with engines suitable for your project.</p>
+<p>If you have a `.codeclimate.yml` file in your project folder, do:</p>
+<pre class="">cd PROJECTFOLDER
+codeclimate engines:install</pre>
+<p>`codeclimate engines:install` will install all the engines (linters) defined in `.codeclimate.yml`</p>
+<h2>WordPress</h2>
+<p>The PHP Codesniffer in Code Climate supports the <a href="https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards#standards-subsets">following code standards</a>:</p>
+<p><code>WordPress</code> — complete set with all of the sniffs in the project</p>
+<ul>
+<li><code>WordPress-Core</code> — main ruleset for <a href="https://make.wordpress.org/core/handbook/coding-standards/">WordPress core coding standards</a></li>
+<li><code>WordPress-Docs</code> — additional ruleset for inline documentation</li>
+<li><code>WordPress-Extra</code> — extended ruleset for optional best practices sniffs
+<ul>
+<li>includes <code>WordPress-Core</code></li>
+</ul>
+</li>
+<li><code>WordPress-VIP</code> — extended ruleset for <a href="https://vip.wordpress.com/documentation/code-review-what-we-look-for/">WordPress VIP coding requirements</a>
+<ul>
+<li>includes <code>WordPress-Core</code></li>
+</ul>
+</li>
+</ul>
+<p>Add the one you'd like to use to your `.codeclimate.yml` file:</p>
+<pre class="lang:php decode:true">  phpcodesniffer:
+    enabled: true
+    config:
+      standard: "WordPress-Core"</pre>
+<p>You can add multiple standards:</p>
+<pre class="lang:php decode:true ">  phpcodesniffer:
+    enabled: true
+    config:
+      standard: "WordPress-Core, WordPress-Docs"</pre>
+<p>See my complete `.codeclimate.yml` file at the end of this article.</p>
+<h2>Use</h2>
+<h3>From the command line</h3>
+<p>In the <code>PROJECTFOLDER,</code> run <code>codeclimate analyze</code>. Code Climate will list the issues it finds, eg:</p>
+<pre class="lang:sh decode:true">Starting analysis
+Running duplication: Done!
+Running eslint: Done!
+Running fixme: Done!
+Running phpcodesniffer: Done!
+
+== plugin-customizer.php (2 issues) ==
+192: No space after opening parenthesis is prohibited [phpcodesniffer]
+192: Expected 1 spaces between opening bracket and argument "$wp_query"; 0 found [phpcodesniffer]
+
+Analysis complete! Found 2 issues.</pre>
+<h3>From inside your code editor</h3>
+<p>I'm using <a href="https://atom.io/">Atom</a>, and Code Climate integrates well with the Atom linter plugin.</p>
+<p>If you haven't, install the add-ons using the <a href="https://github.com/atom/apm#installing">atom package manager</a>:</p>
+<pre class="">apm install linter
+apm install linter-codeclimate
+</pre>
+<p>In Atom, the Code Climate linter will be triggered when you save the file.</p>
+<p><amp-img layout="responsive" class="aligncenter size-large wp-image-5004" src="{{ site.baseurl }}/assets/codeclimate-issue_lsmhzp.png" alt="codeclimate-issue" width="629" height="72" /></p>
+<p>There's also a <a href="https://docs.codeclimate.com/docs/vim-plugin">vim plugin</a>.</p>
+<h2>Bonus</h2>
+<p>If your project is an open source project, you can add it for free to codeclimate.com. Here's my <a href="https://codeclimate.com/github/soderlind/plugin-customizer">plugin customizer</a>.</p>
+<h2>.codeclimate.yml</h2>
+<p>Here's the config file I use for most of my projects:</p>
+<p><amp-gist data-gistid="f82d20c9d8512ec5e7f3ee2f79ce1e76" layout="fixed-height" height="185"></amp-gist></p>

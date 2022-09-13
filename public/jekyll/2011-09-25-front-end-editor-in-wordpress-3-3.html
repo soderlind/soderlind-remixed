@@ -1,0 +1,173 @@
+---
+layout: post
+title: Front-end editor in WordPress 3.3 is easy
+date: 2011-09-25 12:47:31.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+- wp-plugins
+tags:
+- Editor
+- WordPress
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: "#wordpress"
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _yoast_wpseo_focuskw: wordpress wp_editor examples
+  _yoast_wpseo_title: ''
+  _yoast_wpseo_metadesc: Examples on how to use wp_editor to add a front-end editor.
+    WordPress 3.4 adds support for Distraction Free Writing (DFW) on the front-end.
+  _yoast_wpseo_metakeywords: ''
+  _yoast_wpseo_meta-robots-noindex: '0'
+  _yoast_wpseo_meta-robots-nofollow: '0'
+  _yoast_wpseo_meta-robots-adv: none
+  _yoast_wpseo_sitemap-include: "-"
+  _yoast_wpseo_sitemap-prio: "-"
+  _yoast_wpseo_canonical: ''
+  _yoast_wpseo_redirect: ''
+  _yoast_wpseo_opengraph-description: ''
+  oc_metadata: "{\t\tversion:'1.1',\t\ttags: {'wordpress': {\"text\":\"WordPress\",\"slug\":\"wordpress\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'editor': {\"text\":\"Editor\",\"slug\":\"editor\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"}}\t}"
+  views: '827'
+  plugin_url: ''
+  aktt_tweeted: '1'
+  oc_commit_id: https://soderlind.no/archives/2011/09/25/front-end-editor-in-wordpress-3-3/1316947662
+  _download_url: field_4f18335371224
+  download_url: ''
+  _plugin_url: field_4f17f54164ed8
+  _yoast_wpseo_google-plus-description: ''
+  _msp_fb_likes: '7'
+  _msp_tweets: '18'
+  _msp_google_plus_ones: '4'
+  _msp_total_shares: '29'
+  _yoast_wpseo_linkdex: '65'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p><strong>Update:</strong> Things will have to change, <a href="https://make.wordpress.org/core/2014/01/18/tinymce-4-0-is-in-core/">TinyMCE 4.0 is in core</a>:</p>
+<ul>
+<li>New UI and UI API.</li>
+<li>New theme.</li>
+<li>Revamped events system/API.</li>
+<li>Better code quality, readability and build process.</li>
+<li>Lots of (inline) documentation.</li>
+<li>And generally many improvements everywhere.</li>
+</ul>
+<p>TinyMCE 4.0
+<ol>
+<li><a href="https://www.tinymce.com/presentation/#/">Highlights</a></li>
+<li><a href="https://www.tinymce.com/tryit/basic.php">Demos</a></li>
+</ol>
+<hr />
+<p>Thanks to <a href="https://core.trac.wordpress.org/ticket/19843">sushkov</a>, WordPress 3.4 adds support for DFW (<a href="https://en.support.wordpress.com/distraction-free-writing/">Distraction Free Writing</a>) on the front-end. See the <a href="#dfw">example below</a>.</p>
+<p>Thanks to the <a href="https://core.trac.wordpress.org/ticket/17144">work done by Andrew Ozz</a> et al., adding a front-end editor in WordPress 3.3 is very simple. If you're not into creating your own plugins, head over to wpmu.org, they have a<a href="https://wpmu.org/top-10-wordpress-plugins-for-front-end-posting-editing-and-uploading/"> great list of 10 front-end editing plugins</a>.</p>
+<p>Syntax:</p>
+<p>{% highlight php %}<br />
+wp_editor( $content, $editor_id, $settings = array() );</p>
+<p>// default settings<br />
+$settings = array(<br />
+'wpautop' =&gt; true, // use wpautop?<br />
+'media_buttons' =&gt; true, // show insert/upload button(s)<br />
+'textarea_name' =&gt; $editor_id, // set the textarea name to something different, square brackets [] can be used here<br />
+'textarea_rows' =&gt; get_option('default_post_edit_rows', 10), // rows="..."<br />
+'tabindex' =&gt; '',<br />
+'editor_css' =&gt; '', // intended for extra styles for both visual and HTML editors buttons, needs to include the &lt;style&gt; tags, can use "scoped".<br />
+'editor_class' =&gt; '', // add extra class(es) to the editor textarea<br />
+'teeny' =&gt; false, // output the minimal editor config used in Press This<br />
+'dfw' =&gt; false, // replace the default fullscreen with DFW (supported on the front-end in WordPress 3.4)<br />
+'tinymce' =&gt; true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()<br />
+'quicktags' =&gt; true // load Quicktags, can be used to pass settings directly to Quicktags using an array()<br />
+);<br />
+{% endhighlight %}</p>
+<p><!--more View the wp_editor() examples--><br />
+So the simplest one is:</p>
+<p>{% highlight php %}<br />
+echo '&lt;form action="" method="post" target="_blank"&gt;';<br />
+wp_editor('&lt;p&gt;Some content&lt;/p&gt;', 'textarea01' );<br />
+echo '&lt;input type="submit" value="Submit" /&gt;&lt;/form&gt;'<br />
+{% endhighlight %}</p>
+<p>Want better control?:</p>
+<p>{% highlight php %}<br />
+$settings = array(<br />
+'wpautop' =&gt; true,<br />
+'media_buttons' =&gt; false,<br />
+'tinymce' =&gt; array(<br />
+'theme_advanced_buttons1' =&gt; 'bold,italic,underline,blockquote,|,undo,redo,|,fullscreen',<br />
+'theme_advanced_buttons2' =&gt; '',<br />
+'theme_advanced_buttons3' =&gt; '',<br />
+'theme_advanced_buttons4' =&gt; ''<br />
+),<br />
+'quicktags' =&gt; array(<br />
+'buttons' =&gt; 'b,i,ul,ol,li,link,close'<br />
+)<br />
+);</p>
+<p>echo '&lt;form action="" method="post" target="_blank"&gt;';<br />
+wp_editor('&lt;p&gt;Some more content&lt;/p&gt;', 'textarea02', $settings );<br />
+echo '&lt;input type="submit" value="Submit" /&gt;&lt;/form&gt;';<br />
+{% endhighlight %}</p>
+<p>Don't want the quick tags?:</p>
+<p>{% highlight php %}<br />
+$settings = array(<br />
+'wpautop' =&gt; true,<br />
+'media_buttons' =&gt; false,<br />
+'tinymce' =&gt; array(<br />
+'theme_advanced_buttons1' =&gt; 'bold,italic,underline,blockquote,|,undo,redo,|,fullscreen',<br />
+'theme_advanced_buttons2' =&gt; '',<br />
+'theme_advanced_buttons3' =&gt; '',<br />
+'theme_advanced_buttons4' =&gt; ''<br />
+),<br />
+'quicktags' =&gt; false<br />
+);</p>
+<p>echo '&lt;form action="" method="post" target="_blank"&gt;';<br />
+wp_editor('&lt;p&gt;Some more content&lt;/p&gt;', 'textarea02', $settings );<br />
+echo '&lt;input type="submit" value="Submit" /&gt;&lt;/form&gt;';<br />
+{% endhighlight %}</p>
+<p>Or you can do:</p>
+<p>{% highlight php %}<br />
+add_filter( 'teeny_mce_buttons',tinytiny_buttons);</p>
+<p>$settings = array("teeny"=&gt;true,'media_buttons' =&gt; false,'quicktags' =&gt; false);</p>
+<p>echo '&lt;form action="" method="post" target="_blank"&gt;';<br />
+wp_editor('&lt;p&gt;Some more content&lt;/p&gt;', 'textarea04', $settings );<br />
+echo '&lt;input type="submit" value="Submit" /&gt;&lt;/form&gt;';</p>
+<p>function tinytiny_buttons($buttons) {<br />
+return array('bold', 'italic', 'underline', 'blockquote', 'separator', 'undo', 'redo', 'fullscreen');<br />
+}<br />
+{% endhighlight %}</p>
+<p><a name="dfw"></a><br />
+DFW (<a href="https://en.support.wordpress.com/distraction-free-writing/">Distraction Free Writing</a>) demo:</p>
+<p>{% highlight php %}<br />
+&lt;?php<br />
+/**<br />
+* Template Name: DFW Demo Template<br />
+* Description: A Page Template that demos DFW front-end editing<br />
+*<br />
+*/</p>
+<p>get_header(); ?&gt;<br />
+&lt;div id="primary"&gt;<br />
+&lt;div id="content" role="main"&gt;<br />
+&lt;?php<br />
+wp_editor('DFW demo content', 'dfw_id', array(<br />
+'dfw' =&gt; true<br />
+));<br />
+?&gt;<br />
+&lt;/div&gt;<br />
+&lt;/div&gt;<br />
+&lt;?php get_footer(); ?&gt;<br />
+{% endhighlight %}</p>
+<p>Save the code above as dfw-demo.php in your (child) theme folder (tested with the Twenty Eleven template). Create a page, using the DFW Demo Template. Note, you must be running WordPress 3.4.</p>
+<p><strong>Notes</strong> (from the <a href="https://codex.wordpress.org/Function_Reference/wp_editor">codex</a>)</p>
+<p>Note that the ID that is passed to the wp_editor() function can only be comprised of lower-case letters. No underscores, no hyphens. Anything else will cause the WYSIWYG editor to malfunction.</p>
+<p>Once instantiated, the WYSIWYG editor cannot be moved around in the DOM. What this means in practical terms, is that you cannot put it in meta-boxes that can be dragged and placed elsewhere on the page</p>
+<p><strong>More information</strong><br />
+wp_editor() is located in <a href="https://core.trac.wordpress.org/browser/tags/3.3.1/wp-includes/general-template.php#L1786">wp-includes/general-template.php</a><br />
+The default settings are defined in <a href="https://core.trac.wordpress.org/browser/tags/3.3.1/wp-includes/class-wp-editor.php#L31">wp-includes/class-wp-editor.php</a><br />
+I've also added several examples in the <a href="#comments">comments below</a></p>

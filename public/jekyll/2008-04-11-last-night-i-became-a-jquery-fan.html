@@ -1,0 +1,57 @@
+---
+layout: post
+title: Last night I became a jQuery fan
+date: 2008-04-11 21:57:26.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+tags:
+- DOM
+meta:
+  autometa: jquery night prototype stick knew drifting stuck tend
+  _edit_last: '1'
+  tweet_this_url: getnew
+  oc_commit_id: https://soderlind.no/archives/2008/04/11/last-night-i-became-a-jquery-fan/1298481446
+  _aktt_hash_meta: ''
+  aktt_notify_twitter: 'yes'
+  views: '144'
+  _yoast_wpseo_linkdex: '0'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>You know how it's like. You start to use a javascript library and you tend to stick with it. I've been drifting between Prototype.js and Moo. I've looked at jQuery but stuck to Prototype/Moo since I "knew it".</p>
+<p>Last night I decided to rewrite my old <a href="https://comox.textdrive.com/pipermail/wp-hackers/2006-February/005102.html">check for new ImageManager version</a> routine. Being a script junkie, I thought I give <a href="https://jquery.com/">jQuery</a> a chance. It was a joy .. I really like jQuery!</p>
+<p>BTW, here's the result:</p>
+<p>[sourcecode language='js']</p>
+<pre><script type="text/javascript">
+/**
+* @desc ImageManager check for new version script
+* @author Per Soderlind - soderlind.no
+*/
+jQuery(document).ready(function() {
+    jQuery.get('https://soderlind.no/imagemanagerversion.txt', function(newversion){
+        if (251 < newversion) { // 251 is the version number for the installed plugin, I set number this using PHP
+            jQuery('#plugins td.name').filter(':contains(ImageManager)').append('<small>new version available').css('color','red');
+        }
+    });
+});
+</script></pre>
+<p>[/sourcecode]</p>
+<p>Explained:</p>
+<dl>
+<dt><strong><span >jQuery(document).ready</span>(function() {</strong></dt>
+<dd>Wait until the DOM is loaded</dd>
+<dt><strong><span >jQuery.get</span>('https://soderlind.no/imagemanagerversion.txt', function(<span >newversion</span>){</strong></dt>
+<dd><span >Get</span> https://soderlind.no/imagemanagerversion.txt, and put its content into the variable <span >newversion</span></dd>
+<dt><strong><span >jQuery('#plugins td.name')</span>.filter(':<span >contains</span>(ImageManager)').<span >append</span>('&lt;small&gt;new version available&lt;/small&gt;').<span >css</span>('color','red');</strong></dt>
+<dd>In the &lt;div id=<span >plugins</span>&gt;, find &lt;<span >td</span> class=<span >name</span>&gt; which <span >contains</span> the text ImageManager</dd>
+<dd>and <span >append</span> &lt;small&gt;new version available&lt;/small&gt;. Using <span >css</span>,  set the  text color to red.</dd>
+</dl>

@@ -1,0 +1,51 @@
+---
+layout: post
+title: WordPress Debug Bar, List Script & Style Dependencies
+date: 2013-05-08 19:24:37.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- wp-plugins
+tags: []
+meta:
+  _edit_last: '1'
+  _wp_old_slug: debug-barlist-script-and-style-dependencies
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p><a href="https://res.cloudinary.com/soderlind/image/upload/v1380796510/list-dependencies_sr3jns.jpg"><amp-img layout="responsive" src="{{ site.baseurl }}/assets/list-dependencies_sr3jns.jpg" alt="list-dependencies" width="300" height="181" class="aligncenter size-medium wp-image-4294" /></a></p>
+<p>We all know that when we're add a script or style to WordPress, we should use <a href="https://codex.wordpress.org/Function_Reference/wp_enqueue_script">wp_enqueue_script</a>( $handle, $src, <span >$deps</span>, $ver, $in_footer ) and <a href="https://codex.wordpress.org/Function_Reference/wp_enqueue_style">wp_enqueue_style</a>( $handle, $src, <span >$deps</span>, $ver, $media ) as in:</p>
+<p><!--more Get the plugin--><br />
+{% highlight php %}<br />
+function themeslug_enqueue_style() {<br />
+wp_enqueue_style( 'core', 'style.css', array('twentytwelve-style') );<br />
+}</p>
+<p>function themeslug_enqueue_script() {<br />
+wp_enqueue_script( 'my-js', 'filename.js', array('jquery') );<br />
+}</p>
+<p>add_action( 'wp_enqueue_scripts', 'themeslug_enqueue_style' );<br />
+add_action( 'wp_enqueue_scripts', 'themeslug_enqueue_script' )<br />
+{% endhighlight %}<br />
+<span >$deps</span> (dependencies), the handle name and an optional parameter, lets you control when/where your script or style should be added. If <span >$deps</span> is array('jquery'), your script will be loaded after jquery is loaded.</p>
+<p>The problem is, which one exists and in which order are they loaded ?</p>
+<p>I've written an add-on to <a href="https://wordpress.org/extend/plugins/debug-bar/">Debug Bar</a> that list the loaded scripts and styles, it's available at:</p>
+<ul>
+<li><a href="https://github.com/soderlind/debug-bar-list-dependencies"><span >GitHub</span></a></li>
+<li><a href="https://wordpress.org/extend/plugins/debug-bar-list-dependencies/">WordPress Plugin Directory</a></li>
+</ul>
+<p><strong >Use</strong></p>
+<p>Script and styles loaded on the front-end: Go to the front-end, and on the admin bar choose Debug and view Script &amp; Style Dependencies</p>
+<p>Back-end: Do the same, on the admin bar choose Debug and view Script &amp; Style Dependencies</p>
+<p>Note, the front-end and back-end loads different scripts and styles. Also, different pages on the front-end and back-end can load different scripts and styles.</p>
+<p><strong>Changelog</strong><br />
+1.0.3 Fixed <a href="https://github.com/soderlind/debug-bar-list-dependencies/issues/1">bug</a><br />
+1.0.2 Added styling<br />
+1.0.1 Bugfix, fixed listing of styles and their dependencies<br />
+1.0 Initial release</p>

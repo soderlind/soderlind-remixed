@@ -1,0 +1,181 @@
+---
+layout: post
+title: Date and Time Picker field for Advanced Custom Fields
+date: 2012-03-09 18:19:31.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+- wp-plugins
+tags:
+- acf
+- custom fields
+- WordPress
+meta:
+  oc_metadata: "{\t\tversion:'1.1',\t\ttags: {'acf': {\"text\":\"acf\",\"slug\":\"acf\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'custom-fields': {\"text\":\"custom fields\",\"slug\":\"custom-fields\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'wordpress': {\"text\":\"WordPress\",\"slug\":\"wordpress\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"}}\t}"
+  _yoast_wpseo_google-plus-description: ''
+  _yoast_wpseo_metakeywords: ''
+  _syntaxhighlighter_encoded: '1'
+  _yoast_wpseo_sitemap-prio: "-"
+  _yoast_wpseo_redirect: ''
+  download_url: ''
+  _plugin_url: field_4f17f54164ed8
+  plugin_url: ''
+  _edit_last: '1'
+  _yoast_wpseo_sitemap-include: "-"
+  _yoast_wpseo_meta-robots-adv: none
+  aktt_notify_twitter: 'yes'
+  _download_url: field_4f18335371224
+  _aktt_hash_meta: ''
+  oc_commit_id: https://soderlind.no/archives/2012/03/09/time-picker-field-for-advanced-custom-fields/1331313574
+  aktt_tweeted: '1'
+  _yoast_wpseo_content_score: '60'
+  _yoast_wpseo_primary_category: ''
+  _oembed_b4501e664f649fe2b53a10310f60d9db: <iframe width="625" height="469" src="https://www.youtube.com/embed/Mumx4HGOljQ?feature=oembed&enablejsapi=1&origin=https://soderlind.no"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_time_b4501e664f649fe2b53a10310f60d9db: '1469026368'
+  _oembed_0894a1bdd96adeb58a9803a2d7b014a4: <iframe width="629" height="472" src="https://www.youtube.com/embed/Mumx4HGOljQ?feature=oembed&enablejsapi=1&origin=https://soderlind.no"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_time_0894a1bdd96adeb58a9803a2d7b014a4: '1479643255'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>&nbsp;</p>
+<p><amp-youtube data-videoid="Mumx4HGOljQ" layout="responsive" width="480" height="270"></amp-youtube></p>
+<p>This is an add-on for the <a href="https://www.advancedcustomfields.com/">Advanced Custom Fields</a> (ACF) WordPress plugin, that allows you to add a Date and <a href="https://soderlind.no/wp-content/uploads/2012/03/screenshot-32.png">Time Picker</a> field type. Works with ACF v3 and v4. <strong>ACF PRO 5.0+ is no longer supported, ACF PRO <a href="https://www.advancedcustomfields.com/resources/date-time-picker/">has its own date and time picker</a>.</strong><!--more--></p>
+<h3>Brought To You By</h3>
+<p>[acknowledge_me owner="soderlind" repo="acf-field-date-time-picker" total="50"]</p>
+<h3>Changlog</h3>
+<p>Please see the <a href="https://github.com/soderlind/acf-field-date-time-picker/blob/master/Changelog.md">changelog at GitHub</a></p>
+<h3>Latest version</h3>
+<ul>
+<li><a href="https://wordpress.org/extend/plugins/acf-field-date-time-picker/">WordPress</a></li>
+<li><a href="https://github.com/soderlind/acf-field-date-time-picker">GitHub</a></li>
+</ul>
+<h3>Prerequisite</h3>
+<p><a href="https://wordpress.org/extend/plugins/advanced-custom-fields/">Advanced Custom Fields WordPress plugin</a> installed and activated.</p>
+<h3>Installation</h3>
+<p>Copy the 'acf-date_time_picker' folder into your plugins folder Activate the plugin via the Plugins admin page</p>
+<h3>Create a Date and Time Picker field</h3>
+<p><a href="https://soderlind.no/wp-content/uploads/2012/03/screenshot-11.png"><amp-img layout="responsive" class="alignnone size-medium wp-image-3984" src="{{ site.baseurl }}/assets/screenshot-1-300x1602.png" alt="Add Date and Time Picker field" width="300" height="160" /></a><br />
+To set the date and time format when you create the field, you have to create a string using the letters below. <strong>Date format</strong></p>
+<pre>d    day of month (no leading zero)
+dd   day of month (two digit)
+o    day of the year (no leading zeros)
+oo   day of the year (three digit)
+D    day name short
+DD   day name long
+m    month of year (no leading zero)
+mm   month of year (two digit)
+M    month name short
+MM   month name long
+y    year (two digit)
+yy   year (four digit)</pre>
+<p><strong>Time format</strong></p>
+<pre>H    Hour with no leading 0 (24 hour)
+HH   Hour with leading 0 (24 hour)
+h    Hour with no leading 0 (12 hour)
+hh   Hour with leading 0 (12 hour)
+m    Minute with no leading 0
+mm   Minute with leading 0
+s    Second with no leading 0
+ss   Second with leading 0
+l    Milliseconds always with leading 0
+t    a or p for AM/PM
+T    A or P for AM/PM
+tt   am or pm for AM/PM
+TT   AM or PM for AM/PM</pre>
+<p><strong>Examples</strong></p>
+<ul>
+<li><code>yy-mm-dd</code>: 2013-04-12</li>
+<li><code>HH:mm</code>: 24 hour clock, with a leading 0 for hour and minute</li>
+<li><code>h:m tt</code>: 12 hour clock with am/pm, no leading 0</li>
+</ul>
+<h3>Retrieving Time Picker values</h3>
+<p>To get a general understanding on how to retrieve values from ACF, see the <a href="https://www.advancedcustomfields.com/docs/code-examples/">examples</a> in the <a href="https://www.advancedcustomfields.com/docs/getting-started/">ACF Documentation</a>.</p>
+<h4>Simple example</h4>
+<p>Get the field in the same format as you set it when you created the field, using <a href="https://www.advancedcustomfields.com/resources/functions/get_field/">get_field()</a>:</p>
+<p>{% highlight php %}</p>
+<p>echo get_field($field_name);</p>
+<p>echo get_field($field_name, $post_id); // from another post</p>
+<p>{% endhighlight %}</p>
+<h4>Changing date and time format</h4>
+<p>When adding a date-and-time field, choose “Get field as timestamp” and use <a href="https://codex.wordpress.org/Function_Reference/date_i18n">date_i18n</a> to do something like this:</p>
+<p>{% highlight php %}</p>
+<p>// more format examples at https://codex.wordpress.org/Formatting_Date_and_Time#Examples<br />
+$format = "F j, Y g:i a";<br />
+$timestamp” = get_field($field_name);<br />
+echo date_i18n( $format, $timestamp” ); // November 6, 2010 12:50 am</p>
+<p>$format = "F j, Y";<br />
+$timestamp” = get_field($field_name);<br />
+echo date_i18n( $format, $timestamp” ); // November 6, 2010</p>
+<p>$format = "l, F jS, Y";<br />
+$timestamp” = get_field($field_name);<br />
+echo date_i18n( $format, $timestamp” ); // Saturday, November 6th, 2010</p>
+<p>{% endhighlight %}</p>
+<h4>Together with the <a href="https://www.advancedcustomfields.com/add-ons/repeater-field/">repeater field</a></h4>
+<p>Here's how I retrieve that values from the example in the screen shot<br />
+<a href="https://soderlind.no/wp-content/uploads/2012/03/field_name1.png"><amp-img layout="responsive" class="alignnone size-medium wp-image-3273" title="Retrieving Time Picker values using the Field Names" src="{{ site.baseurl }}/assets/field_name-300x1992.png" alt="" width="300" height="199" /></a><br />
+{% highlight php %}<br />
+&lt;?php<br />
+$rows = get_field('tasks'); // 'tasks' is the repeater field name<br />
+if($rows) {<br />
+echo '&lt;ul&gt;';<br />
+foreach($rows as $row) {<br />
+echo '&lt;li&gt;task = ' . $row['task'] . ', start = ' . $row['start'] .', start = ' . $row['end'] .'&lt;/li&gt;';<br />
+}<br />
+echo '&lt;/ul&gt;';<br />
+}<br />
+?&gt;<br />
+{% endhighlight %}</p>
+<p><a name="localization"></a></p>
+<h3>Localization</h3>
+<p>The plugin will, based on <a href="https://codex.wordpress.org/Installing_WordPress_in_Your_Language#Single-Site_Installations">WPLANG</a> in wp-config.php, try to load the correct <a href="https://github.com/trentrichardson/jQuery-Timepicker-Addon/tree/master/localization">localization/jquery-ui-timepicker-LOCALE.js</a> file.<br />
+{% highlight php %}<br />
+function input_admin_enqueue_scripts() { // simplyfied, please see plugin source if you plan to use this<br />
+$js_locale = $this-&gt;get_js_locale(get_locale()); i<br />
+f ( file_exists( $this-&gt;settings['path'] . '/js/localization/jquery-ui-timepicker-' . $js_locale . '.js' ) ) {<br />
+wp_enqueue_script( 'timepicker-localization', $this-&gt;settings['dir'] . 'js/localization/jquery-ui-timepicker-' . $js_locale . '.js', array( 'jquery-ui-timepicker' ), $this-&gt;settings['version'], true );<br />
+} else {<br />
+. . .<br />
+}<br />
+}<br />
+function get_js_locale($locale) {<br />
+$dir_path = $this-&gt;settings['path'] . 'js/localization/'; $exclude_list = array(".", "..");<br />
+$languages = $this-&gt;ps_preg_filter("/jquery-ui-timepicker-(.*?).js/","$1",array_diff(scandir($dir_path), $exclude_list));<br />
+$locale = strtolower(str_replace("_", "-", $locale));<br />
+if (false !== strpos($locale,'-')) {<br />
+$l = explode("-",$locale);<br />
+$pattern = array('/' . $locale . '/','/' . $l[0] . '/', '/' . $l[1] . '/');<br />
+} else {<br />
+$pattern = array('/' . $locale . '/');<br />
+}<br />
+$res = $this-&gt;ps_preg_filter($pattern,"$0",$languages,-1,$count);<br />
+return ($count) ? implode("", $res) : 'en';<br />
+}<br />
+function ps_preg_filter ($pattern, $replace, $subject,$limit = -1, &amp;$count = 0) {<br />
+if (function_exists('preg_filter'))<br />
+return preg_filter($pattern, $replace, $subject,$limit,$count);<br />
+else<br />
+return array_diff(preg_replace($pattern, $replace, $subject,$limit,$count), $subject);<br />
+}<br />
+{% endhighlight %}<br />
+If your language doesn't exist in <a href="https://github.com/trentrichardson/jQuery-Timepicker-Addon/tree/master/localization">localization/jquery-ui-timepicker-LOCALE.js</a>, you have to do the translation your self:</p>
+<ol>
+<li>In acf-date_time_picker/lang, copy acf-date_time_picker.po to acf-date_time_picker-<a href="https://www.gnu.org/software/gettext/manual/html_chapter/gettext_15.html#Language-Codes">languagecode</a>_<a href="https://www.gnu.org/software/gettext/manual/html_chapter/gettext_16.html#Country-Codes">COUNTRYCODE</a>.po e.g: acf-date_time_picker-nb_NO.po</li>
+<li>Edit the file using <a href="https://www.poedit.net/">poedit</a> or its like, and save the .mo file in acf-date_time_picker/lang</li>
+</ol>
+<p><a name="debug"></a></p>
+<h3>Debugging</h3>
+<p>If you suspect that acf-date_time_picker doesn't enqueue the scripts in the right order, install <a href="https://github.com/soderlind/acf-debug-list-enqueued-scripts">acf-debug-list-enqueued-scripts</a> and add the field "ACF DEBUG: List Enqueued Scripts" to your fields. When you open Posts-&gt;Add New, you should get a list like the following: <a href="https://soderlind.no/wp-content/uploads/2012/03/enqueued_scripts1.png"><amp-img layout="responsive" class="aligncenter size-medium wp-image-3563" title="Enqueued Scripts" src="{{ site.baseurl }}/assets/enqueued_scripts-300x852.png" alt="" width="300" height="85" /></a></p>
+<h3>Credit</h3>
+<p>Date and Time Picker field for Advanced Custom Fields uses the <a href="https://trentrichardson.com/examples/timepicker/">jQuery timepicker addon</a> by <a href="https://trentrichardson.com">Trent Richardson</a>. Copyright 2012 Trent Richardson. Dual licensed under the <a href="https://trentrichardson.com/Impromptu/MIT-LICENSE.txt">MIT</a> and <a href="https://trentrichardson.com/Impromptu/GPL-LICENSE.txt">GPL</a></p>

@@ -1,0 +1,35 @@
+---
+layout: post
+title: Resetting the Customizer in your WordPress Theme to a blank slate
+date: 2017-09-26 21:37:33.000000000 +02:00
+type: post
+gist: true
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- customizer
+tags: []
+meta:
+  _edit_last: '1'
+  _yoast_wpseo_content_score: '60'
+  _yoast_wpseo_primary_category: '350'
+  _yoast_wpseo_metadesc: If you are a WordPress theme developer, learn how easily
+    reset the customizer to a clean slate using the Customizer Blank Slate from XWP.
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>Thanks to Weston Ruter at XWP, removing all the default WordPress customizer entries is easy using the <a href="https://make.xwp.co/2016/09/11/resetting-the-customizer-to-a-blank-slate/">Customizer Blank Slate</a> plugin. The only caveat is that it must be loaded as a plugin. So what do you do if you want to use it in a theme? You add Customizer Blank Slate to mu-plugins.</p>
+<blockquote><p>So what do you do if you want to use it in a theme? You add Customizer Blank Slate to mu-plugins.</p></blockquote>
+<p><strong>1)</strong> <a href="https://github.com/xwp/wp-customizer-blank-slate/archive/master.zip">Download Customizer Blank Slate</a>, extract the zip and copy the files to the wp-content/mu-plugins folder.</p>
+<p>Launch the Customizer and you'll see that the default entries are still there. To trigger the Customizer Blank Slate you have to append <em>customizer_blank_slate=on</em> to the customizer.php url.</p>
+<p><strong>2)</strong> You do that by adding the following to your (child)theme functions.php</p>
+<p><amp-gist data-gistid="d24d64cecca2d820fd273decb767b6c7" data-file="functions-add-blank-slate-param.php" layout="fixed-height" height="185"></amp-gist></p>
+<p><strong>3)</strong> When adding your own customizer entries you have to add them using the wp_loaded hook with a priority  set to 9:</p>
+<p><amp-gist data-gistid="d24d64cecca2d820fd273decb767b6c7" data-file="functions-customize_register.php" layout="fixed-height" height="185"></amp-gist></p>
+<p>&nbsp;</p>

@@ -1,0 +1,47 @@
+---
+layout: post
+title: '101: How to fetch a git pull request'
+date: 2016-09-14 23:51:46.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- how-to
+tags: []
+meta:
+  _edit_last: '1'
+  _yoast_wpseo_content_score: '30'
+  _yoast_wpseo_primary_category: '348'
+  _yoast_wpseo_metadesc: You should test pull requests locally before you merge them
+    with your code. It's simple to download it, and I'll show you how.
+  _yoast_wpseo_opengraph-title: '101: How to fetch a git pull request'
+  _yoast_wpseo_opengraph-image: https://soderlind.no/wp-content/uploads/2016/09/git-pull-request-twitter-2.png
+  _yoast_wpseo_twitter-title: '101: How to fetch a git pull request'
+  _yoast_wpseo_twitter-image: https://soderlind.no/wp-content/uploads/2016/09/git-pull-request-twitter-2.png
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>&nbsp;</p>
+<p><amp-img layout="responsive" class="aligncenter size-large wp-image-4901" src="{{ site.baseurl }}/assets/git-pull-request-twitter-1_stnpsq.png" alt="git-pull-request-twitter" width="629" height="314" /></p>
+<p>You should test pull requests locally before you merge them with your code. Fetching a pull request from a remote repository is simple, just do:</p>
+<ol>
+<li>In your local project folder, do: <code>git ls-remote<br />
+</code>You'll get a list like this:<br />
+<code>From https://github.com/soderlind/myproject.git<br />
+15438eca8b7f62f371985823fe6fa8c60d7a3b50 HEAD<br />
+15438eca8b7f62f371985823fe6fa8c60d7a3b50 refs/heads/master<br />
+4abd4e393cc1bc57af576a67a1a56b3dae6ecabd refs/pull/2/head<br />
+e05af83eeebb01e52d8b42f24c570c8290e0b351 refs/pull/4/head</code></li>
+<li>Find the pull request in the list above, and fetch it, eg:<br />
+<code>git fetch origin refs/pull/4/head</code></li>
+<li>Temporarly checkout the pull request: <code>git checkout FETCH_HEAD</code></li>
+<li>Test the code</li>
+<li>Return to the master: <code>git checkout master</code></li>
+<li>If everything is fine, you can now merge the pull request in the remote repository and pull it down to your local project: <code>git pull</code></li>
+</ol>

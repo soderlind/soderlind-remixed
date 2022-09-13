@@ -1,0 +1,115 @@
+---
+layout: post
+title: toksta* chat plugin for BuddyPress
+date: 2009-02-27 00:17:12.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- wp-plugins
+tags:
+- example.org
+- Installation
+- Mac OS X 10.5
+- online status
+- online user
+- online/offline
+- PHP
+- Sennheiser IE 6 Headphone/Headset
+- Sennheiser IE 7 Headphone/Headset
+- Windows Vista
+- Windows XP
+meta:
+  _edit_last: '1'
+  jd_tweet_this: 'yes'
+  wp_jd_clig: https://cli.gs/TBQJ5A
+  tweet_this_url: getnew
+  autometa: ''
+  views: '1459'
+  oc_commit_id: https://soderlind.no/archives/2009/02/27/toksta-chat-plugin-for-buddypress/1298481432
+  _aktt_hash_meta: ''
+  aktt_notify_twitter: 'yes'
+  _syntaxhighlighter_encoded: '1'
+  _yoast_wpseo_linkdex: '0'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p ><script src="https://widgets.clearspring.com/o/46928cc51133af17/49a656f6657fba87/46928cc516a6a652/80bc4c2/-cpid/ba1ceaec9e11c7f5/autostart/false/widget.js" type="text/javascript"></script></p>
+<p>The <strong>toksta* chat plugin for BuddyPress</strong> makes it easy to add toksta* chat and webcam to your BuddyPress site.</p>
+<p ><!--more--><br />
+<strong><span >The plugin doesn't working any more. A new version will be released soon.</span></strong></p>
+<p><strong>Features</strong>:</p>
+<ol>
+<li><strong>Chat widget</strong>, click on an online user to invite to a chat.</li>
+<li><strong>Chatbar</strong>, shows friends online, number of users online, set online status (online/offline) etc.</li>
+<li><strong>Localized</strong> plugin , makes it easy to translate.</li>
+<li><strong>Site admin</strong> control panel.</li>
+</ol>
+<p><strong>Prerequisite</strong>:</p>
+<ol>
+<li><a href="https://buddypress.org/download/">BuddyPress</a> (doh!)</li>
+<li>toksta* account (it's free)</li>
+</ol>
+<p><strong>Tested</strong>: Using my <a href="https://soderlind.no/archives/2008/10/04/my-digital-tool-chest/">Mac</a>, the plugin has been tested with</p>
+<ul>
+<li>IE 6.x on Windows XP</li>
+<li>IE 7.x on Windows Vista</li>
+<li>FireFox 3.x and Safari 3.2.1 on Mac OS X 10.5.6</li>
+</ul>
+<p><strong>Version history</strong> (change log):</p>
+<p>0.93 (Mars 2 2009) [download id="34"] <span >NOTE, does not support BuddyPress r1303+, <span >a version supporting r1303+ will be released soon</span></span></p>
+<ul>
+<li>Bugfix, fixed bug in ps_bp_toksta_my_friends.php (thanks Miguael)</li>
+</ul>
+<p>0.92 (Mars 1 2009) [download id="33"]</p>
+<ul>
+<li>Bugfix, max members to show in chat widget</li>
+<li>Moved "max members to show in chat widget" to  <em>Site Admin-&gt;toksta* configuration</em></li>
+<li>Updated ps_bp_toksta.po</li>
+</ul>
+<p>0.91 (February 27 2009) [download id="32"]</p>
+<ul>
+<li>Updated  the ps_bp_toksta.po file (previous version was empty, thank you Dan for pointing out this)</li>
+</ul>
+<p>0.9 (February 26 2009) [download id="31"]</p>
+<ul>
+<li>First public release</li>
+</ul>
+<p><strong>Installation</strong>:</p>
+<ol>
+<li>Download the latest zip file and extract the files</li>
+<li>Copy ps_bp_toksta.php to wp-content/mu-plugins</li>
+<li>Copy ps_bp_toksta.po to wp-content/languages</li>
+<li>Copy ps_bp_toksta_my_friends.php to your WordPress MU root folder</li>
+</ol>
+<p><strong>Configuration</strong>:</p>
+<ol>
+<li>In the BuddyPress dashboard, open <em>Site Admin -&gt; toksta* configuration</em>
+<ol>
+<li>Enter your Application ID and Application Password. You'll find this in your control panel at toksta* (toksta* chat plugin for BuddyPress will not work until you've added the application id and application password).</li>
+<li>Choose <em>Show Site Admin</em> if you want do show  site admin in Chat</li>
+</ol>
+</li>
+<li>In the BuddyPress dashboard, open <em>Apperance -&gt; Widgets</em> (the Chat widget control is only available to the site admin)
+<ol>
+<li>Add the Chat widget to your BuddyPress theme.</li>
+<li><span >Select Edit and set <em>Maximum number of members to show</em></span> Moved to <em>Site Admin -&gt; toksta* configuration</em></li>
+</ol>
+</li>
+<li>Go to toksta* and configure the chat and chatbar. If you want to display a friends list in the chatbar, on the settings page, select import friends and add <span >https://example.org</span>/ps_bp_toksta_my_friends.php?my_user_id=%userid% (<span >example.org is your BuddyPress site).<br />
+</span><span >Security tips</span>: rename ps_bp_toksta_my_friends.php to "my secret filename".php</li>
+<li>If you need to translate the plugin, in wp-content/languages:
+<ol>
+<li>Copy ps_bp_toksta.po to ps_bp_toksta-<a href="https://www.gnu.org/software/gettext/manual/html_chapter/gettext_16.html#Country-Codes">countrycode</a>_<a href="https://www.gnu.org/software/gettext/manual/html_chapter/gettext_15.html#Language-Codes">LANGUAGECODE</a>.po e.g: ps_bp_toksta-no_NB.po</li>
+<li>Edit the file using <a href="https://www.poedit.net/">poedit</a> or its like, and save the .mo file</li>
+</ol>
+</li>
+</ol>
+<p>If you are using the plugin, it would be nice if you posted the url to your site in a comment to this post.</p>
+<p>btw, the music in the video is by <a href="https://www.ugress.com/">Ugress</a> playing <a href="https://www.last.fm/music/Ugress/_/Redrum">Redrum</a></p>

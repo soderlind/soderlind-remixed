@@ -1,0 +1,109 @@
+---
+layout: post
+title: CloudFlare API and WordPress
+date: 2013-01-07 19:46:21.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+tags: []
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  plugin_url: ''
+  _plugin_url: field_4f17f54164ed8
+  download_url: ''
+  _download_url: field_4f18335371224
+  _yoast_wpseo_focuskw: ''
+  _yoast_wpseo_title: ''
+  _yoast_wpseo_metadesc: ''
+  _yoast_wpseo_meta-robots-noindex: '0'
+  _yoast_wpseo_meta-robots-nofollow: '0'
+  _yoast_wpseo_meta-robots-adv: none
+  _yoast_wpseo_sitemap-include: "-"
+  _yoast_wpseo_sitemap-prio: "-"
+  _yoast_wpseo_canonical: ''
+  _yoast_wpseo_redirect: ''
+  _yoast_wpseo_opengraph-description: ''
+  _yoast_wpseo_google-plus-description: ''
+  _wpas_done_all: '1'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<br />
+<blockquote><p>CloudFlare protects and accelerates any website online. Once your website is a part of the CloudFlare community, its web traffic is routed through our intelligent global network. We automatically optimize the delivery of your web pages so your visitors get the fastest page load times and best performance. We also block threats and limit abusive bots and crawlers from wasting your bandwidth and server resources.<br />
+<cite><a href="https://www.cloudflare.com/overview">www.cloudflare.com</a></cite>
+</p></blockquote>
+<p>You'll find the CloudFlare API at <a href="https://www.cloudflare.com/docs/client-api.html">https://www.cloudflare.com/docs/client-api.html</a></p>
+<p><!--more See how you can access the CloudFlare API from WordPress--></p>
+<p><strong>Syntax</strong>:</p>
+<pre class="lang:php decode:1 ">
+define('CLOUDFLARE_APIEMAIL','emailadr'); // replace emailadr with your api email
+define('CLOUDFLARE_APIKEY','abc'); // replace abc with your api key
+define('APIURL','https://www.cloudflare.com/api_json.html');
+
+$response = wp_remote_request(APIURL, array(
+    'method'    =&gt; 'POST',
+    'timeout'   =&gt; 60,
+    'sslverify' =&gt; false,
+    'body'      =&gt; array(
+         'email'    =&gt; CLOUDFLARE_APIEMAIL
+        ,'tkn'      =&gt; CLOUDFLARE_APIKEY
+        ,'a'        =&gt; 'ACTION' // see https://www.cloudflare.com/docs/client-api.html actions ('a') and parameters
+        ,'param1'   =&gt; ''
+        ,'paramN'   =&gt; ''
+    )
+));
+
+if (is_wp_error( $response )) {
+   echo 'Something went wrong! &lt;br /&gt;';
+} else {
+    $json = json_decode( wp_remote_retrieve_body($response), true); // true = return an assoc array
+    print_r($json);
+}
+</pre>
+<p><strong>Example:</strong></p>
+<pre class="lang:php decode:1 ">
+define('CLOUDFLARE_APIEMAIL','emailadr'); // replace emailadr with your api email
+define('CLOUDFLARE_APIKEY','abc'); // replace abc with your api key
+define('APIURL','https://www.cloudflare.com/api_json.html');
+
+function is_ip_ok($ip) {
+    global $errmsg;
+    $errmsg = '';
+    $response = wp_remote_request(APIURL, array(
+        'method' =&gt; 'POST',
+        'timeout' =&gt; 60,
+        'sslverify' =&gt; false,
+        'body' =&gt;  array(
+             'email' =&gt; CLOUDFLARE_APIEMAIL
+            ,'tkn'   =&gt; CLOUDFLARE_APIKEY
+            ,'a'     =&gt; 'ip_lkup'
+            ,'ip'    =&gt;  $ip
+        )
+    ));
+    if (is_wp_error( $response )) {
+       $errmsg = $response-&gt;get_error_message();
+       return true; // don't block if is_ip_ok fails
+    } else {
+        $json = json_decode( wp_remote_retrieve_body($response), true); // true = return an assoc array
+        if ($json['result'] != 'success') {
+            $errmsg = $json['msg'];
+            return true; // don't block if is_ip_ok fails
+        } else {
+            if ($json['response'][$ip] == &quot;&quot;) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+}
+</pre>

@@ -1,0 +1,79 @@
+---
+layout: post
+title: 'Plugin Customizer: Ad WordPress customizer to a plugin'
+date: 2016-09-28 20:16:29.000000000 +02:00
+type: post
+gist: true
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- customizer
+- general
+- proof of concept
+tags: []
+meta:
+  _edit_last: '1'
+  _oembed_a01af4d39a1b77a298eff9adc62bac96: <blockquote class="twitter-tweet" data-width="550"><p
+    lang="en" dir="ltr">Any idea how I can reset the <a href="https://twitter.com/hashtag/WordPress?src=hash">#WordPress</a>
+    Customizer. i.e. remove existing panels and controls before I add mine ?</p>&mdash;
+    Per Søderlind (@soderlind) <a href="https://twitter.com/soderlind/status/774768125841637380">September
+    11, 2016</a></blockquote><script async src="//platform.twitter.com/widgets.js"
+    charset="utf-8"></script>
+  _oembed_time_a01af4d39a1b77a298eff9adc62bac96: '1475145303'
+  _oembed_86aca8f3a266d42d0baf737a643c72f3: '<blockquote class="twitter-tweet" data-width="550"><p
+    lang="en" dir="ltr"><a href="https://twitter.com/soderlind">@soderlind</a> <a
+    href="https://twitter.com/bjornjohansen">@bjornjohansen</a> <a href="https://twitter.com/tommcfarlin">@tommcfarlin</a>
+    I just did a writeup for what I think may be the most concise way to do it: <a
+    href="https://t.co/2pXoYtEjrZ">https://t.co/2pXoYtEjrZ</a></p>&mdash; Weston Ruter
+    ⚡ (@westonruter) <a href="https://twitter.com/westonruter/status/774819695954309120">September
+    11, 2016</a></blockquote><script async src="//platform.twitter.com/widgets.js"
+    charset="utf-8"></script>'
+  _oembed_time_86aca8f3a266d42d0baf737a643c72f3: '1475145304'
+  _yoast_wpseo_metadesc: Demonstrates how to use the WordPress customizer from a plugin.
+  _yoast_wpseo_content_score: '30'
+  _yoast_wpseo_primary_category: ''
+  _yoast_wpseo_opengraph-image: https://res.cloudinary.com/soderlind/image/upload/v1475094553/plugincustomizer_ocfgzm.png
+  _yoast_wpseo_twitter-image: https://res.cloudinary.com/soderlind/image/upload/v1475094553/plugincustomizer_ocfgzm.png
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p><a href="https://res.cloudinary.com/soderlind/image/upload/v1475011681/plugincustomizer_ibjlhl.gif"><amp-img layout="responsive" class="aligncenter wp-image-4912 size-full" src="{{ site.baseurl }}/assets/plugincustomizer_ocfgzm.png" alt="Plugin Customizer" width="800" height="500" /></a></p>
+<p>tl;dr -  The commented demo plugin is <a href="https://github.com/soderlind/plugin-customizer">available at GitHub</a>.<br />
+<!--more--></p>
+<h2>Introduction</h2>
+<p>I've wanted to add a customizer to my <a href="https://wordpress.org/plugins/read-offline/">Read Offline</a> plugin for a long time, letting the user easily change the PDF and ePub design. As I like to write a <a href="https://soderlind.no/category/demo-plugins/">demo plugin</a> before adding new functionality, here's my take on adding WordPress customizer to a plugin.</p>
+<blockquote><p>Understanding how the customizer works wasn't easy.</p></blockquote>
+<p>Understanding how the customizer works wasn’t easy. I’ve read <a href="https://developer.wordpress.org/themes/advanced-topics/customizer-api/">the documentation</a> and read a lot of source code. After viewing the <a href="https://www.youtube.com/watch?v=7usuZRBsyk8">loopconf presentation</a> Patrick Rauland held last year, I asked him and got an early beta version of the <a href="https://woocommerce.com/products/woocommerce-email-customizer/">WooCommerce Email Customizer plugin</a>. I’ve also followed the work Weston Ruter and XWP have done and have skimmed through <a href="https://github.com/xwp?utf8=%E2%9C%93&amp;query=customizer">their customizer plugins</a>, I’ve also viewed <a href="https://core.trac.wordpress.org/query?status=!closed&amp;component=Customize">tickets</a> and followed the <a href="https://wordpress.slack.com/archives/core-customize">discussions on Slack</a>.</p>
+<p>The thing I found hardest was understanding how to remove the other sections from the customizer, so I asked on Twitter</p>
+<p><amp-twitter width="390" height="330" layout="responsive" data-tweetid="774768125841637380" data-cards="hidden"></amp-twitter></p>
+<p>Fortunately, Weston came to the rescue :)</p>
+<p><amp-twitter width="390" height="330" layout="responsive" data-tweetid="774819695954309120" data-cards="hidden"></amp-twitter></p>
+<h2>The important parts</h2>
+<blockquote><p>Timing is everything.</p></blockquote>
+<p>Timing is everything, and so is understanding when parts of the code is used. WordPress customizer relies on ajax for communication between the controls and the preview, and customizer uses ajax for saving settings.</p>
+<p><a href="https://github.com/soderlind/plugin-customizer/blob/master/class-plugin-customizer-blank-slate.php#L24">“Blank Slate” loads at a priority of 1</a>, so the Plugin Customizer must load after it, but if it’s loaded at the default priority of 10, it will not be available. As shown below, I add the customizer_register  at priority 9.</p>
+<p><amp-gist data-gistid="fb6cc3d38ee4364a9cff0f66d3eb85d5" data-file="customize_register-priority.php" layout="fixed-height" height="185"></amp-gist></p>
+<p><amp-gist data-gistid="fb6cc3d38ee4364a9cff0f66d3eb85d5" data-file="customize_register.php" layout="fixed-height" height="185"></amp-gist></p>
+<p>So, everything looked fine, but I couldn’t save the settings (!!), and the only error message I got was a 500 Server error. I understood that when saving &amp; publishing the customizer settings, admin-ajax.php expects to find the settings, and if I removed the bailout test everything worked fine.</p>
+<p>The problem was that I couldn’t “see” the solution. When I removed the bailout test, Plugin Customizer sections would pop up in the default Appearance -&gt; Customize, and if I added the bailout test, I couldn’t save the settings.</p>
+<p>Now, after the problem is solved, it’s a simple fix (isn't it always). Register the customizer settings before the bailout test and register the customizer sections and controls after the bailout test.</p>
+<p><amp-gist data-gistid="fb6cc3d38ee4364a9cff0f66d3eb85d5" data-file="save_settings.php" layout="fixed-height" height="185"></amp-gist></p>
+<h2>Adding a preview</h2>
+<p>Weston describes how to add a preview in <a href="https://make.xwp.co/2016/07/21/navigating-to-a-url-in-the-customizer-preview-when-a-section-is-expanded/">Navigating to a URL in the Customizer Preview when a Section is Expanded</a>. I’ve extended his code to add a template per section.</p>
+<p><amp-gist data-gistid="fb6cc3d38ee4364a9cff0f66d3eb85d5" data-file="init-previewer-script.php" layout="fixed-height" height="185"></amp-gist></p>
+<p>Loading the template, I tested the hooks <a href="https://developer.wordpress.org/reference/hooks/template_redirect/">template_redirect</a> and <a href="https://developer.wordpress.org/reference/hooks/template_include/">template_include</a>, but I ended up creating a permalink. It fitted well to script above.</p>
+<p><amp-gist data-gistid="fb6cc3d38ee4364a9cff0f66d3eb85d5" data-file="rewrite-rule.php" layout="fixed-height" height="185"></amp-gist></p>
+<p>Like to learn how to create a custom permalink? I’ve written another <a href="https://soderlind.no/wordpress-plugins-and-permalinks-how-to-use-pretty-links-in-your-plugin/">demo plugin</a> that shows you how to do it.</p>
+<h2>Code</h2>
+<p><a href="https://github.com/soderlind/plugin-customizer">The Plugin Customizer demo plugin is available at GitHub</a>. The code is documented. If you find logical flaws, typos etc, <a href="https://github.com/soderlind/plugin-customizer/blob/master/CONTRIBUTING.md">please contribute</a>.</p>
+<h2>Credits</h2>
+<p>I couldn’t, at least not in the near future, have developed this plugin without the help from <a href="https://twitter.com/BFTrick">Patrick Rauland</a> and <a href="https://twitter.com/westonruter">Weston Ruter</a>.</p>
+<p>Btw, any flaws in the plugin are mine.</p>
+<h2></h2>
+<p>&nbsp;</p>

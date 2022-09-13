@@ -1,0 +1,82 @@
+---
+layout: post
+title: Making cbnet Multi Author Comment Notification 1.1.2  WordPress multisite aware
+date: 2012-10-04 00:03:40.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- wp-plugins
+tags: []
+meta:
+  _yoast_wpseo_linkdex: '39'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  plugin_url: ''
+  _plugin_url: field_4f17f54164ed8
+  download_url: ''
+  _download_url: field_4f18335371224
+  _yoast_wpseo_focuskw: multisite, comment, notification,wpmu
+  _yoast_wpseo_title: ''
+  _yoast_wpseo_metadesc: ''
+  _yoast_wpseo_meta-robots-noindex: '0'
+  _yoast_wpseo_meta-robots-nofollow: '0'
+  _yoast_wpseo_meta-robots-adv: none
+  _yoast_wpseo_sitemap-include: "-"
+  _yoast_wpseo_sitemap-prio: "-"
+  _yoast_wpseo_canonical: ''
+  _yoast_wpseo_redirect: ''
+  _yoast_wpseo_opengraph-description: ''
+  _yoast_wpseo_google-plus-description: ''
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p><a href="https://soderlind.no/wp-content/uploads/2012/10/mu-multi-author-notification1.png"><amp-img layout="responsive" class="aligncenter size-medium wp-image-3441" alt="multisite multi author notification" src="{{ site.baseurl }}/assets/mu-multi-author-notification-300x2362.png" width="300" height="236" /></a></p>
+<p><strong>You don't need this fix any more, the <a href="https://wordpress.org/extend/plugins/cbnet-multi-author-comment-notification/">latest version</a> works with multi site.</strong></p>
+<blockquote><p>2.0 WARNING: Old settings will not be retained<br />
+<cite><a href="https://wordpress.org/extend/plugins/cbnet-multi-author-comment-notification/changelog/">Changelog</a></cite></p></blockquote>
+<p>Here's a quick fix (test it before deploying to production) that lets you use the <a href="https://wordpress.org/extend/plugins/cbnet-multi-author-comment-notification/">cbnet Multi Author Comment Notification 1.1.2</a> plugin in a WordPress multisite environment:</p>
+<p><!--more Get the patch--></p>
+<p><strong>Replace</strong>:</p>
+<pre class="lang:php firstline:207 decode:1 ">
+$user_array = array();
+$query = "SELECT ID FROM $wpdb-&gt;users";
+$result = $wpdb-&gt;get_results($query, ARRAY_A);
+foreach ( (array)$result as $key=&gt;$row ) {
+$data = get_userdata($row['ID']);
+$data-&gt;wp_user_level = intval($data-&gt;wp_user_level);
+$userid = $data-&gt;ID;
+$username = $data-&gt;user_login;
+$fullname = $data-&gt;first_name.' '.$data-&gt;last_name;
+$email = $data-&gt;user_email;
+$level = @key($data-&gt;wp_capabilities);
+$user_array[$data-&gt;wp_user_level][] = array($userid, $username, $fullname, $email, $level);
+}
+
+</pre>
+<p><strong>With</strong>:</p>
+<pre class="lang:php firstline:207 light:false decode:1 ">
+$user_array = array();
+$get_users_args = array(
+'blog_id' =&gt; get_current_blog_id()
+);
+$current_blog_base_prefix = (is_multisite()) ? $wpdb-&gt;base_prefix . get_current_blog_id() . '_' : $wpdb-&gt;base_prefix;
+$result = get_users($get_users_args);
+foreach ($result as $row) {
+$data = get_userdata($row-&gt;ID);
+$data-&gt;wp_user_level = intval(get_user_meta($row-&gt;ID, $current_blog_base_prefix . 'user_level',true));
+$userid = $data-&gt;ID;
+$username = $data-&gt;user_login;
+$fullname = $data-&gt;first_name.' '.$data-&gt;last_name;
+$email = $data-&gt;user_email;
+$level = @key(get_user_meta($row-&gt;ID, $current_blog_base_prefix . 'capabilities',true));
+$user_array[$data-&gt;wp_user_level][] = array($userid, $username, $fullname, $email, $level);
+}
+</pre>
+<p>Provided as-is, aka not supported (yet)</p>

@@ -1,0 +1,76 @@
+---
+layout: post
+title: WP-DenyHost
+date: 2008-04-18 02:20:14.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- wp-plugins
+tags: []
+meta:
+  autometa: initial suspect suspect wpdb spam spam spammer count
+  _edit_last: '1'
+  tweet_this_url: getnew
+  tt_tweeted: 'true'
+  _syntaxhighlighter_encoded: '1'
+  views: '548'
+  oc_commit_id: https://soderlind.no/archives/2008/04/18/wp-denyhost/1298481445
+  _aktt_hash_meta: ''
+  aktt_notify_twitter: 'yes'
+  plugin_url: https://wordpress.org/extend/plugins/wp-denyhost/
+  _plugin_url: field_4f17f54164ed8
+  _yoast_wpseo_focuskw: ''
+  _yoast_wpseo_title: ''
+  _yoast_wpseo_metadesc: ''
+  _yoast_wpseo_metakeywords: ''
+  _yoast_wpseo_meta-robots-noindex: '0'
+  _yoast_wpseo_meta-robots-nofollow: '0'
+  _yoast_wpseo_meta-robots-adv: none
+  _yoast_wpseo_sitemap-include: "-"
+  _yoast_wpseo_sitemap-prio: "-"
+  _yoast_wpseo_canonical: ''
+  _yoast_wpseo_redirect: ''
+  _yoast_wpseo_opengraph-description: ''
+  _yoast_wpseo_google-plus-description: ''
+  oc_metadata: ''
+  download_url: https://downloads.wordpress.org/plugin/wp-denyhost.zip
+  _download_url: field_4f18335371224
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>This is a plugin that will block a spammer if he already has been tagged as a spammer. I use it together with the Akismet plugin. Akismet tags the spammer, and wp-denyhost prevents him from adding more comment spam.</p>
+<p>If you have a <a href="https://www.cloudflare.com">CloudFlare</a> account, the plugin can add spammers to the <a href="https://www.cloudflare.com/threat-control">CloudFlare Block list</a></p>
+<p ><a href="https://soderlind.no/archives/2010/02/10/fighting-spam/"><amp-img layout="responsive" class="aligncenter size-medium wp-image-746" title="Fighting spam" alt="" src="{{ site.baseurl }}/assets/soderlind.no-spam-vs-visits-300x171.png" width="300" height="171" /></a></p>
+<p><!--more--></p>
+<h3>Core functionality</h3>
+<p>{% highlight php %}<br />
+define('PS_DENYHOST_THRESHOLD', 3);<br />
+function ps_denyhost() {<br />
+    global $wpdb;</p>
+<p>    $suspect = $this-&gt;get_IP();<br />
+    $count = (int) $wpdb-&gt;get_var("SELECT COUNT(comment_ID) FROM $wpdb-&gt;comments WHERE comment_approved = 'spam' AND comment_author_IP = '$suspect'");</p>
+<p>    if ($count &gt; PS_DENYHOST_THRESHOLD) {<br />
+        exit;<br />
+    }<br />
+}<br />
+add_action('init', 'ps_denyhost');<br />
+{% endhighlight %}</p>
+<p><strong>Download / install: </strong><a href="https://wordpress.org/extend/plugins/wp-denyhost/">https://wordpress.org/extend/plugins/wp-denyhost/</a></p>
+<h3>Changelog </h3>
+<ul>
+<li>1.2.1: added ps_wp_denyhost_admin_init, triggered by the admin_init hook</li>
+<li>1.2.0: Added support for CloudFlare Block list + removed wp deprecated code</li>
+<li>1.1.3: Fixed a minor bug</li>
+<li>1.1.2: Added response 403 Forbidden</li>
+<li>1.1.1: Added languages/wp-denyhost.pot</li>
+<li>1.1.0: Major rewrite. Added option page</li>
+<li>1.0.1: Replaced LIKE (‘%$suspect%’) with = ‘$suspect’ i.e. look for exact match</li>
+<li>1.0.0: Initial release</li>
+</ul>

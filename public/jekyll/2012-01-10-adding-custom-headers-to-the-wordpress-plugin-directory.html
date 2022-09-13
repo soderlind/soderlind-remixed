@@ -1,0 +1,73 @@
+---
+layout: post
+title: Adding custom headers to the WordPress plugin directory
+date: 2012-01-10 22:34:57.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+- wp-plugins
+tags:
+- custom header
+- plugin directory
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: "#wordpress"
+  _edit_last: '1'
+  _yoast_wpseo_focuskw: ''
+  _yoast_wpseo_title: ''
+  _yoast_wpseo_metadesc: ''
+  _yoast_wpseo_metakeywords: ''
+  _yoast_wpseo_meta-robots-noindex: '0'
+  _yoast_wpseo_meta-robots-nofollow: '0'
+  _yoast_wpseo_meta-robots-adv: none
+  _yoast_wpseo_sitemap-include: "-"
+  _yoast_wpseo_sitemap-prio: "-"
+  _yoast_wpseo_canonical: ''
+  _yoast_wpseo_redirect: ''
+  _yoast_wpseo_opengraph-description: ''
+  _yoast_wpseo_google-plus-description: ''
+  oc_metadata: "{\t\tversion:'1.1',\t\ttags: {'custom-header': {\"text\":\"custom
+    header\",\"slug\":\"custom-header\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'plugin-directory': {\"text\":\"plugin directory\",\"slug\":\"plugin-directory\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"}}\t}"
+  aktt_tweeted: '1'
+  oc_commit_id: https://soderlind.no/archives/2012/01/10/adding-custom-headers-to-the-wordpress-plugin-directory/1326227704
+  _syntaxhighlighter_encoded: '1'
+  _msp_fb_likes: '1'
+  _msp_tweets: '3'
+  _msp_google_plus_ones: '0'
+  _msp_total_shares: '4'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p><a href="https://soderlind.no/wp-content/uploads/2012/01/custom-plugin-header.png"><amp-img layout="responsive" src="{{ site.baseurl }}/assets/custom-plugin-header-300x2051.png" alt="" title="Custom plugin header" width="300" height="205" class="aligncenter size-medium wp-image-3125" /></a><br />
+As an experiment, Matt has turned on <a href="https://wpdevel.wordpress.com/2011/12/21/been-giving-a-lot-of-thought-to-how/">custom headers for the plugin directory</a>.</p>
+<p><!--more Here is a how-to--><br />
+<strong>How to add a custom header:</strong></p>
+<ol>
+<li>Make a 772×250 pixel jpeg or png</li>
+<li>In the plugin root directory, create a new directory "assets":<br />
+[shell light="true"]mkdir assets[/shell]<br />
+After you've created the assets directory, you should have the following directories in the plugin root:<br />
+[shell highlight="3"]<br />
+$ ls -l<br />
+total 0<br />
+drwxr-xr-x  4 per  _www  136 Jan 11 22:19 assets<br />
+drwxr-xr-x  3 per  _www  102 Jan 11 19:57 branches<br />
+drwxr-xr-x  3 per  _www  102 Jan 11 19:57 tags<br />
+drwxr-xr-x  5 per  _www  170 Jan 11 19:59 trunk<br />
+[/shell]
+</li>
+<li>Copy the 772×250 pixel jpeg or png to the assets directory:<br />
+[shell light="true"]cp my-custom-plugin-header.png assets/banner-772x250.png[/shell]</li>
+<li>Add the assets directory to svn: [shell light="true"]svn add assets[/shell]</li>
+<li>Check it in: [shell light="true"]svn ci -m 'Adding custom header'[/shell]</li>
+</ol>
+<p>I've added a custom header to four of my plugins, please have a look: <a href="https://wordpress.org/extend/plugins/lorem-shortcode/">lorem shortcode</a>, <a href="https://wordpress.org/extend/plugins/webputty/">WebPutty Helper</a>, <a href="https://wordpress.org/extend/plugins/wp-denyhost/">WP-DenyHost</a> and <a href="https://wordpress.org/extend/plugins/remove-comments-are-closed/">Remove "Comments are closed"</a>.</p>

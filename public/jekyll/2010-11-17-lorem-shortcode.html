@@ -1,0 +1,91 @@
+---
+layout: post
+title: "[lorem] shortcode"
+date: 2010-11-17 00:47:19.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- wp-plugins
+tags:
+- lorem ipsum
+- wordpress shortcode
+meta:
+  aktt_notify_twitter: 'yes'
+  tweet_this_url: getnew
+  _edit_last: '1'
+  oc_metadata: "{\t\tversion:'1.1',\t\ttags: {'wordpress-shortcode': {\"text\":\"wordpress
+    shortcode\",\"slug\":\"wordpress-shortcode\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'lorem-ipsum': {\"text\":\"lorem ipsum\",\"slug\":\"lorem-ipsum\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"}}\t}"
+  _syntaxhighlighter_encoded: '1'
+  aktt_tweeted: '1'
+  _wp_old_slug: ''
+  oc_commit_id: https://soderlind.no/archives/2010/11/17/lorem-shortcode/1289947640
+  _aktt_hash_meta: ''
+  views: '821'
+  _plugin_url: field_4f17f54164ed8
+  plugin_url: https://wordpress.org/extend/plugins/lorem-shortcode/
+  _yoast_wpseo_focuskw: ''
+  _yoast_wpseo_title: ''
+  _yoast_wpseo_metadesc: ''
+  _yoast_wpseo_metakeywords: ''
+  _yoast_wpseo_meta-robots-noindex: '0'
+  _yoast_wpseo_meta-robots-nofollow: '0'
+  _yoast_wpseo_meta-robots-adv: none
+  _yoast_wpseo_sitemap-include: "-"
+  _yoast_wpseo_sitemap-prio: "-"
+  _yoast_wpseo_canonical: ''
+  _yoast_wpseo_redirect: ''
+  _yoast_wpseo_opengraph-description: ''
+  _yoast_wpseo_google-plus-description: ''
+  download_url: https://downloads.wordpress.org/plugin/lorem-shortcode.zip
+  _download_url: field_4f18335371224
+  _msp_fb_likes: '0'
+  _msp_tweets: '1'
+  _msp_google_plus_ones: '1'
+  _msp_total_shares: '2'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p ><a href="https://soderlind.no/wp-content/uploads/2010/11/screenshot-01.png"><amp-img layout="responsive" alt="" class="aligncenter size-medium wp-image-1246" src="{{ site.baseurl }}/assets/screenshot-1-300x2251.png"  title="lorem shortcode" /></a></p>
+<p >Images: <a href="https://soderlind.no/wp-content/uploads/2010/11/screenshot-01.png">Shortcode</a>, <a href="https://soderlind.no/wp-content/uploads/2010/11/screenshot-11.png">Nested shortcode</a>, <a href="https://soderlind.no/wp-content/uploads/2010/11/screenshot-21.png">Example</a>, <a href="https://soderlind.no/wp-content/uploads/2010/11/screenshot-31.png">Lightbox</a></p>
+<p>I needed dummy text for a blog I&#39;m working on, and since I like to code I wrote a simple plugin I&#39;d like to share, you&#39;ll find it &nbsp;in the <a href="https://wordpress.org/extend/plugins/lorem-shortcode/">WordPress Plugin Directory</a></p>
+<p><!--more--></p>
+<p>&nbsp;</p>
+<p ><strong>Plugin</strong>: You&rsquo;ll find the plugin at&nbsp;<a href="https://wordpress.org/extend/plugins/lorem-shortcode/" >https://wordpress.org/extend/plugins/lorem-shortcode/</a></p>
+<p ><strong>Installation</strong>:&nbsp;<a href="https://downloads.wordpress.org/plugin/delicious-tagroll-shortcode.zip" >Download the plugin</a>&nbsp;and save it in wp-content/plugins (remember to activate in Plugins) or wp-content/mu-plugins or install it from inside WordPress in Plugins-&gt;Add New (search for &ldquo;lorem shortcode&rdquo;)</p>
+<p ><strong>Usage</strong>:&nbsp;<a href="https://soderlind.no/wp-content/uploads/2010/11/screenshot-01.png" rel="lightbox[584]"  title="Adding the shortcode to a Page">Add the shortcode to a Page</a>. The plugin contains two shortcodes, [lorem] and [loremimage], the [loremimage] shortcode <a href="https://soderlind.no/wp-content/uploads/2010/11/screenshot-11.png"><strong>can</strong> be nested</a> in the [lorem] shortcode. Supported parameters, all are optional:</p>
+<p ><strong>[lorem]</strong></p>
+<p>&nbsp;</p>
+<ul>
+<li >p=&quot;3&quot; Number of paragraphs. Default is 5</li>
+<li >l=&quot;7&quot;, Number of lines per paragraph. Default is 3</li>
+<li >align=&quot;right&quot; This tells how you&#39;d like to allign a nested shortcode. There are two alternatives, left or right. Default is right</li>
+</ul>
+<p ><strong>[loremimage]</strong></p>
+<p >The loremimage is created using&nbsp;&nbsp;<a href="https://dummyimage.com/ ">https://dummyimage.com/</a>, and hence the shortcode supports the same parameters as&nbsp;&nbsp;<a href="https://dummyimage.com/ ">https://dummyimage.com/</a></p>
+<ul>
+<li >size=&quot;400x400&quot; Image size. Default is 300x200.</li>
+<li >text=&quot;lorem ipsum&quot; Default is empty.</li>
+<li >fgcolor=&quot;fff&quot; Image foreground color. Default is &quot;ccc&quot;.</li>
+<li >bgcolor=&quot;ccc&quot;&nbsp;Image foreground color. Default is&nbsp;&nbsp;&quot;eee&quot;.</li>
+<li >format=&quot;png&quot;, Image format. Default is &quot;png&quot;.&nbsp;</li>
+</ul>
+<p >I&#39;ve added two additional parameters/values</p>
+<ul>
+<li >size=&quot;thumb&quot; This will create a thumbnail, size based on your WordPress image settings. The thumb links to another image and support Lightbox et al (has attribute rel=&quot;lightbox[lorem]&quot;).</li>
+<li >style=&quot;padding:5px;&quot; Default is empty</li>
+</ul>
+<p><strong>Changelog</strong>:</p>
+<ul>
+<li>1.1&nbsp;Added support for embedded shortcodes and added the [loremimage] short code. The [loremimage] can be used by itself. The image is created using <a href="https://dummyimage.com/">https://dummyimage.com/</a></li>
+<li>1.0 Initial release</li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

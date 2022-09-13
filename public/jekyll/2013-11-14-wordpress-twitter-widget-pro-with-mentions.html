@@ -1,0 +1,44 @@
+---
+layout: post
+title: WordPress Twitter Widget Pro with mentions
+date: 2013-11-14 17:54:16.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- wp-plugins
+tags: []
+meta:
+  _edit_last: '1'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p><amp-img layout="responsive" class="aligncenter size-medium wp-image-4318" alt="mentions_fr70c4" src="{{ site.baseurl }}/assets/mentions_fr70c4.png" width="300" height="267" /></p>
+<p>Added support for <a href="https://dev.twitter.com/docs/api/1.1/get/statuses/mentions_timeline">GET statuses/mentions_timeline</a>. The user can select, in the widget and shortcode, if he wants to display mentions or not (default = false). Mentions are merged into <a href="https://dev.twitter.com/docs/api/1.1/get/statuses/user_timeline">GET statuses/user_timeline</a> and the merged timeline is sorted on created_at</p>
+<p><!--more See the changes and get the code--><br />
+Here's some of changes<br />
+[diff]<br />
+-        $response = $this-&gt;_wp_twitter_oauth-&gt;send_authed_request( 'statuses/user_timeline', 'GET', $parameters );<br />
+-        if ( ! is_wp_error( $response ) )<br />
+-          return $response;<br />
++        $user_timeline = $this-&gt;_wp_twitter_oauth-&gt;send_authed_request( 'statuses/user_timeline', 'GET', $parameters );<br />
++        if ( 'true' == $widgetOptions['showmentions'] ) {<br />
++          $mentions_timeline = $this-&gt;_wp_twitter_oauth-&gt;send_authed_request( 'statuses/mentions_timeline', 'GET', $parameters);<br />
++          if ( ! is_wp_error( $user_timeline ) &amp;&amp; ! is_wp_error( $mentions_timeline )) {<br />
++            $merged_timeline = array_merge_recursive($user_timeline,$mentions_timeline);<br />
++            if (usort($merged_timeline,array($this,"_created_at_compare"))) {<br />
++              return $merged_timeline;<br />
++            }<br />
++          }<br />
++        } else if ( ! is_wp_error( $user_timeline ) ) {<br />
++            return $user_timeline;<br />
++        }<br />
+[/diff]</p>
+<p>You'll find my fork at <a href="https://github.com/soderlind/twitter-widget-pro">https://github.com/soderlind/twitter-widget-pro</a><br />
+The pull request is at <a href="https://github.com/OpenRange/twitter-widget-pro/pull/11">https://github.com/OpenRange/twitter-widget-pro/pull/11</a></p>

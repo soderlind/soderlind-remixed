@@ -1,0 +1,202 @@
+---
+layout: post
+title: WordPress plugins and permalinks, how to use pretty links in your plugin
+redirect_from:
+- /wordpress-plugins-and-permalinks-how-to
+date: 2012-11-01 02:12:04.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- how-to
+- wp-plugins
+tags:
+- flush_rewrite_rules
+- generate_rewrite_rules
+- parse_request
+- permalink_structure
+- query_vars
+- wp_rewrite
+meta:
+  _yoast_wpseo_linkdex: '59'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  plugin_url: https://wordpress.org/extend/plugins/my-permalink-demo/
+  _plugin_url: field_4f17f54164ed8
+  download_url: https://downloads.wordpress.org/plugin/my-permalink-demo.zip
+  _download_url: field_4f18335371224
+  _yoast_wpseo_focuskw: generate_rewrite_rules example
+  _yoast_wpseo_metadesc: My Permalink Demo, a commented WordPress plugin that demonstrates
+    how to add a custom permalink to your plugin.
+  _yoast_wpseo_meta-robots-adv: none
+  _yoast_wpseo_sitemap-include: "-"
+  _yoast_wpseo_sitemap-prio: "-"
+  _yoast_wpseo_redirect: ''
+  _yoast_wpseo_google-plus-description: ''
+  _yoast_wpseo_focuskw_text_input: generate_rewrite_rules example
+  _yoast_wpseo_content_score: '30'
+  _yoast_wpseo_primary_category: '348'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>I'm working on a plugin, <a href="https://soderlind.no/archives/2012/10/01/read-offline/">Read Offline</a>, and one of the wishes was for url friendly links. After intensive googling, here's how I did it:</p>
+<p><!--more View the demo plugin code --></p>
+<p><strong>"My Permalink Demo" plugin:</strong></p>
+<p>{% highlight php %}<br />
+&lt;?php<br />
+/*<br />
+Plugin Name: My Permalink Demo<br />
+Plugin URI: https://soderlind.no/archives/2012/11/01/wordpress-plugins-and-permalinks-how-to-use-pretty-links-in-your-plugin/<br />
+Description: Demo plugin to show how to implement your custom permalink for your plugin. To test, add the [mypermalink] or [mypermalink val="ipsum"] shortcode to a page or post.<br />
+Version: 1.0.1<br />
+Author: Per Soderlind<br />
+Author URI: https://soderlind.no/<br />
+*/</p>
+<p>if (!class_exists('my_permalink')) {<br />
+class my_permalink {</p>
+<p>function __construct(){<br />
+// demo shortcode<br />
+add_shortcode('mypermalink', array(&amp;$this,'my_permalink_demo_shortcode'));</p>
+<p>// permalink hooks:<br />
+add_filter('generate_rewrite_rules', array(&amp;$this,'my_permalink_rewrite_rule'));<br />
+add_filter('query_vars', array(&amp;$this,'my_permalink_query_vars'));<br />
+add_filter('admin_init', array(&amp;$this, 'my_permalink_flush_rewrite_rules'));<br />
+add_action("parse_request", array(&amp;$this,"my_permalink_parse_request"));<br />
+}</p>
+<p>/**************************************************************************<br />
+* Demo shortcode<br />
+* A simple shortcode used to demonstrate the plugin.<br />
+*<br />
+* @see https://codex.wordpress.org/Shortcode_API<br />
+* @param array $atts shortcode parameters<br />
+* @return string URL to demonstrate custom permalink<br />
+**************************************************************************/<br />
+function my_permalink_demo_shortcode($atts) {<br />
+extract(shortcode_atts(array(<br />
+// default values<br />
+'val' =&gt; 'lorem'<br />
+), $atts));<br />
+return sprintf('&lt;a href="%s"&gt;My permalink&lt;/a&gt;',$this-&gt;my_permalink_url($val));<br />
+}</p>
+<p>/**************************************************************************<br />
+* Create your URL<br />
+* If the blog has a permalink structure, a permalink is returned. Otherwise<br />
+* a standard URL with param=val.<br />
+*<br />
+* @param sting $val Parameter to custom url<br />
+* @return string URL<br />
+**************************************************************************/<br />
+function my_permalink_url($val) {<br />
+if ( get_option('permalink_structure')) { // check if the blog has a permalink structure<br />
+return sprintf("%s/my-permalink/%s",home_url(),$val);<br />
+} else {<br />
+return sprintf("%s/index.php?my_permalink_variable_01=%s",home_url(),$val);<br />
+}<br />
+}</p>
+<p>/**************************************************************************<br />
+* Add your rewrite rule.<br />
+* The rewrite rules array is an associative array with permalink URLs as regular<br />
+* expressions (regex) keys, and the corresponding non-permalink-style URLs as values<br />
+* For the rule to take effect, flush the rewrite cache,<br />
+* either by re-saving permalinks in Settings-&gt;Permalinks,<br />
+* or running the my_permalink_flush_rewrite_rules() method below.<br />
+*<br />
+* @see https://codex.wordpress.org/Custom_Queries#Permalinks_for_Custom_Archives<br />
+* @param object $wp_rewrite<br />
+* @return array New permalink structure<br />
+**************************************************************************/<br />
+function my_permalink_rewrite_rule( $wp_rewrite ) {<br />
+$new_rules = array(<br />
+'my-permalink/(.*)$' =&gt; sprintf("index.php?my_permalink_variable_01=%s",$wp_rewrite-&gt;preg_index(1))<br />
+/*<br />
+// a more complex permalink:<br />
+'my-permalink/([^/]+)/([^.]+).html$' =&gt; sprintf("index.php?my_permalink_variable_01=%s&amp;my_permalink_variable_02=%s",$wp_rewrite-&gt;preg_index(1),$wp_rewrite-&gt;preg_index(2))<br />
+*/<br />
+);</p>
+<p>$wp_rewrite-&gt;rules = $new_rules + $wp_rewrite-&gt;rules;<br />
+return $wp_rewrite-&gt;rules;<br />
+}</p>
+<p>/**************************************************************************<br />
+* Add your custom query variables.<br />
+* To make sure that our parameter value(s) gets saved,when WordPress parse the URL,<br />
+* we have to add our variable(s) to the list of query variables WordPress<br />
+* understands (query_vars filter)<br />
+*<br />
+* @see https://codex.wordpress.org/Custom_Queries<br />
+* @param array $query_vars<br />
+* @return array $query_vars with custom query variables<br />
+**************************************************************************/<br />
+function my_permalink_query_vars( $query_vars ) {<br />
+$query_vars[] = 'my_permalink_variable_01';<br />
+/*<br />
+// need more variables?:<br />
+$query_vars[] = 'my_permalink_variable_02';<br />
+$query_vars[] = 'my_permalink_variable_03';<br />
+*/<br />
+return $query_vars;<br />
+}</p>
+<p>/**************************************************************************<br />
+* Parses a URL into a query specification<br />
+* This is where you should add your code.<br />
+*<br />
+* @see https://codex.wordpress.org/Query_Overview<br />
+* @param array $atts shortcode parameters<br />
+* @return string URL to demonstrate custom permalink<br />
+**************************************************************************/<br />
+function my_permalink_parse_request($wp_query) {<br />
+if (isset($wp_query-&gt;query_vars['my_permalink_variable_01'])) { // same as the first custom variable in my_permalink_query_vars( $query_vars )<br />
+// add your code here, code below is for this demo<br />
+printf("&lt;pre&gt;%s&lt;/pre&gt;",print_r($wp_query-&gt;query_vars,true));<br />
+exit(0);<br />
+}<br />
+}</p>
+<p>/**************************************************************************<br />
+* Flushes the permalink structure.<br />
+* flush_rules is an extremely costly function in terms of performance, and<br />
+* should only be run when changing the rule.<br />
+*<br />
+* @see https://codex.wordpress.org/Rewrite_API/flush_rules<br />
+**************************************************************************/<br />
+function my_permalink_flush_rewrite_rules() {<br />
+$rules = $GLOBALS['wp_rewrite']-&gt;wp_rewrite_rules();<br />
+if ( ! isset( $rules['my-permalink/(.*)$'] ) ) { // must be the same rule as in my_permalink_rewrite_rule($wp_rewrite)<br />
+global $wp_rewrite;<br />
+$wp_rewrite-&gt;flush_rules();<br />
+}<br />
+}<br />
+} //End Class<br />
+} //End if class exists statement</p>
+<p>if (class_exists('my_permalink')) {<br />
+$my_permalink_var = new my_permalink();<br />
+}<br />
+?&gt;<br />
+{% endhighlight %}</p>
+<p><strong>How to test the "</strong><strong>My Permalink Demo" plugin</strong></p>
+<ul>
+<li>Save the code above as wp-content/plugins/ps_my_permalink.php, or <a href="https://wordpress.org/plugins/my-permalink-demo/">get the plugin from WordPress.org</a></li>
+<li>Activate the "My Permalink Demo" plugin</li>
+<li>add the <code>[mypermalink]</code> or <code>[mypermalink val="ipsum"]</code> shortcode to a page or post</li>
+</ul>
+<p><strong>Tools</strong></p>
+<ul>
+<li>Debugging permalink errors is hard, I highly recommend <a href="https://wordpress.org/extend/plugins/monkeyman-rewrite-analyzer/">Rewrite Analyzer</a> (it helped me).</li>
+</ul>
+<p><strong>Changelog</strong></p>
+<p>1.0.2</p>
+<ul>
+<li>Thanks to <a href="https://soderlind.no/read-offline/comment-page-1/#comment-209996">Paul</a>, the plugin now only flushes the rewrite rules when needed.</li>
+</ul>
+<p>1.0.1</p>
+<ul>
+<li>Fixed a bug in my_permalink_url() that gave 404 for blogs in a subdirectory</li>
+</ul>
+<p>1.0.0</p>
+<ul>
+<li>Initial release</li>
+</ul>

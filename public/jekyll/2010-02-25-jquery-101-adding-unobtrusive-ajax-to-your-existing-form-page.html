@@ -1,0 +1,109 @@
+---
+layout: post
+title: 'jQuery 101: Adding unobtrusive ajax to your existing form page'
+date: 2010-02-25 19:50:48.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+tags:
+- PHP
+meta:
+  autometa: form isajax isajax submit input result form1 jquery
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  tt_auto_tweet: 'true'
+  tt_auto_tweet_text: 'New blog post: [TITLE] [URL]'
+  tweet_this_url: getnew
+  tt_tweeted: 'true'
+  views: '408'
+  oc_commit_id: https://soderlind.no/archives/2010/02/25/jquery-101-adding-unobtrusive-ajax-to-your-existing-form-page/1298481389
+  aktt_tweeted: '1'
+  _aktt_hash_meta: ''
+  aktt_notify_twitter: 'yes'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>Using <a href="https://jquery.com/">jQuery</a> and the <a href="https://jquery.malsup.com/form/">form</a> and <a href="https://docs.jquery.com/Plugins/Validation">validate</a> plugins, it is simple to add  <a href="https://en.wikipedia.org/wiki/Unobtrusive_JavaScript">unobtrusive</a> ajax to your existing form page</p>
+<p><strong>1, Modify your existing form page</strong></p>
+<ol>
+<li>Add <code>&lt;input type="hidden" name="isAjax" id="isAjax" value="0" /&gt;</code> to your form. This field will tell the processing script, process_input.php in my example, if the values in the form were submitted using ajax or as an ordinary form submit, defaulting to isAjax = 0 (false).</li>
+<li>Add <code>class="required"</code> to the fields that requires input</li>
+<li>Add the <code>&lt;div id="result"&gt;&lt;/div&gt;</code> where you want the ajax output</li>
+</ol>
+<p>[sourcecode language="html"]<br />
+&lt;form id=&quot;form1&quot; name=&quot;form1&quot; method=&quot;post&quot; action=&quot;process_input.php&quot;&gt;<br />
+	&lt;input type=&quot;hidden&quot; name=&quot;isAjax&quot; id=&quot;isAjax&quot; value=&quot;0&quot; /&gt;<br />
+	Name: &lt;input type=&quot;text&quot; name=&quot;name&quot; class=&quot;required&quot; id=&quot;name&quot; value=&quot;&quot; /&gt; &lt;br /&gt;<br />
+	&lt;input type=&quot;submit&quot; name=&quot;submit&quot; id=&quot;submit&quot; value=&quot;submit&quot; /&gt;<br />
+&lt;/form&gt;<br />
+&lt;div id=&quot;result&quot;&gt;&lt;/div&gt;<br />
+[/sourcecode]<br />
+<!--more--><br />
+<strong>2, update your process_input.php code</strong></p>
+<p>The process_input.php, uses the value in isAjax to decide how output is displayed</p>
+<p>[sourcecode language="php" htmlscript="false"]<br />
+&lt;?php<br />
+if ($_POST['isAjax']) {<br />
+	// out will be return, using ajax, to the calling form page<br />
+	echo &quot;Hello &quot; . $_POST['name'];<br />
+} else {<br />
+	// no javascript, this page will do the output<br />
+	echo &quot;&lt;h1&gt;Welcome&lt;/h1&gt;&quot;;<br />
+	echo $_POST['name'];<br />
+}<br />
+?&gt;<br />
+[/sourcecode]</p>
+<p><strong>3, Add the jQuery code</strong></p>
+<p>[sourcecode language="javascript"]<br />
+&lt;script type=&quot;text/javascript&quot; src=&quot;https://ajax.microsoft.com/ajax/jquery/jquery-1.4.2.js&quot;&gt;&lt;/script&gt;<br />
+&lt;script type=&quot;text/javascript&quot; src=&quot;https://github.com/malsup/form/raw/master/jquery.form.js?v2.38&quot;&gt;&lt;/script&gt;<br />
+&lt;script type=&quot;text/javascript&quot; src=&quot;https://ajax.microsoft.com/ajax/jquery.validate/1.6/jquery.validate.min.js&quot;&gt;&lt;/script&gt;</p>
+<p>&lt;script type=&quot;text/javascript&quot;&gt;<br />
+jQuery(document).ready(function(){        // wait until the page is loaded before executing the jQuery code<br />
+    var v = $(&quot;#form1&quot;).validate({        // enable form validation<br />
+        submitHandler: function(form) {<br />
+            $(&quot;#isAjax&quot;).val(1),          // set the hidden input isAjax to 1 (true)<br />
+                $(form).ajaxSubmit({      // submit the form using ajax<br />
+                    target: &quot;#result&quot;     // put output from process_input.php into &lt;div id=&quot;result&quot;&gt;&lt;/div&gt;<br />
+                });<br />
+        }<br />
+    });<br />
+});<br />
+&lt;/script&gt;<br />
+[/sourcecode]</p>
+<p><strong>Here's the complete form page</strong></p>
+<p>[sourcecode language="javascript"]<br />
+&lt;head&gt;<br />
+&lt;script type=&quot;text/javascript&quot; src=&quot;https://ajax.microsoft.com/ajax/jquery/jquery-1.4.2.js&quot;&gt;&lt;/script&gt;<br />
+&lt;script type=&quot;text/javascript&quot; src=&quot;https://github.com/malsup/form/raw/master/jquery.form.js?v2.38&quot;&gt;&lt;/script&gt;<br />
+&lt;script type=&quot;text/javascript&quot; src=&quot;https://ajax.microsoft.com/ajax/jquery.validate/1.6/jquery.validate.min.js&quot;&gt;&lt;/script&gt;</p>
+<p>&lt;script type=&quot;text/javascript&quot;&gt;<br />
+jQuery(document).ready(function(){<br />
+	var v = $(&quot;#form1&quot;).validate({<br />
+		submitHandler: function(form) {<br />
+			$(&quot;#isAjax&quot;).val(1),<br />
+			$(form).ajaxSubmit({<br />
+				target: &quot;#result&quot;<br />
+			});<br />
+		}<br />
+	});<br />
+});<br />
+&lt;/script&gt;<br />
+&lt;/head&gt;<br />
+&lt;body&gt;<br />
+&lt;form id=&quot;form1&quot; name=&quot;form1&quot; method=&quot;post&quot; action=&quot;process_input.php&quot;&gt;<br />
+	&lt;input type=&quot;hidden&quot; name=&quot;isAjax&quot; id=&quot;isAjax&quot; value=&quot;0&quot; /&gt;<br />
+	Name: &lt;input type=&quot;text&quot; name=&quot;name&quot; class=&quot;required&quot; id=&quot;name&quot; value=&quot;&quot; /&gt; &lt;br /&gt;<br />
+	&lt;input type=&quot;submit&quot; name=&quot;submit&quot; id=&quot;submit&quot; value=&quot;submit&quot; /&gt;<br />
+&lt;/form&gt;<br />
+&lt;div id=&quot;result&quot;&gt;&lt;/div&gt;<br />
+&lt;/body&gt;<br />
+[/sourcecode]</p>

@@ -1,0 +1,95 @@
+---
+layout: post
+title: 'TablePress Extension: Chartist'
+date: 2014-10-09 05:32:46.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- wp-plugins
+tags: []
+meta:
+  _edit_last: '1'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>[gallery link="file" ids="4467,4468,4469,4470,4471,4472,4484,4494,4495"]</p>
+<p>&nbsp;</p>
+<p>Using <a href="https://gionkunz.github.io/chartist-js/">Chartist.js</a>, this <a href="https://tablepress.org/">TablePress</a> extension creates a responsive chart based on the data in a TablePress table.</p>
+<p><!--more Usage--></p>
+<h2><a class="anchor" href="https://github.com/soderlind/tablepress_chartist#usage" name="user-content-usage"></a>Usage</h2>
+<p>Add the Shortcode <strong><code>[table-chart id=123 /]</code></strong> to a post or page to create a chart from the TablePress table 123.</p>
+<p><strong>Optional parameters</strong></p>
+<ul class="task-list">
+<li>Show/hide chart line: <code>showline=true</code> (default: true)</li>
+<li>Show/hide show chart area: <code>showarea=false</code> (default: false)</li>
+<li>Set chart y low: <code>low=0</code> (default: table low)</li>
+<li>Set chart y high: <code>high=10</code> (default: table high)</li>
+<li>Enable/disable smooth line: <code>linesmooth=true</code> (default: true)</li>
+<li>Enable/disable line points: <code>showpoint=true</code> (default: true)</li>
+<li>Set chart aspect ratio: <code>aspect_ratio=3:4</code> (default: 3:4) Alternatives: 1, 15:16, 8:9, 5:6, 4:5, 3:4, 2:3, 5:8, 1:1.618, 3:5, 9:16, 8:15, 1:2, 2:5, 3:8, 1:3, or 1:4</li>
+<li>Select chart type: <code>chart=bar</code> (default: line) Alternatives: line, bar, pie or percent. Pie or percent will only use the first datarow. Percent will ignore the table head row.</li>
+</ul>
+<p>If the "Table Head Row" option is enabled for the table, the Extension will use the head row data for the chart labels. The other rows will be shown as lines or bars. Pie or percent charts will only use the first data row. Percent charts will ignore the header row..</p>
+<h2>CSS customizations</h2>
+<p>If you'd like to overide <a href="https://gionkunz.github.io/chartist-js/getting-started.html#the-sass-way">the default style</a>, you can add a <code>tablepress-chartist-custom.css</code> in <code>wp-content</code> directory. It will be loaded after the Extension's default CSS file <code>libdist/chartist.min.css</code>.</p>
+<h3>Example</h3>
+<pre class="lang:css decode:true">/**
+ * SVG Shape CSS properties: https://tutorials.jenkov.com/svg/svg-and-css.html#shape-css-properties
+ */
+
+/* First line / bar is .ct-series-a, next is .ct-series-b etc. */
+.ct-chart .ct-series.ct-series-a .ct-bar,
+.ct-chart .ct-series.ct-series-a .ct-line,
+.ct-chart .ct-series.ct-series-a .ct-point  {
+    stroke: #073DA0;
+}
+
+.ct-series .ct-line, .ct-chart .ct-bar {
+    fill: none;
+    stroke-width: 10px;
+}
+
+.ct-chart .ct-point {
+    stroke-width: 10px;
+    stroke-linecap: round;
+}
+</pre>
+<h2>Download</h2>
+<ul>
+<li>TablePress Extension: Chartist is available from the <a href="https://wordpress.org/plugins/tablepress-chartist/">WordPress plugin directory</a></li>
+<li>It's also available at <a href="https://github.com/soderlind/tablepress_chartist">GitHub</a></li>
+</ul>
+<h2><a class="anchor" href="https://github.com/soderlind/tablepress_chartist#installation" name="user-content-installation"></a>Installation</h2>
+<p><strong>Prerequisite (install first):</strong> The <a href="https://tablepress.org/">TablePress</a> plugin</p>
+<ol class="task-list">
+<li>In <em>Plugins-&gt;Add New</em>, search for <em>tablepress chartist</em></li>
+<li>Click <em>Install Now</em></li>
+<li>When the plugin is installed, activate it.</li>
+</ol>
+<h2>Changelog</h2>
+<ul class="task-list">
+<li>0.6 Switch to [table-chart] Shortcode.</li>
+<li>0.5 <strong>Breaking change</strong>: Simplified optional parameters (removed prefix `chartist_`), new optional parameters are: showline, showarea, low, high, linesmooth, showpoint and aspect_ratio. See examples in <a href="https://wordpress.org/plugins/tablepress-chartist/screenshots/">screenshots</a>.<br />
+Added support for `chart=pie` and `chart=percent`</li>
+<li>0.4 Added support for bar chart: <code>chartist_chart=bar</code></li>
+<li>0.3 Added support for CSS customizations.</li>
+<li>0.2 Added more optional parameters.</li>
+<li>0.1 Initial release (i.e. an early beta).</li>
+</ul>
+<h2><a class="anchor" href="https://github.com/soderlind/tablepress_chartist#credits" name="user-content-credits"></a>Credits</h2>
+<ul class="task-list">
+<li>Gion Kunz for creating <a href="https://gionkunz.github.io/chartist-js/">Chartist.js</a></li>
+<li>Tobias Bäthge for creating <a href="https://tablepress.org/">TablePress</a></li>
+</ul>
+<h2><a class="anchor" href="https://github.com/soderlind/tablepress_chartist#copyright-and-license" name="user-content-copyright-and-license"></a>Copyright and License</h2>
+<p>TablePress Extension: Chartist is copyright 2014 Per Soderlind</p>
+<p>TablePress Extension: Chartist is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.</p>
+<p>TablePress Extension: Chartist is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU Lesser General Public License along with 23 Video content provider for EPiServer. If not, see <a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.</p>

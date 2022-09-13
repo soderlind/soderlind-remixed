@@ -1,0 +1,51 @@
+---
+layout: post
+title: On your Mac, use Larvel Valet for local WordPress and PHP development
+date: 2016-05-09 14:00:34.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+tags: []
+meta:
+  _oembed_27a90ec0d090600608204261d224f0f5: "{{unknown}}"
+  _edit_last: '1'
+  saved_flag: '1'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>[caption id="attachment_4777" align="aligncenter" width="625"]<amp-img layout="responsive" class="wp-image-4777 size-large" src="{{ site.baseurl }}/assets/sunchair_hvgz4m.jpg" alt="sunchair" width="625" height="352" /> Photo by <a href="https://www.flickr.com/photos/richardwalkerphotography/">Richard Walker</a>[/caption]</p>
+<p><!--more See the step by step guide--></p>
+<ol>
+<li>You need <a href="https://brew.sh/">Homebrew</a></li>
+<li>`brew install php70`</li>
+<li>`brew install mariadb` (server=127.0.0.1, username=root and password=an empty string)</li>
+<li>`brew install composer`</li>
+<li>`brew install wp-cli`</li>
+<li>`composer global require laravel/valet`</li>
+<li>Add ~/.composer/vendor/bin to PATH</li>
+<li>`valet install`</li>
+<li>`mkdir ~/Sites`</li>
+<li>`cd ~/Sites`</li>
+<li>`valet park`</li>
+<li>`mkdir ~/Sites/wp-valet`</li>
+<li>`cd ~/Sites/wp-valet`</li>
+<li>`wp core download`</li>
+<li><a href="https://wp-valet.dev">https://wp-valet.dev</a></li>
+<li>BONUS: Share your local site using `cd ~/Sites/wp-valet &amp;&amp; valet share`</li>
+</ol>
+<p>You can learn a lot more at:</p>
+<ul>
+<li><a href="https://laravel.com/docs/5.2/valet">Laravel Valet</a></li>
+<li><a href="https://blog.wppusher.com/a-minimalist-development-environment-for-wordpress-with-laravel-valet/">A Minimalist Development Environment for WordPress with Laravel Valet</a></li>
+<li><a href="https://wptavern.com/laravel-releases-valet-a-minimalist-development-environment-with-support-for-wordpress">Laravel Releases Valet, a Minimalist Development Environment with Support for WordPress</a></li>
+<li>Video: <a href="https://youtu.be/Ai-HogVDxq4">Local WordPress Development With Laravel Valet</a></li>
+</ul>
+<p>Btw, for more complex projects I use <a href="https://github.com/Varying-Vagrant-Vagrants/VVV">VVV</a></p>

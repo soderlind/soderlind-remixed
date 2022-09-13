@@ -1,0 +1,179 @@
+---
+layout: post
+title: WordPress and Pow
+date: 2012-12-02 17:41:08.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+- how-to
+tags:
+- brew
+- Homebrew
+- MySQL
+- PHP
+- Pow
+- Powder
+- rbenv
+- ruby
+- WordPress
+- Xquartz
+meta:
+  download_url: ''
+  _download_url: field_4f18335371224
+  plugin_url: ''
+  _plugin_url: field_4f17f54164ed8
+  _edit_last: '1'
+  _yoast_wpseo_focuskw: ''
+  _yoast_wpseo_title: ''
+  _yoast_wpseo_metadesc: A step by step guide explaining how to run WordPress locally
+    on your Mac with the help of Pow. It also explains how to install MySQL, PHP 5.4
+    and Ruby 1.93
+  _yoast_wpseo_meta-robots-noindex: '0'
+  _yoast_wpseo_meta-robots-nofollow: '0'
+  _yoast_wpseo_meta-robots-adv: none
+  _yoast_wpseo_sitemap-include: "-"
+  _yoast_wpseo_sitemap-prio: "-"
+  _yoast_wpseo_canonical: ''
+  _yoast_wpseo_redirect: ''
+  _yoast_wpseo_opengraph-description: A step by step guide explaining how to run WordPress
+    locally on your Mac with the help of Pow. It also explains how to install MySQL,
+    PHP 5.4 and Ruby 1.93
+  _yoast_wpseo_google-plus-description: A step by step guide explaining how to run
+    WordPress locally on your Mac with the help of Pow. It also explains how to install
+    MySQL, PHP 5.4 and Ruby 1.93
+  _syntaxhighlighter_encoded: '1'
+  _wpas_done_all: '1'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p><amp-img layout="responsive" class="aligncenter size-medium wp-image-3635" alt="Apple + WordPress = POW!" src="{{ site.baseurl }}/assets/AppleWordPressPOW-300x129.png" width="300" height="129" /></p>
+<p>Here is my second take on running WordPress and WordPress Multisite locally on <a href="https://soderlind.no/archives/2008/10/04/my-digital-tool-chest/">my Mac</a> (first is <a href="https://soderlind.no/archives/2011/08/26/running-wordpress-locally-on-mac-os-x-lion/">here</a>). I just discovered <a href="https://pow.cx/">Pow</a>; "<em>Pow is a zero-config Rack server for Mac OS X. Have it serving your apps locally in under a minute", </em>and my first thought was "can I run WordPress on Pow?".  Well, here's how I did it (I'll also show you how to install <strong>MySQL, PHP 5.4 and Ruby 1.93</strong> on Mac OS X Mountain Lion):</p>
+<p><!--more View the step by step installation guide--></p>
+<p ><span >This guide is work in progress, I'll keep you updated on <a href="https://twitter.com/soderlind">twitter</a></span></p>
+<h2>Prerequisite</h2>
+<ul>
+<li>Mac OS X Mountain Lion. I did this on a fresh Mac OS X Mountain Lion installation.</li>
+<li>Download and install <a href="https://developer.apple.com/downloads/index.action">Command Line Tools (Mountain Lion) for Xcode</a>. If you're not already registered for a free Mac Developer account, <a href="https://developer.apple.com/programs/register/">do so</a>.</li>
+<li>Download and install <a href="https://xquartz.macosforge.org/landing/">Xquartz</a> so that the png.h header exists for compilation of certain brews. Mountain Lion removes X11, which contained many headers.</li>
+<li>Install <a href="https://mxcl.github.com/homebrew/">Homebrew</a>, "<em>The missing package manager for OS X</em>". Open <a href="https://en.wikipedia.org/wiki/Terminal_(OS_X)">Terminal</a>, and from the command line run:
+<pre class="lang:shell light:true decode:1 ">ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"</pre>
+</li>
+</ul>
+<p>There's going to be a lot of cut and past from now on, but in 15 minutes you're up and running with WordPress on Pow :).</p>
+<p>One by one, copy the commands below and run them in Terminal</p>
+<h2>MySQL</h2>
+<p>When you run <code>mysql_secure_installation</code> (line 7 below), answer <strong>Y</strong> to all the questions.</p>
+<pre class="lang:shell light:false decode:1 ">
+brew install mysql
+unset TMPDIR
+mysql_install_db --verbose --user=<code>whoami</code> --basedir="$(brew --prefix mysql)" --datadir=/usr/local/var/mysql --tmpdir=/tmp
+mkdir -p ~/Library/LaunchAgents
+ln -sfv /usr/local/opt/mysql/*.plist ~/Library/LaunchAgents
+launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+/usr/local/opt/mysql/bin/mysql_secure_installation
+</pre>
+<h2>Add WordPress database and user to MySQL</h2>
+<pre class="lang:shell light:false decode:1 ">
+mysql -u root -p
+
+mysql&gt; CREATE DATABASE wordpress;
+mysql&gt; GRANT ALL PRIVILEGES ON wordpress.* TO wordpress@localhost IDENTIFIED BY 'Pa$$w0rd';
+mysql&gt; FLUSH PRIVILEGES;
+mysql&gt; EXIT
+</pre>
+<h2>PHP 5.4</h2>
+<p>PHP is no longer part of the default Homebrew repository, and hence you need to add the <a href="https://github.com/josegonzalez/homebrew-php">Homebrew-PHP</a> repository. WordPress and Pow only needs mysql and php-cgi. If you'd like to add more features, run <code>brew options php54</code> from the command line to see the available configurations.</p>
+<pre class="lang:shell light:false decode:1 ">
+brew tap homebrew/dupes
+brew tap josegonzalez/homebrew-php
+brew install php54 --with-mysql --with-cgi
+</pre>
+<h2>Ruby upgraded using rbenv</h2>
+<p>The default Ruby version on Mountain Lion is a bit old (yepp, that's an understatement). Pow is a Ruby/Rack web server, and it runs best on the latest version of Ruby. <a href="https://github.com/sstephenson/rbenv">rbenv</a> in combination with <a href="https://github.com/sstephenson/ruby-build">ruby-build</a>, allows you to install Ruby in your user space.</p>
+<pre class="lang:shell light:false decode:1 ">
+brew update
+brew install rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' &gt;&gt; ~/.bash_profile
+echo 'eval "$(rbenv init -)"' &gt;&gt; ~/.bash_profile
+source .bash_profile
+brew install ruby-build
+rbenv install --list
+rbenv install 1.9.3-p327
+rbenv rehash
+rbenv global 1.9.3-p327
+</pre>
+<h2>Pow and Powder</h2>
+<p>Pow was created to run Rails/Rack applications, but we want to <a href="https://stuff-things.net/2011/05/16/legacy-development-with-pow/">run legacy applications on Pow</a> (ie PHP / WordPress) and need the rack-legacy rack-rewrite gems.<br />
+<a href="https://pow.cx/manual.html">Pow is easy</a>, but <a href="https://github.com/rodreegez/powder">Powder</a> makes it even easier, with a lot of <a href="https://github.com/rodreegez/powder#readme">management commands for Pow</a>.</p>
+<pre class="lang:shell light:false decode:1 ">
+gem install rack-legacy rack-rewrite
+gem install powder
+rbenv rehash
+powder install
+</pre>
+<h2>WordPress</h2>
+<p>Ta-da, finally there, just have to grab wget first.<br />
+The config.ru file, saved in ~/Sites/config, is a configuration file with <a href="https://github.com/jtrupiano/rack-rewrite#readme">rewrite rules</a> (think .htaccess) for WordPress. <del datetime="2012-12-04T21:01:47+00:00">At the moment it doesn't support multisite, but I'm working on it.</del> <a href="https://gist.github.com/4208560">Forked the git</a> below and added support for WordPress Multisite</p>
+<pre class="lang:shell light:false decode:1 ">
+brew install wget
+mkdir ~/Sites
+cd ~/Sites
+git clone git://gist.github.com/4208560.git config
+wget https://wordpress.org/latest.tar.gz
+tar zxvf latest.tar.gz
+mv wordpress myblog
+cd ~/Sites/myblog
+ln -s ~/Sites/config/config.ru
+powder link
+powder open
+</pre>
+<h2>Adding another WordPress site</h2>
+<p>Yes, you can :)</p>
+<pre class="lang:shell light:false decode:1 ">
+cd ~/Sites
+tar zxvf latest.tar.gz
+mv wordpress myblog2
+cd ~/Sites/myblog2
+ln -s ~/Sites/config/config.ru
+powder link
+powder open
+</pre>
+<p><a name="multisite"></a></p>
+<h2>WordPress Multisite on Pow</h2>
+<p>I highly recommend that you create a separate database for your multisite, so let's do that first</p>
+<pre class="lang:shell light:false decode:1 ">
+mysql -u root -p
+
+mysql&gt; CREATE DATABASE multisite;
+mysql&gt; GRANT ALL PRIVILEGES ON multisite.* TO wordpress@localhost IDENTIFIED BY 'Pa$$w0rd';
+mysql&gt; FLUSH PRIVILEGES;
+mysql&gt; EXIT
+</pre>
+<p>next, install WordPress</p>
+<pre class="lang:shell light:false decode:1 ">
+cd ~/Sites
+tar zxvf latest.tar.gz
+mv wordpress multisite
+cd ~/Sites/multisite
+ln -s ~/Sites/config/config.ru
+powder link
+powder open
+</pre>
+<p>When you're finished adding your site to the multisite database and it's up and running, edit multisite/wp-config.php and add the following just <strong>above</strong> the line reading<br />
+<code>/* That’s all, stop editing! Happy blogging. */</code></p>
+<pre class="lang:shell light:false decode:1 ">
+/* Multisite */
+define('WP_ALLOW_MULTISITE', true);
+</pre>
+<p>You will need to refresh your browser to continue, then go to <strong>Tools &gt; Network Setup</strong>.</p>
+<p>In Network Setup, select <strong>Sub-domains</strong> (more about why, below), fill in the Network Details and click Install. On the next page follow step 1 and 2. You don't need a .htaccess file, config.ru added above handles rewrites.</p>
+<p>Why sub-domains:</p>
+<p><a href="https://pow.cx/manual.html#section_2.1.1">In Pow</a>, once a virtual host is installed, it's also automatically accessible from all subdomains of the named host. For example, the https://multisite.dev/ virtual host added above can also be accessed at https://subdomain.multisite.dev/ and https://blog.multisite.dev/, which is perfect for a WordPress Multisite installation.</p>

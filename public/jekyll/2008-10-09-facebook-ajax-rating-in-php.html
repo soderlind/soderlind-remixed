@@ -1,0 +1,82 @@
+---
+layout: post
+title: Facebook ajax rating in php
+date: 2008-10-09 02:26:25.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+tags:
+- ajax
+- Facebook
+- HTTP
+- PHP
+meta:
+  _edit_last: '1'
+  tweet_this_url: getnew
+  autometa: ''
+  views: '632'
+  oc_commit_id: https://soderlind.no/archives/2008/10/09/facebook-ajax-rating-in-php/1298481442
+  _aktt_hash_meta: ''
+  aktt_notify_twitter: 'yes'
+  _syntaxhighlighter_encoded: '1'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>I've written an ajax rating snippet, you'll find a demo at <a href="https://apps.new.facebook.com/ajaxrating/">https://apps.new.facebook.com/ajaxrating/</a></p>
+<p>It is based on Paul OB's <a href="https://www.search-this.com/2007/05/23/css-the-star-matrix-pre-loaded/">CSS Star Matrix Pre-loaded</a></p>
+<p>The source code below, should be self explanatory, but if you need input on how to do fbjs ajax, you'll find documentation and examples over at the facebook development site</p>
+<p>[sourcecode language='php']<br />
+< ?php<br />
+// the $callbackroot MUST point to your server, if you point it to your app.new.facebook.com/APPLICATION, ajax will fail.<br />
+$callbackroot='https://[PLACE_YOUR_CALLBACK_URL_HERE]'; // do not add a trailing slash e.g.: https://myserver.domain.com<br />
+//AJAX Response (should be first php or in a separate php file):<br />
+if (isset($_REQUEST['rate'])) {<br />
+    //do something and return "ok" if things are fine<br />
+    echo "ok";<br />
+    exit; //Important! Stops remaining php after AJAX request is processed<br />
+} </p>
+<p>//what ever apicall you use to authenticate, this one is from smiley: https://svn.facebook.com/svnroot/platform/samples/packages/smiley.tar.gz<br />
+$fb = get_fb();<br />
+$user = $fb->require_login();</p>
+<p>?><br />
+<!--  see rate.css below --></p>
+<link rel="stylesheet" type="text/css" href="<?=$callbackroot?>/rate.css" /><br />
+<script type="text/javascript"><br />
+function save_rating(rate) {<br />
+    // array with the class names, used when you add the new class<br />
+    var ratings = [ "nostar", "onestar", "twostar", "threestar", "fourstar", "fivestar" ];<br />
+    var ajax = new Ajax();<br />
+    ajax.responseType = Ajax.RAW;<br />
+    ajax.ondone = function(data) {<br />
+        if (data == "ok") {<br />
+            // remove old class names (I don't know which one, so I remove all of them), and add the new<br />
+            document.getElementById('rating_1').removeClassName('nostar').removeClassName('onestar').removeClassName('twostar').removeClassName('threestar').removeClassName('fourstar').removeClassName('fivestar').addClassName(ratings[rate]);<br />
+        } else {<br />
+            new Dialog().showMessage('Dialog', 'set rating failed');<br />
+        }<br />
+    }<br />
+    ajax.onerror = function() {<br />
+        new Dialog().showMessage('Dialog', 'set rating failed');<br />
+    };<br />
+    ajax.requireLogin = 1;<br />
+    var params={"rate":rate };<br />
+    ajax.post('< ?=$callbackroot?>/rate.php',params);<br />
+}<br />
+</script></p>
+<ul id="rating_1" class="rating nostar">
+<li class="one"><a href="#" title="1" onclick="save_rating(1); return false;">1</a></li>
+<li class="two"><a href="#" title="2" onclick="save_rating(2); return false;">2</a></li>
+<li class="three"><a href="#" title="3" onclick="save_rating(3); return false;">3</a></li>
+<li class="four"><a href="#" title="4" onclick="save_rating(4); return false;">4</a></li>
+<li class="five"><a href="#" title="5" onclick="save_rating(5); return false;">5</a></li>
+</ul>
+<p>[/sourcecode]</p>
+<p>A how-to and the rate.css are located at https://forum.developers.facebook.com/viewtopic.php?id=22547</p>

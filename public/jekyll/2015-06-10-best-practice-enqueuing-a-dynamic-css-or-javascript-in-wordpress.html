@@ -1,0 +1,43 @@
+---
+layout: post
+title: Best practice enqueuing a dynamic CSS or JavaScript in WordPress
+date: 2015-06-10 23:56:24.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- proof of concept
+- wp-plugins
+tags: []
+meta:
+  _edit_last: '1'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>&nbsp;</p>
+<p><strong>TL;DR</strong> I'm using WordPress <a href="https://codex.wordpress.org/AJAX_in_Plugins">Ajax</a> and <a href="https://codex.wordpress.org/WordPress_Nonces">Nonces</a>, a plugin that demonstrates how to enqueue dynamic CSS and JavaScript in WordPress <a href="https://github.com/soderlind/dynamic-enqueue-scripts">is available at GitHub</a>.</p>
+<p>I'm boldly claiming that this is best practice for dynamically loading a style or script in WordPress. Why?  The loaded code is protected by a nonce. Disagree? Please tell me why, I'm learning every day.</p>
+<h2>The dynamic CSS</h2>
+<p><a href="https://github.com/soderlind/dynamic-enqueue-scripts/blob/master/dynamic-css.php"> `<span class="pl-k">require_once</span> <span class="pl-c1">dirname</span>( <span class="pl-c1">__FILE__</span> ) <span class="pl-k">.</span> <span class="pl-s"><span class="pl-pds">'</span>/dynamic-css.php<span class="pl-pds">'</span></span>;`</a></p>
+<p>The dynamic CSS (and JavaScript) is simple to create, and since the script is included you have access to all the WordPress functions, actions and filters. Forinstance, you can get the value using <a href="https://codex.wordpress.org/Function_Reference/get_option">get_option</a> , add the value and write to standard out:</p>
+<pre class="lang:php decode:true " title="dynamic-css.php">&lt;?php
+//prevent direct access
+if ( ! defined( 'ABSPATH' ) ) {
+	die();
+}
+header( "Content-type: text/css; charset: UTF-8" );
+
+//get value from options, settings etc
+$color = 'blue';
+?&gt;
+
+a {
+	color: &lt;?php echo $color;?&gt; !important;
+}</pre>
+<p>&nbsp;</p>

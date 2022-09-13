@@ -1,0 +1,122 @@
+---
+layout: post
+title: Modernizr 101
+date: 2011-11-24 22:31:51.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+tags:
+- CSS
+- JavaScript
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ''
+  _edit_last: '1'
+  _yoast_wpseo_focuskw: ''
+  _yoast_wpseo_title: ''
+  _yoast_wpseo_metadesc: ''
+  _yoast_wpseo_metakeywords: ''
+  _yoast_wpseo_meta-robots-noindex: '0'
+  _yoast_wpseo_meta-robots-nofollow: '0'
+  _yoast_wpseo_meta-robots-adv: none
+  _yoast_wpseo_sitemap-include: "-"
+  _yoast_wpseo_sitemap-prio: "-"
+  _yoast_wpseo_canonical: ''
+  _yoast_wpseo_redirect: ''
+  _yoast_wpseo_opengraph-description: ''
+  oc_metadata: "{\t\tversion:'1.1',\t\ttags: {'javascript': {\"text\":\"JavaScript\",\"slug\":\"javascript\",\"source\":{\"_className\":\"SocialTag\",\"url\":\"https://d.opencalais.com/dochash-1/6b5a4161-99fa-30b4-b919-546e9d46a740/SocialTag/4\",\"subjectURL\":null,\"type\":{\"_className\":\"ArtifactType\",\"url\":\"https://s.opencalais.com/1/type/tag/SocialTag\",\"name\":\"SocialTag\"},\"name\":\"JavaScript\",\"makeMeATag\":true,\"importance\":1,\"normalizedRelevance\":1},\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"},
+    'css': {\"text\":\"CSS\",\"slug\":\"css\",\"source\":null,\"bucketName\":\"current\",\"bucketPlacement\":\"auto\",\"_className\":\"Tag\"}}\t}"
+  _syntaxhighlighter_encoded: '1'
+  aktt_tweeted: '1'
+  oc_commit_id: https://soderlind.no/archives/2011/11/24/modernizr-101/1322166715
+  _msp_fb_likes: '2'
+  _msp_tweets: '3'
+  _msp_google_plus_ones: '0'
+  _msp_total_shares: '5'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>.. or, why I like it.</p>
+<p>When developing for the web, I've always been a fan of checking for functionality using <a href="https://www.quirksmode.org/js/support.html">object detection</a>, I NEVER try t<a href="https://www.quirksmode.org/js/detect.html">o detect which browser you are using</a>.</p>
+<p><a href="https://www.modernizr.com/">Modernizr</a> does this much better that the other methods I've seen (and used).</p>
+<p><!--more View examples and video--></p>
+<blockquote><p>Modernizr is a small JavaScript library that detects the availability of native implementations for next-generation web technologies, i.e. features that stem from the HTML5 and CSS3 specifications.</p>
+<ol>
+<li>It tests for over 40 next-generation features, all in a matter of milliseconds</li>
+<li>It creates a JavaScript object (named <code>Modernizr</code>) that contains the results of these tests as boolean properties</li>
+<li>It adds classes to the <code>html</code> element that explain precisely what features are and are <span >not</span> natively supported</li>
+<li>It provides a script loader so you can pull in <a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills">polyfills</a> to backfill functionality in old browsers</li>
+</ol>
+</blockquote>
+<div>As stated above, Modernizr adds classes to the HTML tag, one per feature, pre-fixing the one that's not supported in the browser with "no-". This is the classes added to the HTML tag when I open a page in;</div>
+<p><strong>Chrome 17.0.942.0 dev</strong>:</p>
+<pre><span >&lt;html</span> <span >class=</span>" <span >js flexbox canvas canvastext webgl <span >no-touch</span> geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths</span>"<span >&gt;</span></pre>
+<p><strong>Firefox 8.0.1</strong>:</p>
+<pre><span >&lt;html</span> <span >class=</span>"<span > js flexbox canvas canvastext webgl <span >no-touch</span> geolocation postmessage websqldatabase <span >no-indexeddb</span> hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths</span>"<span >&gt;</span></pre>
+<p><strong>Safari 5.1.1 (7534.51.22)</strong>:</p>
+<pre><span >&lt;html</span> <span >class</span>="<span >js flexbox canvas canvastext webgl <span >no-touch</span> geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop <span >no-websockets</span> rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients <span >no-cssreflections</span> csstransforms <span >no-csstransforms3d</span> csstransitions fontface video audio <span >no-localstorage</span> <span >no-sessionstorage</span> webworkers applicationcache svg inlinesvg smil svgclippaths</span>"<span >&gt;</span></pre>
+<p><strong>IE9</strong></p>
+<pre><span >&lt;html</span> <span >class</span>="<span >ie ie9 js <span >no-flexbox</span> canvas canvastext <span >no-webgl</span> <span >no-touch</span> geolocation postmessage <span >no-websqldatabase</span> <span >no-indexeddb</span> hashchange <span >no-history</span> draganddrop <span >no-websockets</span> rgba hsla multiplebgs backgroundsize <span >no-borderimage</span> borderradius boxshadow <span >no-textshadow</span> opacity <span >no-cssanimations</span> <span >no-csscolumns no-cssgradients no-cssreflections</span> csstransforms <span >no-csstransforms3d no-csstransitions</span> fontface video audio localstorage sessionstorage <span >no-webworkers no-applicationcache</span> svg inlinesvg smil svgclippaths</span>"<span >&gt;</span></pre>
+<p>Lot's of red for IE9, but this is not a "which brower is best" article, but how you can use Modernizr to give the user the experience expected which ever browser she is using today or tomorrow. Eg:</p>
+<p>[css]<br />
+.no-cssgradients .glossy { // Internet Explorer<br />
+    background: url(&quot;images/glossybutton.png&quot;);<br />
+}</p>
+<p>.cssgradients .glossy {<br />
+    background-image: linear-gradient(top, #555, #333);<br />
+}<br />
+[/css]</p>
+<p>You can also use Modernizr to load the JavaScript <a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills">libraries needed</a>:</p>
+<p>[javascript]<br />
+Modernizr.load({<br />
+  test: Modernizr.geolocation,<br />
+  yep : 'geo.js',<br />
+  nope: 'geo-polyfill.js'<br />
+});<br />
+[/javascript]</p>
+<p>A bit more advanced example</p>
+<p>[javascript]<br />
+// Give Modernizr.load a string, an object, or an array of strings and objects<br />
+Modernizr.load([<br />
+  // Presentational polyfills<br />
+  {<br />
+    // Logical list of things we would normally need<br />
+    test : Modernizr.fontface &amp;&amp; Modernizr.canvas &amp;&amp; Modernizr.cssgradients,<br />
+    // Modernizr.load loads css and javascript by default<br />
+    nope : ['presentational-polyfill.js', 'presentational.css']<br />
+  },<br />
+  // Functional polyfills<br />
+  {<br />
+    // This just has to be truthy<br />
+    test : Modernizr.websockets &amp;&amp; window.JSON,<br />
+    // socket-io.js and json2.js<br />
+    nope : 'functional-polyfills.js',<br />
+    // You can also give arrays of resources to load.<br />
+    both : [ 'app.js', 'extra.js' ],<br />
+    complete : function () {<br />
+      // Run this after everything in this group has downloaded<br />
+      // and executed, as well everything in all previous groups<br />
+      myApp.init();<br />
+    }<br />
+  },<br />
+  // Run your analytics after you've already kicked off all the rest<br />
+  // of your app.<br />
+  'post-analytics.js'<br />
+]);<br />
+[/javascript]</p>
+<p>Finally, to learn more about Modernizr and the philosophy behind it, you should watch this presentation by Faruk Ates, the creator of Modernizr:</p>
+<p ><amp-youtube data-videoid="n0q0kwiIPSY" layout="responsive" width="480" height="270"></amp-youtube></p>
+<p>Resources:</p>
+<ul>
+<li><a href="https://www.modernizr.com/docs/">Modernizr Documentation</a></li>
+<li>A List Apart: <a href="https://www.alistapart.com/articles/taking-advantage-of-html5-and-css3-with-modernizr/">Taking Advantage of HTML5 and CSS3 with Modernizr</a></li>
+<li>Web Designer Notebook: <a href="https://webdesignernotebook.com/css/how-to-use-modernizr/">How to use Modernizr</a></li>
+</ul>

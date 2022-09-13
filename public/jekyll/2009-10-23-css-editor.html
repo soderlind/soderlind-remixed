@@ -1,0 +1,90 @@
+---
+layout: post
+title: CSS Editor for WP and WPMU
+date: 2009-10-23 01:20:08.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- wp-plugins
+tags:
+- "'ps_sandbox_editor"
+- administrator
+- class ps_sandbox_editor
+- CSS Editor
+- Editor
+- HTML
+- PHP
+- Soderlind CSS Editor
+- WP
+- WPMU Still
+meta:
+  jd_tweet_this: 'yes'
+  _edit_last: '1'
+  wp_jd_target: https://www.soderlind.no/archives/2009/10/23/css-editor/
+  wp_jd_clig: https://cli.gs/a88gS
+  tweet_this_url: getnew
+  autometa: ''
+  views: '193'
+  oc_commit_id: https://soderlind.no/archives/2009/10/23/css-editor/1298481426
+  _aktt_hash_meta: ''
+  aktt_notify_twitter: 'yes'
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>Still work in progress, but here's a teaser:</p>
+<p><a href="https://aws.soderlind.no/wp-content/uploads/2009/10/css-editor.swf"><amp-img layout="responsive" class="aligncenter size-medium wp-image-497" title="CSS Editor" src="{{ site.baseurl }}/assets/FirstFrame-300x167.jpg" alt="CSS Editor" width="300" height="167" /></a><br />
+<!--more--></p>
+<ul>
+<li>The Soderlind CSS Editor will be ready when it's done (that is, I don't have a release date)</li>
+<li>Prerequisites:
+<ul>
+<li>WordPress and WordPress MU 2.8.4 or newer</li>
+<li>PHP 5.x</li>
+<li>The <a href="https://www.plaintxt.org/themes/sandbox/">Sandbox</a> theme</li>
+</ul>
+</li>
+<li>It will use <a href="https://htmlpurifier.org/">HTML Purifier</a> to validate the CSS code before it's saved.</li>
+</ul>
+<p>Here's a peek at the code:</p>
+<p>[sourcecode language='php']<br />
+class ps_sandbox_editor {<br />
+	private $url = "";<br />
+	private $urlpath = "";</p>
+<p>	function __construct($urlpath,$url) {</p>
+<p>		$this->urlpath = $urlpath;<br />
+		$this->url = $url;</p>
+<p>		if (!is_admin()) {<br />
+			add_filter('stylesheet_uri',array(&$this,'ps_sandbox_stylesheet_uri'),10,2);<br />
+		} else {<br />
+			add_action('init',array(&$this,'ps_sandbox_editor_load_l10n'));<br />
+			add_action('admin_menu',array(&$this,'ps_sandbox_editor_add_admin_subpanel'));<br />
+			add_filter('attachment_fields_to_edit', array(&$this,'ps_sandbox_editor_modify_media_form'), 11, 2);<br />
+			add_filter('media_send_to_editor', array(&$this,'ps_sandbox_editor_media_send_to_editor'), 11, 3);<br />
+			if ($_GET['page'] == 'ps_sandbox_editor.php') {<br />
+				wp_enqueue_script('thickbox');<br />
+				wp_enqueue_style('thickbox');<br />
+				wp_enqueue_script('media-upload');<br />
+			}<br />
+		}<br />
+	}</p>
+<p>	function ps_sandbox_editor_add_admin_subpanel() {<br />
+		get_currentuserinfo();<br />
+		if (is_site_admin()) {<br />
+			add_submenu_page('wpmu-admin.php',__('CSS Editor Settings','ps_sandbox_editor'),__('CSS Editor Settings','ps_sandbox_editor'), 'administrator', basename(__FILE__), 'ps_sandbox_editor_adminpage');<br />
+		}<br />
+		if( 'Sandbox'==get_option('current_theme') ) {<br />
+			$themehook = add_theme_page( __('CSS Editor','ps_sandbox_editor'),__('CSS Editor','ps_sandbox_editor'), 'administrator', basename(__FILE__), array(&$this,'ps_sandbox_editor_themepage'));<br />
+			add_action( "admin_print_scripts-$themehook", array(&$this,'ps_sandbox_editor_enqueue_scripts') );<br />
+		}<br />
+	}<br />
+	.<br />
+	.<br />
+	.<br />
+[/sourcecode]</p>

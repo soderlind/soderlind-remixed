@@ -1,0 +1,125 @@
+---
+layout: post
+title: WordPress, how to modify the HTML of an oEmbed link
+redirect_from:
+ - /wordpress-how-to-modify-the-html-for-an-oembed/
+date: 2015-06-10 21:05:38.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- how-to
+tags: []
+meta:
+  _edit_last: '1'
+  _wp_old_slug: wordpress-how-to-modify-the-html-for-an-oembed
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<h2>Introduction</h2>
+<p><strong>Background</strong>: EPiServer is the CMS for the Norwegian Government main site, <a href="https://www.regjeringen.no">www.regjeringen.no</a> and we use WordPress for more <a href="https://nettsteder.regjeringen.no">ad hoc sites</a>.</p>
+<p><strong>Task</strong>: Based on the <a href="https://bak.regjeringen.no/#section-organisms">design guide for regjeringen.no</a>, add <a href="https://www.23video.com/">23 video</a> to WordPress.</p>
+<p><!--more See how I did it--></p>
+<p><a href="https://www.23video.com/help/social/oembed">23 video supports oembed</a>, so adding it is easy</p>
+<pre class="lang:php decode:true">&lt;?php
+
+// replace NAME with your 23 video site name
+wp_oembed_add_provider(
+	'https://NAME.23video.com/*',
+	'https://NAME.23video.com/oembed'
+);
+
+</pre>
+<p>and adding a video gave me this</p>
+<p><amp-img layout="responsive" class="aligncenter wp-image-4648 size-large" src="{{ site.baseurl }}/assets/before_yathc3.jpg" alt="oembed before changing the html" width="625" height="406" /></p>
+<p>which is not per the design guide.</p>
+<h2>Modifying the HTML</h2>
+<p>Please see inline comments. If something is unclear, ask.</p>
+<pre class="lang:php decode:true ">/**
+ * Rewrite the oEmbed HTML
+ *
+ * @param  string $output The returned oEmbed HTML
+ * @param  object $data   A data object result from an oEmbed provider
+ * @param  string $url    The URL of the content to be embedded.
+ * @return string         The modified HTML
+ */
+function nettv_embed_filter( $output, $data, $url ) {
+
+    /**
+     * We have two sites, one for video and one for live streaming, is this oEmbed one of those?
+     */
+    if ( false !== strstr( $url,'SITE01.23video.com' ) || false !== strstr( $url,'SITE01.23video.com' ) ) {
+        if ( false !== strstr( $url,'SITE01' ) ) {
+            $video_host = 'SITE01.23video.com';
+        } else {
+            $video_host = 'SITE02.23video.com';
+        }
+
+        /**
+         * Video and Live have different URLs
+         */
+        if (isset($data-&gt;photo_id)) {
+            $photo_id = $data-&gt;photo_id;
+            $nettv_url = "//%s/v.ihtml/player.html?source=share&amp;photo_id=%s&amp;autoPlay=0";
+        } elseif (isset($data-&gt;live_id))  {
+            $photo_id = $data-&gt;live_id;
+            $nettv_url = "//%s/v.ihtml/player.html?live_id=%s&amp;source=site&amp;autoPlay=1";
+        } else {
+            //Something went wrong, return the URL to the video.
+            return sprintf('&lt;a href="%s"&gt;%s&lt;/a&gt;', esc_url($output), esc_url($output));
+        }
+
+        /**
+         * Create the HTML. I use the &lt;div class="webBroadcastBlock"&gt;&lt;/div&gt;&lt;!--/webBroadcastBlock--&gt; wrapper for my custom autop function.
+         * @var string
+         */
+        $output = sprintf('&lt;div class="webBroadcastBlock"&gt;&lt;h2&gt;&lt;span class="media-banner"&gt;&lt;span class="media-banner-nett-tv"&gt;Nett-tv&lt;/span&gt;&lt;span class="media-banner-archived"&gt;&lt;/span&gt;&lt;/span&gt;%1$s&lt;/h2&gt;&lt;a href="%2$s" data-lightbox-opener="nett-tv" data-lightbox-title="%3$s" data-lightbox-closetxt="%4$s" data-lightbox-labeltxt="Nett-tv" data-lightbox-label-status=""&gt;&lt;img src="%5$s" alt="%6$s" /&gt;&lt;p&gt;%7$s&lt;/p&gt;&lt;/a&gt;&lt;/div&gt;&lt;!--/webBroadcastBlock--&gt;',
+            trim($data-&gt;title),
+            sprintf($nettv_url,$video_host, $photo_id),
+            trim($data-&gt;title),
+            __('Close','dss-web'),
+            $data-&gt;thumbnail_url,
+            __('View','dss-web'),
+            __('View','dss-web')
+        );
+    }
+    return $output;
+}</pre>
+<p>&nbsp;</p>
+<h3>wpautop</h3>
+<p>wpautop is a pain and it messed up my modified oembed HTML code. I "solved" (if you have a better soultion, please tell me) the problem by writing a custom wpautop that autopees everything except my code.</p>
+<p>First, disable the default wpautop</p>
+<pre class="lang:php decode:true ">remove_filter('the_content', 'wpautop');
+remove_filter('the_content', 'wptexturize')</pre>
+<p>Then add the custom wpautop</p>
+<pre class="lang:php decode:true ">function nettv_no_autop($content) {
+    $new_content = '';
+
+    $pattern_full = '{(&lt;div class="webBroadcastBlock"&gt;.*?&lt;/div&gt;&lt;!--/webBroadcastBlock--&gt;)}is';
+    $pattern_contents = '{(&lt;div class="webBroadcastBlock"&gt;(.*?)&lt;/div&gt;&lt;!--/webBroadcastBlock--&gt;)}is';
+    $pieces = preg_split($pattern_full, $content, -1, PREG_SPLIT_DELIM_CAPTURE);
+
+    foreach ($pieces as $piece) {
+    	/**
+    	 * If the pattern matches, it's my custom HTML code. Return the HTML without passing it throug wpautop.
+    	 */
+        if (preg_match($pattern_contents, $piece, $matches)) {
+            $new_content .= $matches[1];
+        } else {
+            $new_content .= wptexturize(wpautop($piece));
+        }
+    }
+
+    return $new_content;
+}
+add_filter('the_content', 'nettv_no_autop', 99);</pre>
+<p>&nbsp;</p>
+<h2>Result</h2>
+<p>(click the image to see an animation)</p>
+<p><a href="https://res.cloudinary.com/soderlind/image/upload/v1433962424/after_xkngcc.gif"><amp-img layout="responsive" class="aligncenter size-large wp-image-4647" src="{{ site.baseurl }}/assets/after_q6kebf.jpg" alt="The final result, after modifying the HTML" width="625" height="556" /></a></p>

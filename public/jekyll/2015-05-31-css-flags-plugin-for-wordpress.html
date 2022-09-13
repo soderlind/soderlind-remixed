@@ -1,0 +1,178 @@
+---
+layout: post
+title: CSS Flags library for WordPress
+redirect_from:
+- /read-offline/4620/css-flags-plugin-for-wordpress.pdf
+date: 2015-05-31 00:41:29.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- general
+tags: []
+meta:
+  _edit_last: '1'
+  _yoast_wpseo_content_score: '30'
+  _yoast_wpseo_primary_category: ''
+author:
+  login: PS
+  email: per@soderlind.no
+  display_name: Per Søderlind
+  first_name: Per
+  last_name: Soderlind
+---
+<p>The CSS Flags <a href="https://github.com/soderlind/css-flags/blob/master/README.md#plugin">plugin</a> / <a href="https://github.com/soderlind/css-flags/blob/master/README.md#theme">library</a> for WordPress loads a <a href="https://github.com/soderlind/css-flags/blob/master/css-flags.php#L21-L39">dynamicly created CSS</a>. It has the following responsive <a href="https://en.wikipedia.org/wiki/Scalable_Vector_Graphics">Scalable Vector Graphics</a> (SVG) flags:</p>
+<p><!--more See the flags--></p>
+<p>[cssflag countries="all"]</p>
+<h2><a id="user-content-usage" class="anchor" href="https://github.com/soderlind/css-flags/blob/master/README.md#usage"></a>Usage</h2>
+<p>The total CSS file size is 4 MB, and you don't want to send all that data back to the users, so you <strong>must</strong> use one of the following filters in your plugin or theme.</p>
+<p><strong>css-flags-countries</strong>: Load flags for one or more countries</p>
+<div class="highlight highlight-php">
+<pre class="lang:php decode:true">add_filter('css-flags-countries', function() {
+    return array('no'); // Array with ISO_3166-1_alpha-2 country codes: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
+});</pre>
+</div>
+<p><strong>css-flags-regions</strong>: Load the flags for one or more regions. You can choose between europe, oceania, africa, asia, northamerica, southamerica and middleeast.</p>
+<div class="highlight highlight-php">
+<pre class="lang:php decode:true ">add_filter('css-flags-regions', function() {
+    return array('europe'); //europe, oceania, africa, asia, northamerica, southamerica, middleeast
+});</pre>
+<p><strong>css-flags-exclude</strong>: Exclude some countries from the list. This filter must be used in combination with the <code>css-flags-countries</code> or <code>css-flags-regions</code> filters</p>
+</div>
+<div class="highlight highlight-php">
+<pre class="lang:php decode:true ">add_filter('css-flags-exclude', function() {
+    return array('eu');
+});</pre>
+<p><strong>css-flags-cachetime</strong>: Change the cache time, default it's 7200 (60x60x2 = 2 hours)</p>
+</div>
+<div class="highlight highlight-php">
+<pre class="lang:php decode:true ">add_filter('css-flags-cachetime', function() {
+    return 172800; // 2 days
+});</pre>
+<p>If you must (but you shouldn't), you can load all the CSS flags using the following:</p>
+</div>
+<div class="highlight highlight-php">
+<pre class="lang:php decode:true ">add_filter('css-flags-countries', function() {
+    return array('all'); // load all country flags (don't it's 4MB)
+});</pre>
+<p>&nbsp;</p>
+</div>
+<h3><a id="user-content-example-1" class="anchor" href="https://github.com/soderlind/css-flags/blob/master/README.md#example-1"></a>Example 1</h3>
+<p>Using this filter in your (child) theme functions.php</p>
+<div class="highlight highlight-php">
+<pre class="lang:php decode:true ">add_action( 'init', function() {
+    add_filter('css-flags-countries', function() {
+        return array('no');
+    });
+});</pre>
+<p>CSS Flags will add the following CSS (note the <code>.css-flag</code> prefix):</p>
+</div>
+<div class="highlight highlight-css">
+<pre class="lang:css decode:true ">/* CSS generated in 0.002 seconds. */
+.css-flag.no {
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTAwIDgwMCI+DQo8cGF0aCBmaWxsPSIjZWYyYjJkIiBkPSJtMCwwaDExMDB2ODAwaC0xMTAweiIvPg0KPGcgZmlsbD0iI2ZmZiI+DQo8cGF0aCBkPSJtMzAwLDBoMjAwdjgwMGgtMjAweiIvPg0KPHBhdGggZD0ibTAsMzAwaDExMDB2MjAwaC0xMTAweiIvPg0KPC9nPg0KPGcgZmlsbD0iIzAwMjg2OCI+DQo8cGF0aCBkPSJtMzUwLDBoMTAwdjgwMGgtMTAweiIvPg0KPHBhdGggZD0ibTAsMzUwaDExMDB2MTAwaC0xMTAweiIvPg0KPC9nPg0KPC9zdmc+DQo=');
+    height: 100%;
+    width: 137.5%;
+    background-size: 100% 100%;
+}
+.css-flag.no-landscape {
+    height: 100%;
+    width: 137.5%;
+}
+.css-flag.no-portrait {
+    height: 72.727272727273%;
+    width: 100%;
+}</pre>
+<p>I bet you can CSS and HTML better than me, but you could display the flag using this in your (child) theme:</p>
+</div>
+<div class="highlight highlight-html">
+<pre class="lang:php decode:true ">&lt;style type="text/css"&gt;
+    .box {
+        width: 32%;
+        /*float: left;*/
+    }
+    .flagbox {
+        width: 120px;
+        height: 120px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .flag {
+        margin: auto;
+        display: inline-block;
+        vertical-align: middle;
+
+        border: 1px solid #e5e5e5;
+        box-shadow: inset 0px 0px 0px 2px #fff;
+
+    }
+&lt;/style&gt;
+
+&lt;div class="box"&gt;
+    &lt;div class="flagbox"&gt;&lt;span class="flag css-flag no no-portrait"&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;</pre>
+</div>
+<h3><a id="user-content-example-2" class="anchor" href="https://github.com/soderlind/css-flags/blob/master/README.md#example-2"></a>Example 2</h3>
+<p>Load the CSS Flags for the five Nordic countries and their autonomous regions: Norway (no), Sweden (se), Denmark (dk), Findland (fi), Iceland (is), the Faroe Islands (fo), Greenland (gl) and Aaland (ax)</p>
+<div class="highlight highlight-php">
+<pre class="lang:php decode:true ">add_action( 'init', function() {
+    add_filter('css-flags-countries', function() {
+        return array('no','se','dk','fi','is', 'fo', 'gl','ax'); // ISO_3166-1_alpha-2 codes: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
+    });
+});</pre>
+<p>Only load the Scandinavian flags ('no','se','dk') by removing flags from the loaded list</p>
+</div>
+<div class="highlight highlight-php">
+<pre class="lang:php decode:true">add_action( 'init', function() {
+    add_filter('css-flags-exclude', function() {
+        return array('fi','is', 'fo', 'gl','ax'); // ISO_3166-1_alpha-2 codes: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
+    });
+});</pre>
+</div>
+<h2><a id="user-content-installation" class="anchor" href="https://github.com/soderlind/css-flags/blob/master/README.md#installation"></a>Installation</h2>
+<h3><a id="user-content-plugin" class="anchor" href="https://github.com/soderlind/css-flags/blob/master/README.md#plugin"></a>Plugin</h3>
+<ol>
+<li>Download the <a href="https://github.com/soderlind/css-flags/releases/">latest stable release</a>,</li>
+<li>Add and activate it. This will load the CSS (4 MB) and cache it using the <a href="https://codex.wordpress.org/Transients_API">WordPress Transients API</a>. The default cache time is 7200. The cache time can be changed using the <code>css-flags-cachetime</code> filter.</li>
+<li>Add one of the filters, <a href="https://github.com/soderlind/css-flags/blob/master/README.md#usage">above</a>, to your plugin or (child) themes functions.php</li>
+</ol>
+<h3><a id="user-content-theme" class="anchor" href="https://github.com/soderlind/css-flags/blob/master/README.md#theme"></a>Theme</h3>
+<ol>
+<li>In your (child) theme folder, clone the repo:<code>git clone https://github.com/soderlind/css-flags.git</code></li>
+<li>Add the following to your (child) theme functions.php
+<div class="highlight highlight-php">
+<pre class="lang:php decode:true">//load the CSS Flags library
+require_once(dirname(__FILE__) . '/css-flags/css-flags.php');</pre>
+</div>
+</li>
+<li>Add one of the filters, <a href="https://github.com/soderlind/css-flags/blob/master/README.md#usage">above</a>, to your (child) themes functions.php, eg:
+<div class="highlight highlight-php">
+<pre class="lang:php decode:true">add_action( 'init', function() {
+    add_filter('css-flags-countries', function() {
+        return array('no','se','dk'); // ISO_3166-1_alpha-2 codes: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
+    });
+    // add_filter('css-flags-countries', function() {
+    //  return array('all'); // ISO_3166-1_alpha-2 codes: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
+    // });
+    // add_filter('css-flags-regions', function() {
+    //  return array('europe'); //europe, oceania, africa, asia, northamerica, southamerica, middleeast
+    // });
+    // add_filter('css-flags-exclude', function() {
+    //  return array('gb','se');
+    // });
+});</pre>
+</div>
+</li>
+</ol>
+<p>To get you started, here'a a <a href="https://github.com/soderlind/css-flags/blob/master/sample-theme-functions.php">sample theme functions.php</a></p>
+<h2><a id="user-content-changelog" class="anchor" href="https://github.com/soderlind/css-flags/blob/master/README.md#changelog"></a>Changelog</h2>
+<p>See the <a href="https://github.com/soderlind/css-flags/blob/master/CHANGELOG.md">CHANGELOG.md</a></p>
+<h2><a id="user-content-credits" class="anchor" href="https://github.com/soderlind/css-flags/blob/master/README.md#credits"></a>Credits</h2>
+<p>The original CSS file is from <a href="https://www.phoca.cz/cssflags/">https://www.phoca.cz/cssflags/</a>. If you only need the CSS file, grab it there.</p>
+<h2><a id="user-content-copyright-and-license" class="anchor" href="https://github.com/soderlind/css-flags/blob/master/README.md#copyright-and-license"></a>Copyright and License</h2>
+<p>CSS Flags plugin for WordPress is copyright 2015 Per Soderlind</p>
+<p>CSS Flags plugin for WordPress is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.</p>
+<p>CSS Flags plugin for WordPress is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the <a href="https://github.com/soderlind/css-flags/blob/master/LICENSE.md">GNU General Public License</a> for more details.</p>
+<p>You should have received a copy of the GNU Lesser General Public License along with the Extension. If not, see <a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.</p>
