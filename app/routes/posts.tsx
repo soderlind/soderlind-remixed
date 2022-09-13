@@ -2,7 +2,7 @@ import { json } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import { parseJSON } from "date-fns";
 import { getPosts, Post } from "~/models/post.server";
-import { IntlDate } from "~/helpers/IntlDate";
+import { IntlDate } from "~/components/IntlDate";
 
 type LoaderData = {
   entries: Awaited<ReturnType<typeof getPosts>>;
@@ -15,7 +15,6 @@ export const loader = async () => {
 export default function Index() {
   // const data = useLoaderData() as LoaderData;
 
-  const sticky = '<div className="sticky-arrow"></div>';
   return (
     <div className="section-inner">
       <header className="page-header">

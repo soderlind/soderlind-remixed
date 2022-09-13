@@ -15,6 +15,8 @@ import {
 import themeStyle from "./styles/style.css";
 import fontStyles from "~/styles/fonts.css";
 import fontAwesome from "~/styles/font-awesome.css";
+import NavBar from "./components/NavBar";
+import SocialLink from "./components/SocialLink";
 // export const links = () => {
 //   return [{ rel: "stylesheet", href: fontStyles }];
 // };
@@ -50,12 +52,6 @@ export const meta: MetaFunction = () => ({
   viewport: "width=device-width,initial-scale=1",
 });
 
-// export const loader = async ({ request }) => {
-//   return json({
-//     user: await getUser(request),
-//   });
-// };
-
 const activeClassName = "active";
 export default function App() {
   return (
@@ -78,61 +74,24 @@ export default function App() {
           <div className="site-description">I code for fun</div>
 
           <div className="nav-toggle">
-            <NavLink
-              to="#"
-              className={({ isActive }) =>
-                isActive ? undefined : activeClassName
-              }
-            >
-              <div className="bar"></div>
-              <div className="bar"></div>
-            </NavLink>
+            <div className="bar"></div>
+            <div className="bar"></div>
           </div>
 
           <div className="menu-wrapper">
             <ul className="main-menu desktop">
-              <li>
-                <a href="/posts/" className="">
-                  Articles
-                </a>
-              </li>
-              <li>
-                <a href="/projects/" className="">
-                  Projects
-                </a>
-              </li>
-              <li>
-                <a href="/about/" className="">
-                  About
-                </a>
-              </li>
+              <NavBar />
             </ul>
           </div>
 
           <div className="social-menu desktop">
-            <ul className="social-menu-inner">
-              <li className="menu-item-custom menu-social group">
-                <a href="https://twitter.com/soderlind">
-                  <span className="screen-reader-text">Twitter</span>
-                </a>
-              </li>
-              <li className="menu-item-custom menu-social group">
-                <a href="https://github.com/soderlind">
-                  <span className="screen-reader-text">GitHub</span>
-                </a>
-              </li>
-              <li className="menu-item-custom menu-social group">
-                <a href="https://www.linkedin.com/in/soderlind/">
-                  <span className="screen-reader-text">LinkedIn</span>
-                </a>
-              </li>
-            </ul>
+            <SocialLink />
           </div>
         </header>
 
         <div className="mobile-menu-wrapper">
           <ul className="main-menu mobile">
-            <li>mobile</li>
+            <NavBar />
           </ul>
         </div>
 
@@ -221,3 +180,19 @@ export default function App() {
 
 //   return redirect("/404/");
 // }
+export function ErrorBoundary({ error }) {
+  console.error(error);
+  return (
+    <html>
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        {/* add the UI you want your users to see */}
+        <Scripts />
+      </body>
+    </html>
+  );
+}

@@ -1,24 +1,26 @@
-// import { useLoaderData, useCatch } from "@remix-run/react";
-
 import type { LoaderFunction } from "@remix-run/node"; // or cloudflare/deno
 import { redirect, json } from "@remix-run/node"; // or cloudflare/deno
 
 type Path = {
   path: string;
 };
-
 type Paths = Path[];
 
-// export async function loader({}) {
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const path = url.pathname;
   const paths = require("~/paths.json") as Paths;
+  const p = require("path");
 
-  const pathMatch = paths.find((p) => p.path === path);
+  const basename = p.basename(path);
+
+  const regexp = new RegExp(`${basename}`, "i");
+  const pathMatch = paths.find((p) => regexp.test(p.path));
 
   if (pathMatch) {
-    return redirect("/", 301);
+    const slug = pathMatch.path.replace(/\.[^/.]+$/, ""); // remove extension.
+
+    return redirect(`/archive/${slug}`, 301);
   }
 
   throw new Response("Not Found", {

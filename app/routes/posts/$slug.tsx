@@ -4,11 +4,12 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { parseJSON } from "date-fns";
-import { IntlDate } from "~/helpers/IntlDate";
+import { IntlDate } from "~/components/IntlDate";
 import { getPost } from "~/models/post.server";
 type Post = {
   slug: string;
   title: string;
+  html: string;
   updatedAt: string;
 };
 type LoaderData = { post: Post; html: string };

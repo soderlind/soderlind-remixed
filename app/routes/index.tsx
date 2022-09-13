@@ -2,7 +2,7 @@ import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { parseJSON } from "date-fns";
 import { getPosts, Post } from "~/models/post.server";
-import { IntlDate } from "~/helpers/IntlDate";
+import { IntlDate } from "~/components/IntlDate";
 
 type LoaderData = {
   entries: Awaited<ReturnType<typeof getPosts>>;
