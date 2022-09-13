@@ -1,8 +1,8 @@
 import { json } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, NavLink, useLoaderData } from "@remix-run/react";
 import { parseJSON } from "date-fns";
 import { getPosts, Post } from "~/models/post.server";
-import { IntlDate } from "~/helpers/IntlDate";
+import { IntlDate } from "~/components/IntlDate";
 
 type LoaderData = {
   entries: Awaited<ReturnType<typeof getPosts>>;
@@ -24,8 +24,17 @@ export default function Posts() {
     const y = parseInt(year, 10);
     const posts = entries[y] as unknown as any[];
     const linksByYear = posts.map((post: Post) => (
-      <li key={post.slug} className="post-preview" id={"post-" + post.slug}>
-        <Link to={"/posts/" + post.slug} className="">
+      <li
+        key={"post-" + post.slug}
+        className="post-preview"
+        id={"post-" + post.slug}
+      >
+        <Link
+          to={"/posts/" + post.slug}
+          className=""
+          prefetch="intent"
+          key={"link-" + post.slug}
+        >
           <h2 className="title">
             <span>{post.title}</span>
           </h2>
@@ -38,7 +47,7 @@ export default function Posts() {
       <ul>
         <li key={year}>
           <h3 className="list-title">
-            <Link to="#" className="">
+            <Link to="#" className="" key={year}>
               {year}
             </Link>
           </h3>
