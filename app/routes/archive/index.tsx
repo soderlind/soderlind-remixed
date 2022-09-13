@@ -1,12 +1,9 @@
-// import styles from "highlight.js/styles/night-owl.css";
-// import { Outlet } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/node"; // or cloudflare/deno
 import { redirect, json } from "@remix-run/node"; // or cloudflare/deno
 
 import { Link, useLoaderData } from "@remix-run/react";
 
 import { getArchive } from "~/utils/archive";
-import type { Mdx } from "~/utils/archive";
 import { IntlDate } from "~/components/IntlDate";
 import { parseJSON } from "date-fns";
 

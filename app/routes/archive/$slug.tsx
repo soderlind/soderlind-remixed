@@ -6,8 +6,6 @@ import { IntlDate } from "~/components/IntlDate";
 import { parseJSON, formatISO } from "date-fns";
 import invariant from "tiny-invariant";
 
-import { archivePath } from "~/utils/mdx.server";
-
 type LoaderData = {
   title: string;
   body: string;
@@ -37,7 +35,7 @@ export const links = () => {
   ];
 };
 
-export default function Mdx() {
+export default function ArchiveContent() {
   const { title, body, slug } = useLoaderData<LoaderData>();
   const hljs = require("highlight.js");
   const md = require("markdown-it")({
@@ -75,6 +73,8 @@ export default function Mdx() {
   const content = {
     __html: md.render(body),
   };
+  // const xyz = formatISO(parseJSON(slug), { representation: "date" });
+  // console.log(xyz);
   const strDate = formatISO(
     new Date(
       slug
