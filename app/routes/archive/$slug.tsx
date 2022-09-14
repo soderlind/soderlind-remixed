@@ -5,6 +5,10 @@ import { getArchiveContent } from "~/utils/archive";
 import { IntlDate } from "~/components/IntlDate";
 import { parseJSON, formatISO } from "date-fns";
 import invariant from "tiny-invariant";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+import rehypeHighlight from "rehype-highlight";
 
 type LoaderData = {
   title: string;
@@ -38,44 +42,7 @@ export const links = () => {
 
 export default function ArchiveContent() {
   const { title, body, slug } = useLoaderData<LoaderData>();
-  const hljs = require("highlight.js");
-  const md = require("markdown-it")({
-    html: true,
-    breaks: true,
-    linkify: true,
-    typographer: true,
-    highlight: function (str, lang) {
-      if (lang && hljs.getLanguage(lang)) {
-        try {
-          return hljs.highlight(str, { language: lang }).value;
-        } catch (__) {}
-      }
 
-      return ""; // use external default escaping
-    },
-    // highlight: function (str, lang) {
-    //   if (lang && hljs.getLanguage(lang)) {
-    //     try {
-    //       return (
-    //         '<pre class="hljs"><code>' +
-    //         hljs.highlight(str, { language: lang, ignoreIllegals: true })
-    //           .value +
-    //         "</code></pre>"
-    //       );
-    //     } catch (__) {}
-    //   }
-
-    //   return (
-    //     '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + "</code></pre>"
-    //   );
-    // },
-  });
-
-  const content = {
-    __html: md.render(body),
-  };
-  // const xyz = formatISO(parseJSON(slug), { representation: "date" });
-  // console.log(xyz);
   const strDate = formatISO(
     new Date(
       slug
@@ -93,16 +60,22 @@ export default function ArchiveContent() {
           <Link className="meta" to="/archive">
             ← Back to the archive index
           </Link>
-          <h1 className="entry-title">{title}</h1>
-          <p className="excerpt">TODO: excerpt excerpt excerpt excerpt </p>
+          <h2 className="entry-title">{title}</h2>
           <div className="meta">
             <IntlDate date={date} timeZone="CET" />
           </div>
         </header>
-        <div
+        {/* <div
           className="entry-content section-inner"
           dangerouslySetInnerHTML={content}
-        ></div>
+        ></div> */}
+        <div className="entry-content section-inner">
+          <ReactMarkdown
+            children={body}
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeRaw, rehypeHighlight]}
+          />
+        </div>
       </article>
     </>
   );
