@@ -52,7 +52,7 @@ export default function Index() {
   return (
     <div className="section-inner">
       <header className="page-header">
-        <h4 className="page-subtitle">Archive</h4>
+        <h2 className="title">Archive</h2>
         <div className="page-description">
           These pages are imported from my jekyll blog. Note, a lot of the
           content is outdated.

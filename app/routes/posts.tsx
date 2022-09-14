@@ -18,7 +18,7 @@ export default function Index() {
   return (
     <div className="section-inner">
       <header className="page-header">
-        <h4 className="page-subtitle">Articles</h4>
+        <h2 className="title">Articles</h2>
         {/* <div className="page-description"></div> */}
       </header>
       <div className="posts" id="posts">
