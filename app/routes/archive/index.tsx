@@ -6,6 +6,7 @@ import { Link, useLoaderData } from "@remix-run/react";
 import { getArchive } from "~/utils/archive";
 import { IntlDate } from "~/components/IntlDate";
 import { parseJSON } from "date-fns";
+import ContentList from "~/components/ContentList";
 
 type LoaderData = {
   entries: Awaited<ReturnType<typeof getArchive>>;
@@ -46,21 +47,13 @@ export default function Index() {
         <ul>{linksByYear}</ul>
       </li>
     );
-  });
+  }) as unknown as string;
 
-  const sticky = '<div className="sticky-arrow"></div>';
   return (
-    <div className="section-inner">
-      <header className="page-header">
-        <h2 className="title">Archive</h2>
-        <div className="page-description">
-          These pages are imported from my jekyll blog. Note, a lot of the
-          content is outdated.
-        </div>
-      </header>
-      <div className="posts" id="posts">
-        <ul>{postsByYear}</ul>
-      </div>
-    </div>
+    <ContentList
+      title="Archive"
+      description="These pages are imported from my jekyll blog. Note, a lot of the content is outdated."
+      list={postsByYear}
+    />
   );
 }
