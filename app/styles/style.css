@@ -870,7 +870,7 @@ body.hide-social .social-menu {
 
 
 .page-header {
-	padding: 80px 0;
+	padding: 0 0 80px 0;
 }
 
 .page-header:last-child {
@@ -2889,7 +2889,7 @@ input.search-field::-moz-placeholder { color: #121212; }
 	/* Archive ------------------------------- */
 
 	.page-header {
-		padding: 50px 0;
+		padding: 0 0 50px 0;
 	}
 	
 	.page-subtitle {
