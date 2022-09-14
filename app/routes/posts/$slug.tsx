@@ -18,7 +18,6 @@ export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.slug, `params.slug is required`);
   const post = await getPost(params.slug);
   const html = marked(post.markdown);
-  // const html = post.markdown;
   return json<LoaderData>({ post, html });
 };
 
@@ -32,7 +31,7 @@ export default function PostSlug() {
         <p className="excerpt">TODO: excerpt excerpt excerpt excerpt </p>
         <div className="meta">
           <a href="#">
-            {/* <IntlDate date={parseJSON(post.updatedAt)} timeZone="UTC" /> */}
+            <IntlDate date={parseJSON(post.updatedAt)} timeZone="UTC" />
           </a>
         </div>
       </header>
