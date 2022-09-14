@@ -7,11 +7,11 @@ export default function MobileMenu() {
       <li key="projects">
         <a href="/projects/">Projects</a>
       </li>
-      <li key="about">
-        <a href="/about/">About</a>
-      </li>
       <li key="archive">
         <a href="/archive/">Archive</a>
+      </li>
+      <li key="about">
+        <a href="/about/">About</a>
       </li>
     </>
   );

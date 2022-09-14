@@ -13,14 +13,14 @@ export default function NavBar() {
           Projects
         </Link>
       </li>
-      <li key="about">
-        <Link to="/about/" className="" prefetch="intent">
-          About
-        </Link>
-      </li>
       <li key="archive">
         <Link to="/archive/" className="" prefetch="intent">
           Archive
+        </Link>
+      </li>
+      <li key="about">
+        <Link to="/about/" className="" prefetch="intent">
+          About
         </Link>
       </li>
     </>
