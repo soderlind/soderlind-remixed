@@ -1028,7 +1028,7 @@ body.hide-social .social-menu {
 /* Entry Header ----------------------------- */
 
 .entry-header {
-	margin: 80px auto 60px;
+	/* margin: 80px auto 60px; */
 }
 
 .entry-header .excerpt {
