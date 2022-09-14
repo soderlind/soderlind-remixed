@@ -17,10 +17,11 @@ export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.slug, `params.slug is required`);
 
   const source = await getArchiveContent(params);
+
   if (!source) {
     throw new Response("Not found", { status: 404 });
   }
-  // console.log(post);
+  console.log(source);
   const { title, body, slug } = source;
 
   return json<LoaderData>({ title, body, slug });
@@ -93,6 +94,7 @@ export default function ArchiveContent() {
             ← Back to the archive index
           </Link>
           <h1 className="entry-title">{title}</h1>
+          <p className="excerpt">TODO: excerpt excerpt excerpt excerpt </p>
           <div className="meta">
             <IntlDate date={date} timeZone="CET" />
           </div>

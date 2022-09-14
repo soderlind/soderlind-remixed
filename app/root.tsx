@@ -1,5 +1,8 @@
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
+import { useState } from "react";
+
+import { animated, useSpring } from "react-spring";
 import {
   Links,
   LiveReload,
@@ -17,6 +20,7 @@ import fontStyles from "~/styles/fonts.css";
 import fontAwesome from "~/styles/font-awesome.css";
 import NavBar from "./components/NavBar";
 import SocialLink from "./components/SocialLink";
+import MobileMenu from "./components/MobileMenu";
 // export const links = () => {
 //   return [{ rel: "stylesheet", href: fontStyles }];
 // };
@@ -54,6 +58,11 @@ export const meta: MetaFunction = () => ({
 
 const activeClassName = "active";
 export default function App() {
+  const [fullMenuVisible, setFullMenuVisible] = useState(false);
+  const fullMenuAnimation = useSpring({
+    transform: fullMenuVisible ? `translateY(0)` : `translateY(-100%)`,
+    opacity: fullMenuVisible ? 1 : 0,
+  });
   return (
     <html lang="en">
       <head>
@@ -73,7 +82,10 @@ export default function App() {
 
           <div className="site-description">I code for fun</div>
 
-          <div className="nav-toggle">
+          <div
+            className="nav-toggle"
+            onClick={() => setFullMenuVisible(!fullMenuVisible)}
+          >
             <div className="bar"></div>
             <div className="bar"></div>
           </div>
@@ -89,11 +101,11 @@ export default function App() {
           </div>
         </header>
 
-        <div className="mobile-menu-wrapper">
+        <animated.div className="mobile-menu-wrapper" style={fullMenuAnimation}>
           <ul className="main-menu mobile">
-            <NavBar />
+            <MobileMenu />
           </ul>
-        </div>
+        </animated.div>
 
         {/* <div className="mobile-menu-wrapper">
 

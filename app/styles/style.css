@@ -671,8 +671,8 @@ figure {
 
 .mobile-menu-wrapper,
 .mobile-search {
-	display: none;
-	transform: translateZ( 0 );
+	/* display: none; */
+	/* transform: translateZ( 0 ); */
 }
 
 /* Main Menu ----------------------------- */
@@ -923,7 +923,7 @@ body.hide-social .social-menu {
 .posts .list-title {
 	font-size: inherit;
 	font-weight: inherit;
-	margin: 0 0 17px 0;
+	margin: 34px 0 17px 0;
 }
 
 .posts .list-title a {
@@ -2261,7 +2261,8 @@ input.search-field::-moz-placeholder { color: #121212; }
 		background-image: url( ./assets/images/spyglass-semiopaque.svg );
 	}
 
-	.mobile-menu-wrapper.visible .main-menu {
+	/* .mobile-menu-wrapper.visible .main-menu { */
+	.mobile-menu-wrapper .main-menu {
 		opacity: 1;
 	}
 	
