@@ -9,7 +9,7 @@ const ContentList = ({ title, description, list }: ContentListProps) => {
     <div className="section-inner">
       <header className="page-header">
         <h2 className="entry-title">{title}</h2>
-        <div className="page-description">{description}</div>
+        <div className="excerpt">{description}</div>
       </header>
       <div className="posts" id="posts">
         <ul>{list}</ul>
