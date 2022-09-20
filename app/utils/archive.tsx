@@ -1,8 +1,9 @@
-import parseFrontMatter from "front-matter";
+import parseFrontMatter, { FrontMatterOptions } from "front-matter";
 import { parseJSON, formatISO } from "date-fns";
 import path from "path";
-
-import { fsp, resolve, join } from "./fs.server";
+import { fsp } from "./fs.server";
+import { json } from "@remix-run/node";
+import { sortBy } from "sort-by-typescript";
 
 export type Mdx = {
   slug: string;
@@ -10,24 +11,18 @@ export type Mdx = {
   title: string;
 };
 
-export type MdxMarkdownAttributes = {
-  title: string;
-  date: string;
-};
+const archivePath = path.resolve("public/jekyll");
 
-const archivePath = `${__dirname}/../public/jekyll`;
-
-function handleEmbedderError({ url }: { url: string }) {
+function handleEmbedderError({ url }: { url: string }): string {
   return `<p>Error embedding <a href="${url}">${url}</a>.`;
 }
 
-export async function getArchiveContent(params) {
+export async function getArchiveContent(slug: string) {
   const paths = require("~/paths.json");
-
-  const pathname = params.slug.replace(/^\/+/, "");
+  const pathname = slug.replace(/^\/+/, "");
 
   const regexp = new RegExp(`${pathname}`, "i");
-  const pathMatch = paths.find((p) => regexp.test(p.path));
+  const pathMatch = paths.find((p: any) => regexp.test(p.path));
 
   if (pathMatch) {
     const source = await fsp.readFile(
@@ -35,14 +30,11 @@ export async function getArchiveContent(params) {
       "utf-8"
     );
 
-    const { attributes, body } = parseFrontMatter(source);
-    const pathFunc = require("path");
-    const extension = pathFunc.extname(pathMatch.path).replace(".", "");
+    const { attributes, body } = parseFrontMatter<FrontMatterOptions>(source);
     return {
       ...attributes,
-      body: body,
+      content: body,
       slug: pathMatch.path,
-      type: extension,
     };
   } else {
     return null;
@@ -79,7 +71,8 @@ export async function getArchive() {
   );
 
   return groupByYear(
-    posts.sort((objA, objB) => objB.date.getTime() - objA.date.getTime())
+    posts.sort(sortBy("-date"))
+    // posts.sort((objA, objB) => objB.date.getTime() - objA.date.getTime())
   );
 }
 

@@ -1,6 +1,6 @@
 import styles from "highlight.js/styles/nnfx-light.css";
-import { json, LoaderFunction, redirect } from "@remix-run/node";
-import { useLoaderData, Link, Outlet } from "@remix-run/react";
+import { json, LoaderArgs, LoaderFunction } from "@remix-run/node";
+import { useLoaderData, Link } from "@remix-run/react";
 import { getArchiveContent } from "~/utils/archive";
 import { IntlDate } from "~/components/IntlDate";
 import { parseJSON, formatISO } from "date-fns";
@@ -12,20 +12,22 @@ import rehypeHighlight from "rehype-highlight";
 
 type LoaderData = {
   title: string;
-  body: string;
+  content: string;
   slug: string;
 };
 
-export const loader: LoaderFunction = async ({ params }) => {
+// export const loader: LoaderFunction = async ({ params }) => {
+export async function loader(args: LoaderArgs) {
+  const { params } = args;
   invariant(params.slug, `params.slug is required`);
-  const source = await getArchiveContent(params);
+  const source = await getArchiveContent(params.slug);
 
   if (!source) {
     throw new Response("Not found", { status: 404 });
   }
-  const { title, body, slug } = source;
-  return json<LoaderData>({ title, body, slug });
-};
+  const { title, content, slug } = source;
+  return json<LoaderData>({ title, content, slug });
+}
 
 export const links = () => {
   return [
@@ -36,8 +38,15 @@ export const links = () => {
   ];
 };
 
+type StrDate = {
+  year: string;
+  month: string;
+  day: string;
+};
+
 export default function ArchiveContent() {
-  const { title, body, slug } = useLoaderData<LoaderData>();
+  const { title, content, slug } = useLoaderData<LoaderData>();
+
   const strDate = formatISO(
     new Date(
       slug
@@ -61,7 +70,7 @@ export default function ArchiveContent() {
 
         <div className="entry-content section-inner">
           <ReactMarkdown
-            children={body}
+            children={content}
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw, rehypeHighlight]}
           />
