@@ -9,7 +9,7 @@ export const IntlDate = ({ date, timeZone }: IntlDateProps) => {
   const locales = useLocales();
   const isoString = date.toISOString();
   const formattedDate = new Intl.DateTimeFormat(locales, {
-    year: "numeric",
+    // year: "numeric",
     month: "short",
     day: "numeric",
     timeZone,
