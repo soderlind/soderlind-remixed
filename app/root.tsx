@@ -76,7 +76,7 @@ export default function App() {
         <header className="site-header group">
           <h1 className="site-title">
             <a href="/" className="site-name">
-              soderlind.no
+              Per Søderlind
             </a>
           </h1>
 

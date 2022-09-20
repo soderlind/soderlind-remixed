@@ -1,7 +1,5 @@
-// import { prisma } from "~/db.server";
-// import type { Post } from "@prisma/client";
+import { json } from "@remix-run/node";
 import { parseJSON } from "date-fns";
-// import Posts from "~/routes/posts";
 
 type Post = {
   title: string;
@@ -81,13 +79,11 @@ export async function getPosts(): Promise<Posts> {
     ],
   };
 
-  // const postsByYear = groupByYear(posts);
-
   return posts as Posts;
 }
 
 export async function getPost(slug: string) {
-  const posts = (await getPosts()) as unknown as any[] as Post[];
+  const posts = (await getPosts()) as unknown as Posts;
 
   const post = Object.keys(posts).reduce((acc, year) => {
     const y = parseInt(year, 10);
@@ -97,17 +93,7 @@ export async function getPost(slug: string) {
       return post;
     }
     return acc;
-  }, {} as Posts);
+  }, {} as Post);
 
   return post;
-}
-
-function groupByYear(objectArray: Posts) {
-  const InitialValue: Posts = {} as Posts;
-  return objectArray.reduce<Posts>((acc, obj) => {
-    const key = parseJSON(obj["updatedAt"]).getFullYear();
-    (acc[key] as unknown as any[]) ??= [];
-    (acc[key] as unknown as any[]).push(obj);
-    return acc;
-  }, InitialValue);
 }
