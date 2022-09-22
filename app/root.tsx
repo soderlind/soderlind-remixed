@@ -96,7 +96,10 @@ export default function App() {
 
           <div className="site-description">I code for fun</div>
 
-          <div className="nav-toggle" onClick={() => console.log("clicked")}>
+          <div
+            className="nav-toggle"
+            onClick={() => setFullMenuVisible(!fullMenuVisible)}
+          >
             <div className="bar"></div>
             <div className="bar"></div>
           </div>
