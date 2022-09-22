@@ -10,12 +10,8 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  NavLink,
-  useParams,
-  Form,
   useLoaderData,
   useLocation,
-  useTransition,
 } from "@remix-run/react";
 import { projectDetails } from "~/sanity/config";
 
@@ -28,25 +24,6 @@ import MobileMenu from "./components/MobileMenu";
 
 export const links: LinksFunction = () => {
   return [
-    // {
-    //   rel: "preload",
-    //   href: "/fonts/archivo-v18-latin-ext_latin-600.woff2",
-    //   as: "font",
-    //   type: "font/woff2",
-    // },
-    // {
-    //   rel: "preload",
-    //   href: "/fonts/archivo-v18-latin-ext_latin-regular.woff2",
-    //   as: "font",
-    //   type: "font/woff2",
-    // },
-    // {
-    //   rel: "preload",
-    //   href: "/fonts/font-awesome/fa-brands-400.woff2",
-    //   as: "font",
-    //   type: "font/woff2",
-    // },
-
     { rel: "stylesheet", href: themeStyle },
     { rel: "stylesheet", href: fontStyles },
     { rel: "stylesheet", href: fontAwesome },
