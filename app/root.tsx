@@ -25,8 +25,6 @@ import fontAwesome from "~/styles/font-awesome.css";
 import NavBar from "./components/NavBar";
 import SocialLink from "./components/SocialLink";
 import MobileMenu from "./components/MobileMenu";
-// import Hamburger from "./components/Hamburger";
-// import { ClientOnly } from "remix-utils";
 
 export const links: LinksFunction = () => {
   return [
@@ -48,6 +46,7 @@ export const links: LinksFunction = () => {
     //   as: "font",
     //   type: "font/woff2",
     // },
+
     { rel: "stylesheet", href: themeStyle },
     { rel: "stylesheet", href: fontStyles },
     { rel: "stylesheet", href: fontAwesome },
@@ -65,7 +64,6 @@ export async function loader(args: LoaderArgs) {
 }
 
 const activeClassName = "active";
-
 export default function App() {
   const data = useLoaderData<typeof loader>();
 
@@ -74,67 +72,85 @@ export default function App() {
     transform: fullMenuVisible ? `translateY(0)` : `translateY(-100%)`,
     opacity: fullMenuVisible ? 1 : 0,
   });
+
   const { pathname } = useLocation();
   const isStudioRoute = pathname.startsWith("/studio");
-  return (
-    <html lang="en">
-      <head>
-        <Meta />
-        <Links />
-        {isStudioRoute && typeof document === "undefined" ? "__STYLES__" : null}
-      </head>
-      <body className="page, full-width-template">
-        <a className="skip-link button" href="#site-content">
-          Skip to the content
-        </a>
-        <header className="site-header group">
-          <h1 className="site-title">
-            <a href="/" className="site-name">
-              Per Søderlind
-            </a>
-          </h1>
 
-          <div className="site-description">I code for fun</div>
+  if (isStudioRoute) {
+    return (
+      <html lang="en">
+        <head>
+          <Meta />
+          <Links />
+          {isStudioRoute && typeof document === "undefined"
+            ? "__STYLES__"
+            : null}
+        </head>
+        <body>
+          <Outlet />
+          <ScrollRestoration />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+            }}
+          />
+          <Scripts />
+          <LiveReload />
+        </body>
+      </html>
+    );
+  } else {
+    return (
+      <html lang="en">
+        <head>
+          <Meta />
+          <Links />
+          {isStudioRoute && typeof document === "undefined"
+            ? "__STYLES__"
+            : null}
+        </head>
+        <body className="page, full-width-template">
+          <a className="skip-link button" href="#site-content">
+            Skip to the content
+          </a>
+          <header className="site-header group">
+            <h1 className="site-title">
+              <a href="/" className="site-name">
+                Per Søderlind
+              </a>
+            </h1>
 
-          <div
-            className="nav-toggle"
-            onClick={() => setFullMenuVisible(!fullMenuVisible)}
+            <div className="site-description">I code for fun</div>
+
+            <div
+              className="nav-toggle"
+              onClick={() => setFullMenuVisible(!fullMenuVisible)}
+            >
+              <div className="bar"></div>
+              <div className="bar"></div>
+            </div>
+
+            <div className="menu-wrapper">
+              <ul className="main-menu desktop">
+                <NavBar />
+              </ul>
+            </div>
+
+            <div className="social-menu desktop">
+              <SocialLink />
+            </div>
+          </header>
+
+          <animated.div
+            className="mobile-menu-wrapper"
+            style={fullMenuAnimation}
           >
-            <div className="bar"></div>
-            <div className="bar"></div>
-          </div>
-          {/* <Hamburger
-            onClick={() => {
-              setFullMenuVisible(!fullMenuVisible);
-            }}
-          /> */}
-          {/* <div
-            className="nav-toggle"
-            onClick={() => {
-              setFullMenuVisible(!fullMenuVisible);
-            }}
-          >
-            <div className="bar"></div>
-            <div className="bar"></div>
-          </div> */}
-          <div className="menu-wrapper">
-            <ul className="main-menu desktop">
-              <NavBar />
+            <ul className="main-menu mobile">
+              <MobileMenu />
             </ul>
-          </div>
+          </animated.div>
 
-          <div className="social-menu desktop">
-            <SocialLink />
-          </div>
-        </header>
-
-        <animated.div className="mobile-menu-wrapper" style={fullMenuAnimation}>
-          <ul className="main-menu mobile">
-            <MobileMenu />
-          </ul>
-        </animated.div>
-
-        {/* <div className="mobile-menu-wrapper">
+          {/* <div className="mobile-menu-wrapper">
 
 			<ul className="main-menu mobile">
 				<?php
@@ -164,55 +180,61 @@ export default function App() {
 
 		</div><!-- .mobile-menu-wrapper --> */}
 
-        {/* <?php if ( ! get_theme_mod( 'mcluhan_hide_social', false ) ) : ?> */}
+          {/* <?php if ( ! get_theme_mod( 'mcluhan_hide_social', false ) ) : ?> */}
 
-        <div className="mobile-search">
-          <div className="untoggle-mobile-search"></div>
+          <div className="mobile-search">
+            <div className="untoggle-mobile-search"></div>
 
-          {/* <?php get_search_form(); ?> */}
+            {/* <?php get_search_form(); ?> */}
 
-          <div className="mobile-results">
-            <div className="results-wrapper"></div>
+            <div className="mobile-results">
+              <div className="results-wrapper"></div>
+            </div>
           </div>
-        </div>
 
-        <div className="search-overlay">
-          {/* <?php get_search_form(); ?> */}
-        </div>
+          <div className="search-overlay">
+            {/* <?php get_search_form(); ?> */}
+          </div>
 
-        {/* <?php endif; ?> */}
+          {/* <?php endif; ?> */}
 
-        <main
-          className={!isStudioRoute ? "site-content" : "site-content-studio"}
-          id="site-content"
-          style={
-            isStudioRoute
-              ? { height: "100%", width: "100%", top: 0, position: "absolute" }
-              : {}
-          }
-        >
-          <Outlet />
-          <footer className="site-footer section-inner">
-            <p className="copyright">
-              &copy; 2022{" "}
-              <a href="/" className="site-name">
-                soderlind.no
-              </a>
-            </p>
-            {/* <p className="theme-by"><?php _e( 'Theme by', 'mcluhan' ); ?> <a href="https://andersnoren.se">Anders Nor&eacute;n</a></p> */}
-          </footer>
-        </main>
-        <ScrollRestoration />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
-          }}
-        />
-        <Scripts />
-        <LiveReload />
-      </body>
-    </html>
-  );
+          <main
+            className={!isStudioRoute ? "site-content" : "site-content-studio"}
+            id="site-content"
+            style={
+              isStudioRoute
+                ? {
+                    height: "100%",
+                    width: "100%",
+                    top: 0,
+                    position: "absolute",
+                  }
+                : {}
+            }
+          >
+            <Outlet />
+            <footer className="site-footer section-inner">
+              <p className="copyright">
+                &copy; 2022{" "}
+                <a href="/" className="site-name">
+                  soderlind.no
+                </a>
+              </p>
+              {/* <p className="theme-by"><?php _e( 'Theme by', 'mcluhan' ); ?> <a href="https://andersnoren.se">Anders Nor&eacute;n</a></p> */}
+            </footer>
+          </main>
+          <ScrollRestoration />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+            }}
+          />
+          <Scripts />
+          <LiveReload />
+        </body>
+      </html>
+    );
+  }
 }
 
 // export function ErrorBoundary({ error }) {
