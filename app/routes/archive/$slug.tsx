@@ -1,4 +1,5 @@
 import styles from "highlight.js/styles/nnfx-light.css";
+import coynoshadows from "~/styles/prism-coy-without-shadows.css";
 import { json, LoaderArgs, LoaderFunction } from "@remix-run/node";
 import { useLoaderData, Link } from "@remix-run/react";
 import { getArchiveContent } from "~/utils/archive";
@@ -9,6 +10,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeHighlight from "rehype-highlight";
+import rehypePrism from "rehype-prism";
 
 type LoaderData = {
   title: string;
@@ -33,7 +35,7 @@ export const links = () => {
   return [
     {
       rel: "stylesheet",
-      href: styles,
+      href: coynoshadows,
     },
   ];
 };
@@ -72,7 +74,7 @@ export default function ArchiveContent() {
           <ReactMarkdown
             children={content}
             remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeRaw, rehypeHighlight]}
+            rehypePlugins={[rehypeRaw, rehypePrism]}
           />
           <div className="post-nav">
             <Link className="meta" to="/archive">
