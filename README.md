@@ -1,6 +1,18 @@
-# Welcome to Remix!
+# Sanity Studio v3 + Remix
 
+- [Sanity Studio v3 Docs](https://beta.sanity.io)
 - [Remix Docs](https://remix.run/docs)
+
+## Includes:
+
+- Sanity Studio v3 embedded in the `/studio` route
+- Styled Components SSR support for the `/studio` route
+- Example Sanity Studio config and schema
+- Example Portable Text Component
+- Example Image Builder Component
+- eslint and Prettier
+- Tailwind CSS for the front-end
+- Tailwind Prose and Prettier plugins
 
 ## Development
 
@@ -11,6 +23,13 @@ npm run dev
 ```
 
 This starts your app in development mode, rebuilding assets on file changes.
+
+## Sanity Studio
+
+Visit `https://localhost:3000/studio` in your Remix app. You will need to:
+
+1. Update any `projectId` configs to a project your in your [Sanity Manage](https://sanity.io/manage)
+2. Possibly also add `localhost:3000` to the CORS settings on that project
 
 ## Deployment
 

@@ -1,46 +1,48 @@
-import { marked } from "marked";
-import type { LoaderArgs, LoaderFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import invariant from "tiny-invariant";
-import { parseJSON } from "date-fns";
-import { IntlDate } from "~/components/IntlDate";
-import { getPost } from "~/models/post.server";
+import groq from "groq";
+import coy from "~/styles/prism.css";
+import vsdark from "~/styles/prism-vsc-dark-plus.css";
+import vslight from "~/styles/prism-vs.css";
+import coynoshadows from "~/styles/prism-coy-without-shadows.css";
 
-type Post = {
-  slug: string;
-  title: string;
-  markdown: string;
-  updatedAt: string;
+import Layout from "~/components/Layout";
+
+import SanityContent from "~/components/SanityContent";
+import { client } from "~/sanity/client";
+import type { ProductDocument } from "~/sanity/types/Product";
+
+export const links: LinksFunction = () => {
+  return [{ rel: "stylesheet", href: coynoshadows }];
 };
-type LoaderData = { post: Post; html: string };
 
-// export const loader: LoaderFunction = async ({ params }) => {
-export async function loader(args: LoaderArgs) {
-  const { params } = args;
-  invariant(params.slug, `params.slug is required`);
-  const post = await getPost(params.slug);
-  const html = marked(post.markdown);
-  return json({ post, html });
-}
+export const loader: LoaderFunction = async ({ params }) => {
+  const { slug } = params;
+  const product = await client.fetch(
+    groq`*[_type == "product" && slug.current == $slug][0]{ title, content }`,
+    { slug }
+  );
 
-export default function PostSlug() {
-  const { post, html } = useLoaderData<LoaderData>();
+  if (!product) {
+    return new Response("Not found", { status: 404 });
+  }
+
+  return { product };
+};
+
+export default function Product() {
+  const { product } = useLoaderData<{ product: ProductDocument }>();
+
   return (
-    <article className="post">
-      <div className="featured-image"></div>
-      <header className="entry-header section-inner">
-        <h1 className="entry-title">{post.title}</h1>
-        <p className="excerpt">TODO: excerpt excerpt excerpt excerpt </p>
-        <div className="meta">
-          <a href="#">
-            <IntlDate date={parseJSON(post.updatedAt)} timeZone="UTC" />
-          </a>
-        </div>
-      </header>
-      <div className="entry-content section-inner">
-        <div dangerouslySetInnerHTML={{ __html: html }} />
-      </div>
-    </article>
+    <Layout>
+      {product?.title ? (
+        <h1 className="mb-6 text-2xl font-bold text-green-700 md:mb-12 md:text-4xl">
+          {product.title}
+        </h1>
+      ) : null}
+      {product?.content && product.content?.length > 0 ? (
+        <SanityContent value={product.content} />
+      ) : null}
+    </Layout>
   );
 }

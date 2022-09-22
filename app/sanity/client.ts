@@ -1,8 +1,8 @@
-import SanityClient from '@sanity/client'
+import SanityClient from "@sanity/client";
 
-import {projectDetails} from './config'
+import { projectDetails } from "./config";
 
 export const client = new SanityClient({
-  ...projectDetails,
+  ...projectDetails(),
   useCdn: true,
-})
+});

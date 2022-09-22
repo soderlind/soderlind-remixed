@@ -1,7 +1,7 @@
 import { Link } from "@remix-run/react";
 import { parseJSON } from "date-fns";
 import { Post } from "~/models/post.server";
-import { IntlDate } from "./IntlDate";
+import { Date, FormatDate } from "./FormatDate";
 
 type PrefetchBehavior = "intent" | "none" | "render";
 
@@ -34,7 +34,7 @@ const ContentListItem = ({
           <span>{post.title}</span>
         </h2>
 
-        <IntlDate
+        <FormatDate
           key={"date-" + post.slug}
           date={parseJSON(date)}
           timeZone="CET"

@@ -2,7 +2,7 @@ import styles from "highlight.js/styles/nnfx-light.css";
 import { json, LoaderArgs, LoaderFunction } from "@remix-run/node";
 import { useLoaderData, Link } from "@remix-run/react";
 import { getArchiveContent } from "~/utils/archive";
-import { IntlDate } from "~/components/IntlDate";
+import { FormatDate } from "~/components/FormatDate";
 import { parseJSON, formatISO } from "date-fns";
 import invariant from "tiny-invariant";
 import ReactMarkdown from "react-markdown";
@@ -64,7 +64,7 @@ export default function ArchiveContent() {
           <h2 className="entry-title">{title}</h2>
 
           <div className="meta">
-            <IntlDate date={date} timeZone="CET" />
+            <FormatDate date={date} timeZone="CET" />
           </div>
         </header>
 

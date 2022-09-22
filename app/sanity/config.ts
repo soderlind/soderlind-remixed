@@ -1,29 +1,26 @@
+import { codeInput } from "@sanity/code-input";
 import { createConfig } from "sanity";
 import { deskTool } from "sanity/desk";
-import { codeInput } from "@sanity/code-input";
 
 import schema from "./schema";
 
-export const projectDetails = {
+export const projectDetails = () => ({
   projectId:
-    typeof process !== "undefined" ? process.env.SANITY_PROJECT_ID ?? `` : ``,
+    typeof document === "undefined"
+      ? process.env.SANITY_PROJECT_ID
+      : window?.ENV?.projectId,
   dataset:
-    typeof process !== "undefined" ? process.env.SANITY_DATASET ?? `` : ``,
+    typeof document === "undefined"
+      ? process.env.SANITY_DATASET
+      : window?.ENV?.dataset,
   apiVersion:
-    typeof process !== "undefined"
-      ? process.env.SANITY_API_VERSION ?? `2022-09-19`
-      : ``,
-};
-
-const projectDetailsBrowser = {
-  projectId: typeof document !== "undefined" ? window.ENV.projectId ?? `` : ``,
-  dataset: typeof document !== "undefined" ? window.ENV.dataset ?? `` : ``,
-  apiVersion:
-    typeof document !== "undefined" ? window.ENV.apiVersion ?? `` : ``,
-};
+    typeof document === "undefined"
+      ? process.env.SANITY_API_VERSION
+      : window?.ENV?.apiVersion,
+});
 
 export const config = createConfig({
-  ...projectDetailsBrowser,
+  ...projectDetails(),
   plugins: [deskTool(), codeInput()],
   basePath: `/studio`,
   schema: {

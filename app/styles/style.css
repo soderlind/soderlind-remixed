@@ -3045,12 +3045,20 @@ input.search-field::-moz-placeholder { color: #121212; }
 
 }
 
+.repos-wrapper svg {
+	width: 50px;
+}
+
+.repos-wrapper .faicon {
+	float: right;
+}
+
 @media ( max-width: 1050px ) {
 	.repos-wrapper {
 		display: block;
 	}
 	.repos-wrapper  div {
 		margin: 0;
-		background-color: #ccc;
+		/* background-color: #ccc; */
 	}
 }

@@ -1,8 +1,11 @@
+import { PassThrough } from "stream";
 import type { EntryContext } from "@remix-run/node";
+import { Response } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
-import { renderToString } from "react-dom/server";
-import { parseAcceptLanguage } from "intl-parse-accept-language";
-import { LocaleContextProvider } from "~/providers/LocaleProvider";
+import { renderToPipeableStream, renderToString } from "react-dom/server";
+import { ServerStyleSheet } from "styled-components";
+
+const ABORT_DELAY = 5000;
 
 export default function handleRequest(
   request: Request,
@@ -10,20 +13,60 @@ export default function handleRequest(
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
-  const acceptLanguage = request.headers.get("accept-language");
-  const locales = parseAcceptLanguage(acceptLanguage, {
-    validate: Intl.DateTimeFormat.supportedLocalesOf,
-  });
+  return new Promise((resolve, reject) => {
+    let didError = false;
+    let isStudioRoute = new URL(request.url).pathname.startsWith(`/studio`);
 
-  const markup = renderToString(
-    <LocaleContextProvider locales={locales}>
-      <RemixServer context={remixContext} url={request.url} />
-    </LocaleContextProvider>
-  );
-  responseHeaders.set("Content-Type", "text/html");
+    // We're only using Styled Components in the /studio route
+    // Couldn't find any docs on renderToPipeableStream + Styled Components
+    if (isStudioRoute) {
+      const sheet = new ServerStyleSheet();
+      let markup = renderToString(
+        sheet.collectStyles(
+          <RemixServer context={remixContext} url={request.url} />
+        )
+      );
+      const styles = sheet.getStyleTags();
+      markup = markup.replace("__STYLES__", styles);
 
-  return new Response("<!DOCTYPE html>" + markup, {
-    status: responseStatusCode,
-    headers: responseHeaders,
+      responseHeaders.set("Content-Type", "text/html");
+
+      return resolve(
+        new Response("<!DOCTYPE html>" + markup, {
+          status: responseStatusCode,
+          headers: responseHeaders,
+        })
+      );
+    }
+
+    const { pipe, abort } = renderToPipeableStream(
+      <RemixServer context={remixContext} url={request.url} />,
+      {
+        onShellReady: () => {
+          const body = new PassThrough();
+
+          responseHeaders.set("Content-Type", "text/html");
+
+          resolve(
+            new Response(body, {
+              headers: responseHeaders,
+              status: didError ? 500 : responseStatusCode,
+            })
+          );
+
+          pipe(body);
+        },
+        onShellError: (err) => {
+          reject(err);
+        },
+        onError: (error) => {
+          didError = true;
+
+          console.error(error);
+        },
+      }
+    );
+
+    setTimeout(abort, ABORT_DELAY);
   });
 }

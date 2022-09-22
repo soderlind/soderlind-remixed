@@ -13,7 +13,11 @@ import {
   NavLink,
   useParams,
   Form,
+  useLoaderData,
+  useLocation,
+  useTransition,
 } from "@remix-run/react";
+import { projectDetails } from "~/sanity/config";
 
 import themeStyle from "./styles/style.css";
 import fontStyles from "~/styles/fonts.css";
@@ -21,9 +25,9 @@ import fontAwesome from "~/styles/font-awesome.css";
 import NavBar from "./components/NavBar";
 import SocialLink from "./components/SocialLink";
 import MobileMenu from "./components/MobileMenu";
-// export const links = () => {
-//   return [{ rel: "stylesheet", href: fontStyles }];
-// };
+// import Hamburger from "./components/Hamburger";
+// import { ClientOnly } from "remix-utils";
+
 export const links: LinksFunction = () => {
   return [
     // {
@@ -56,18 +60,28 @@ export const meta: MetaFunction = () => ({
   viewport: "width=device-width,initial-scale=1",
 });
 
+export async function loader(args: LoaderArgs) {
+  return json({ ENV: projectDetails() });
+}
+
 const activeClassName = "active";
+
 export default function App() {
+  const data = useLoaderData<typeof loader>();
+
   const [fullMenuVisible, setFullMenuVisible] = useState(false);
   const fullMenuAnimation = useSpring({
     transform: fullMenuVisible ? `translateY(0)` : `translateY(-100%)`,
     opacity: fullMenuVisible ? 1 : 0,
   });
+  const { pathname } = useLocation();
+  const isStudioRoute = pathname.startsWith("/studio");
   return (
     <html lang="en">
       <head>
         <Meta />
         <Links />
+        {isStudioRoute && typeof document === "undefined" ? "__STYLES__" : null}
       </head>
       <body className="page, full-width-template">
         <a className="skip-link button" href="#site-content">
@@ -82,14 +96,24 @@ export default function App() {
 
           <div className="site-description">I code for fun</div>
 
-          <div
-            className="nav-toggle"
-            onClick={() => setFullMenuVisible(!fullMenuVisible)}
-          >
+          <div className="nav-toggle" onClick={() => console.log("clicked")}>
             <div className="bar"></div>
             <div className="bar"></div>
           </div>
-
+          {/* <Hamburger
+            onClick={() => {
+              setFullMenuVisible(!fullMenuVisible);
+            }}
+          /> */}
+          {/* <div
+            className="nav-toggle"
+            onClick={() => {
+              setFullMenuVisible(!fullMenuVisible);
+            }}
+          >
+            <div className="bar"></div>
+            <div className="bar"></div>
+          </div> */}
           <div className="menu-wrapper">
             <ul className="main-menu desktop">
               <NavBar />
@@ -155,7 +179,15 @@ export default function App() {
 
         {/* <?php endif; ?> */}
 
-        <main className="site-content" id="site-content">
+        <main
+          className={!isStudioRoute ? "site-content" : "site-content-studio"}
+          id="site-content"
+          style={
+            isStudioRoute
+              ? { height: "100%", width: "100%", top: 0, position: "absolute" }
+              : {}
+          }
+        >
           <Outlet />
           <footer className="site-footer section-inner">
             <p className="copyright">
@@ -168,6 +200,11 @@ export default function App() {
           </footer>
         </main>
         <ScrollRestoration />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+          }}
+        />
         <Scripts />
         <LiveReload />
       </body>
@@ -203,7 +240,7 @@ export function ErrorBoundary({ error }) {
       </head>
       <body>
         {/* add the UI you want your users to see */}
-        <Scripts />
+        {/* <Scripts /> */}
       </body>
     </html>
   );

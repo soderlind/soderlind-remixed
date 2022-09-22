@@ -24,7 +24,6 @@ export async function getGitHubRepos() {
   );
 
   const repositories = await repositoriesResp.json();
-  console.log(repositories);
 
   const projects = repositories.map((repo: Repo) => {
     if (

@@ -1,7 +1,7 @@
 import parseFrontMatter, { FrontMatterOptions } from "front-matter";
 import { parseJSON, formatISO } from "date-fns";
-import path from "path";
-import { fsp } from "./fs.server";
+// import path from "path";
+import { fsp, resolve, join } from "./fs.server";
 import { json } from "@remix-run/node";
 import { sortBy } from "sort-by-typescript";
 
@@ -11,7 +11,7 @@ export type Mdx = {
   title: string;
 };
 
-const archivePath = path.resolve("public/jekyll");
+const archivePath = resolve("public/jekyll");
 
 function handleEmbedderError({ url }: { url: string }): string {
   return `<p>Error embedding <a href="${url}">${url}</a>.`;
@@ -26,7 +26,7 @@ export async function getArchiveContent(slug: string) {
 
   if (pathMatch) {
     const source = await fsp.readFile(
-      path.join(`${archivePath}`, pathMatch.path),
+      join(`${archivePath}`, pathMatch.path),
       "utf-8"
     );
 
@@ -48,7 +48,7 @@ export async function getArchive() {
 
   const posts = await Promise.all(
     postsPath.map(async (dirent) => {
-      const file = await fsp.readFile(path.join(`${archivePath}`, dirent.name));
+      const file = await fsp.readFile(join(`${archivePath}`, dirent.name));
       const { attributes, body } = parseFrontMatter(file.toString());
 
       return {
