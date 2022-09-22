@@ -1,3 +1,3 @@
-import product from './product'
+import page from "./page";
 
-export default [product]
+export default [page];
