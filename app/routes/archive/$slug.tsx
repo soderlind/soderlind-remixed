@@ -1,5 +1,5 @@
-import styles from "highlight.js/styles/nnfx-light.css";
-import coynoshadows from "~/styles/prism-coy-without-shadows.css";
+// import styles from "highlight.js/styles/nnfx-light.css";
+import styles from "highlight.js/styles/night-owl.css";
 import { json, LoaderArgs, LoaderFunction } from "@remix-run/node";
 import { useLoaderData, Link } from "@remix-run/react";
 import { getArchiveContent } from "~/utils/archive";
@@ -35,7 +35,7 @@ export const links = () => {
   return [
     {
       rel: "stylesheet",
-      href: coynoshadows,
+      href: styles,
     },
   ];
 };
@@ -74,7 +74,7 @@ export default function ArchiveContent() {
           <ReactMarkdown
             children={content}
             remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeRaw, rehypePrism]}
+            rehypePlugins={[rehypeRaw, rehypeHighlight]}
           />
           <div className="post-nav">
             <Link className="meta" to="/archive">
