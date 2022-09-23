@@ -1,13 +1,16 @@
 import { Outlet, useLoaderData } from "@remix-run/react";
-import ContentList from "~/components/ContentList";
 
-export default function Index() {
-  const outlet = (<Outlet />) as unknown as string;
+export default function Post() {
   return (
-    <ContentList
-      title="Article"
-      description="TODO: Add description"
-      list={outlet}
-    />
+    <article className="post">
+      <div className="featured-image"></div>
+      <header className="entry-header section-inner">
+        <h1 className="entry-title">Articles (from Sanity)</h1>
+        <p className="excerpt"></p>
+      </header>
+      <div className="entry-content section-inner">
+        <Outlet />
+      </div>
+    </article>
   );
 }

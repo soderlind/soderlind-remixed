@@ -10,7 +10,7 @@ import Layout from "~/components/Layout";
 
 import SanityContent from "~/components/SanityContent";
 import { client } from "~/sanity/client";
-import type { ProductDocument } from "~/sanity/types/Product";
+import type { Page } from "~/sanity/types/Page";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: coynoshadows }];
@@ -18,30 +18,26 @@ export const links: LinksFunction = () => {
 
 export const loader: LoaderFunction = async ({ params }) => {
   const { slug } = params;
-  const product = await client.fetch(
-    groq`*[_type == "product" && slug.current == $slug][0]{ title, content }`,
+  const page = await client.fetch(
+    groq`*[_type == "page" && slug.current == $slug][0]{ title, content }`,
     { slug }
   );
 
-  if (!product) {
+  if (!page) {
     return new Response("Not found", { status: 404 });
   }
 
-  return { product };
+  return { page };
 };
 
 export default function Product() {
-  const { product } = useLoaderData<{ product: ProductDocument }>();
+  const { page } = useLoaderData<{ page: Page }>();
 
   return (
     <Layout>
-      {product?.title ? (
-        <h1 className="mb-6 text-2xl font-bold text-green-700 md:mb-12 md:text-4xl">
-          {product.title}
-        </h1>
-      ) : null}
-      {product?.content && product.content?.length > 0 ? (
-        <SanityContent value={product.content} />
+      {page?.title ? <h2 className="entry-title">{page.title}</h2> : null}
+      {page?.content && page.content?.length > 0 ? (
+        <SanityContent value={page.content} />
       ) : null}
     </Layout>
   );
