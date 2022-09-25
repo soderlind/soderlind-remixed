@@ -1,7 +1,6 @@
 import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { animated, useSpring } from "react-spring";
 import {
   Links,
@@ -88,7 +87,7 @@ export default function App() {
             ? "__STYLES__"
             : null} */}
         </head>
-        <body className="page, Xfull-width-template">
+        <body className="page">
           <a className="skip-link button" href="#site-content">
             Skip to the content
           </a>

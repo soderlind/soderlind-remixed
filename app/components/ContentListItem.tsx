@@ -34,11 +34,7 @@ const ContentListItem = ({
           <span>{post.title}</span>
         </h2>
 
-        <FormatDate
-          key={"date-" + post.slug}
-          date={parseJSON(date)}
-          timeZone="CET"
-        />
+        <FormatDate key={"date-" + post.slug} date={parseJSON(date)} />
       </Link>
     </li>
   );
