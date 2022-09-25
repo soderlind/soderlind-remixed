@@ -2,7 +2,7 @@ export default function MobileMenu() {
   return (
     <>
       <li key="posts">
-        <a href="/posts/">Articles</a>
+        <a href="/posts/">Posts</a>
       </li>
       <li key="projects">
         <a href="/projects/">Projects</a>

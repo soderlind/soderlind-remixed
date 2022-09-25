@@ -5,7 +5,7 @@ export default function NavBar() {
     <>
       <li key="posts">
         <Link to="/posts/" className="" prefetch="intent">
-          Articles
+          Posts
         </Link>
       </li>
       <li key="projects">
