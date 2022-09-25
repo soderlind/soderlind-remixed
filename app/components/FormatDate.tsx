@@ -7,10 +7,10 @@ type DateProps = {
 };
 
 export const FormatDate = ({ date, pattern }: DateProps) => {
-  pattern = pattern || "yyyy-MM-dd";
+  pattern = pattern || "d MMM";
 
   const isoString = date.toISOString();
-  const formattedDate = format(new Date(date), "d MMM");
+  const formattedDate = format(new Date(date), pattern);
 
   return <time dateTime={isoString}>{formattedDate}</time>;
 };

@@ -1,7 +1,7 @@
 import { Link } from "@remix-run/react";
 import { parseJSON } from "date-fns";
 import { Post } from "~/models/post.server";
-import { Date, FormatDate } from "./FormatDate";
+import { FormatDate } from "./FormatDate";
 
 type PrefetchBehavior = "intent" | "none" | "render";
 
@@ -15,8 +15,8 @@ type ContentListItemProps = {
 const ContentListItem = ({
   post,
   date,
-  urlPrefix,
-  prefetch,
+  urlPrefix = "",
+  prefetch = "none",
 }: ContentListItemProps) => {
   return (
     <li
