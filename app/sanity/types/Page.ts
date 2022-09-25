@@ -5,5 +5,6 @@ export type Page = SanityDocumentLike & {
   slug?: {
     current?: string;
   };
+  ingress?: string;
   content?: Block[];
 };
