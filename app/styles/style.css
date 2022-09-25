@@ -3041,13 +3041,12 @@ input.search-field::-moz-placeholder { color: #121212; }
 
 }
 
-.repos-wrapper {
+/* .repos-wrapper {
 	display: grid;
   gap: 10px;
   grid-template: repeat(4, 1fr) / repeat(2, 1fr);
-  grid-auto-flow: row dense; /* or 'column', 'row', 'row dense', 'column dense' */
-
-}
+  grid-auto-flow: row dense;
+} */
 
 .repos-wrapper svg {
 	width: 50px;
