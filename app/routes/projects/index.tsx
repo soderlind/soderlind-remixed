@@ -8,8 +8,10 @@ import { cache } from "~/utils/cache.server";
 import { FormatDate } from "~/components/FormatDate";
 import { parseJSON } from "date-fns";
 
-// library.add(fab);
-// library.add(faFileCode);
+const sleep = (time: number) =>
+  new Promise((resolve) => setTimeout(resolve, time));
+
+export { sleep };
 
 export async function loader(args: LoaderArgs) {
   if (cache.has("GitHubRepos")) {
@@ -22,16 +24,10 @@ export async function loader(args: LoaderArgs) {
 
 export default function Projects() {
   const repositoryList = useLoaderData<typeof loader>() as Repo[];
+
   const projects = repositoryList.map((repo: Repo) => {
     let language = repo.language.toLowerCase();
-    const fontstyle = [
-      {
-        fontSize: "50px",
-        // marginRight: "0.5rem",
-        verticalAlign: "middle",
-        float: "right",
-      },
-    ];
+
     let FaIcon = <FaJs className="faicon" />;
     switch (language) {
       case "typescript":
@@ -52,12 +48,6 @@ export default function Projects() {
 
         break;
     }
-    // let faIcon = language as IconName;
-    // const icon = (
-    //   <FontAwesomeIcon icon={[faLib, faIcon]} pull="right" border size="1x" />
-    // );
-
-    // console.log(icon);
 
     return (
       <div key={repo.name} className="">
@@ -71,9 +61,9 @@ export default function Projects() {
         </p>
         <p>
           Created:{" "}
-          <FormatDate date={parseJSON(repo.created_at)} timeZone="CET" /> &bull;
-          Updated:{" "}
-          <FormatDate date={parseJSON(repo.updated_at)} timeZone="CET" />
+          <FormatDate date={parseJSON(repo.created_at)} pattern="d.M.yyyy" />{" "}
+          &bull; Updated:{" "}
+          <FormatDate date={parseJSON(repo.updated_at)} pattern="d.M.yyyy" />
         </p>
       </div>
     );

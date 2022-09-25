@@ -1,7 +1,7 @@
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useState } from "react";
-
+import { AnimatePresence, motion } from "framer-motion";
 import { animated, useSpring } from "react-spring";
 import {
   Links,
@@ -12,6 +12,7 @@ import {
   ScrollRestoration,
   useLoaderData,
   useLocation,
+  useOutlet,
 } from "@remix-run/react";
 import { projectDetails } from "~/sanity/config";
 
@@ -21,6 +22,7 @@ import fontAwesome from "~/styles/font-awesome.css";
 import NavBar from "./components/NavBar";
 import SocialLink from "./components/SocialLink";
 import MobileMenu from "./components/MobileMenu";
+// import { GlobalLoading } from "./components/GlobalLoading";
 
 export const links: LinksFunction = () => {
   return [
@@ -43,7 +45,7 @@ export async function loader(args: LoaderArgs) {
 const activeClassName = "active";
 export default function App() {
   const data = useLoaderData<typeof loader>();
-
+  const outlet = useOutlet();
   const [fullMenuVisible, setFullMenuVisible] = useState(false);
   const fullMenuAnimation = useSpring({
     transform: fullMenuVisible ? `translateY(0)` : `translateY(-100%)`,
@@ -82,11 +84,11 @@ export default function App() {
         <head>
           <Meta />
           <Links />
-          {isStudioRoute && typeof document === "undefined"
+          {/* {isStudioRoute && typeof document === "undefined"
             ? "__STYLES__"
-            : null}
+            : null} */}
         </head>
-        <body className="page, full-width-template">
+        <body className="page, Xfull-width-template">
           <a className="skip-link button" href="#site-content">
             Skip to the content
           </a>
@@ -175,21 +177,9 @@ export default function App() {
 
           {/* <?php endif; ?> */}
 
-          <main
-            className={!isStudioRoute ? "site-content" : "site-content-studio"}
-            id="site-content"
-            style={
-              isStudioRoute
-                ? {
-                    height: "100%",
-                    width: "100%",
-                    top: 0,
-                    position: "absolute",
-                  }
-                : {}
-            }
-          >
-            <Outlet />
+          <main className="site-content" id="site-content">
+            {outlet}
+
             <footer className="site-footer section-inner">
               <p className="copyright">
                 &copy; 2022{" "}
@@ -197,15 +187,9 @@ export default function App() {
                   soderlind.no
                 </a>
               </p>
-              {/* <p className="theme-by"><?php _e( 'Theme by', 'mcluhan' ); ?> <a href="https://andersnoren.se">Anders Nor&eacute;n</a></p> */}
             </footer>
           </main>
           <ScrollRestoration />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
-            }}
-          />
           <Scripts />
           <LiveReload />
         </body>
