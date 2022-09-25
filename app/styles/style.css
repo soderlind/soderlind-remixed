@@ -234,6 +234,7 @@ a {
 	word-break: break-word;
 }
 
+
 .excerpt {
 	font-size: 24px;
 	line-height: 1.45;
@@ -1033,6 +1034,7 @@ body.hide-social .social-menu {
 
 .entry-header .excerpt {
 	margin-top: 15px;
+	margin-bottom: 15px;
 }
 
 
@@ -2826,6 +2828,8 @@ input.search-field::-moz-placeholder { color: #121212; }
 	.entry-title {
 		font-size: 24px;
 	}
+
+	
 
 	.entry-header .excerpt {
 		margin-top: 10px;

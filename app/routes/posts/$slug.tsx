@@ -19,10 +19,9 @@ export const links: LinksFunction = () => {
 export const loader: LoaderFunction = async ({ params }) => {
   const { slug } = params;
   const page = await client.fetch(
-    groq`*[_type == "page" && slug.current == $slug][0]{ title, content }`,
+    groq`*[_type == "page" && slug.current == $slug][0]{ title, ingress, content, _updatedAt }`,
     { slug }
   );
-
   if (!page) {
     return new Response("Not found", { status: 404 });
   }
@@ -32,13 +31,20 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export default function Product() {
   const { page } = useLoaderData<{ page: Page }>();
+  console.log(page);
 
   return (
-    <Layout>
-      {page?.title ? <h2 className="entry-title">{page.title}</h2> : null}
-      {page?.content && page.content?.length > 0 ? (
-        <SanityContent value={page.content} />
-      ) : null}
-    </Layout>
+    <article className="post">
+      <div className="featured-image"></div>
+      <header className="entry-header section-inner">
+        {page?.title ? <h2 className="entry-title">{page.title}</h2> : null}
+        {page?.ingress ? <p className="excerpt">{page.ingress} </p> : null}
+      </header>
+      <div className="entry-content section-inner">
+        {page?.content && page.content?.length > 0 ? (
+          <SanityContent value={page.content} />
+        ) : null}
+      </div>
+    </article>
   );
 }
