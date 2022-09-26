@@ -41,7 +41,9 @@ export async function getArchiveContent(slug: string | undefined) {
       slug: pathMatch.path,
     };
   } else {
-    return null;
+    throw new Response("Not Found", {
+      status: 404,
+    });
   }
 }
 
