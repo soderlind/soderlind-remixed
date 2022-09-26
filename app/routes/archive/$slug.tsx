@@ -1,26 +1,19 @@
-// import styles from "highlight.js/styles/nnfx-light.css";
-import styles from "highlight.js/styles/night-owl.css";
 import { json, LoaderArgs, LoaderFunction } from "@remix-run/node";
 import { useLoaderData, Link } from "@remix-run/react";
-import { getArchiveContent } from "~/utils/archive";
-import { FormatDate } from "~/components/FormatDate";
+
 import { parseJSON, formatISO } from "date-fns";
 import invariant from "tiny-invariant";
+
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeHighlight from "rehype-highlight";
-import rehypePrism from "rehype-prism";
+import styles from "highlight.js/styles/night-owl.css";
 
-type LoaderData = {
-  title: string;
-  content: string;
-  slug: string;
-};
+import { getArchiveContent, Jekyll } from "~/models/jekyll.server";
+import { FormatDate } from "~/components/FormatDate";
 
-// export const loader: LoaderFunction = async ({ params }) => {
-export async function loader(args: LoaderArgs) {
-  const { params } = args;
+export async function loader({ params }: LoaderArgs) {
   invariant(params.slug, `params.slug is required`);
   const source = await getArchiveContent(params.slug);
 
@@ -28,7 +21,7 @@ export async function loader(args: LoaderArgs) {
     throw new Response("Not found", { status: 404 });
   }
   const { title, content, slug } = source;
-  return json<LoaderData>({ title, content, slug });
+  return json({ title, content, slug });
 }
 
 export const links = () => {

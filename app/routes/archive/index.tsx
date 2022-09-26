@@ -1,6 +1,8 @@
 import { json } from "@remix-run/node"; // or cloudflare/deno
 import { Link, useLoaderData } from "@remix-run/react";
-import { getArchive } from "~/utils/archive";
+
+import { getArchive } from "~/models/jekyll.server";
+
 import ContentList from "~/components/ContentList";
 import ContentListItem from "~/components/ContentListItem";
 
