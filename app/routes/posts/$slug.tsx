@@ -1,32 +1,18 @@
-import type { LinksFunction, LoaderFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import groq from "groq";
-import coy from "~/styles/prism.css";
-import vsdark from "~/styles/prism-vsc-dark-plus.css";
-import vslight from "~/styles/prism-vs.css";
+
 import coynoshadows from "~/styles/prism-coy-without-shadows.css";
 
-import Layout from "~/components/Layout";
-
 import SanityContent from "~/components/SanityContent";
-import { client } from "~/sanity/client";
 import type { Page } from "~/sanity/types/Page";
+import { getPost } from "~/models/post.server";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: coynoshadows }];
 };
 
-export const loader: LoaderFunction = async ({ params }) => {
-  const { slug } = params;
-  const page = await client.fetch(
-    groq`*[_type == "page" && slug.current == $slug][0]{ title, ingress, content, _updatedAt }`,
-    { slug }
-  );
-  if (!page) {
-    return new Response("Not found", { status: 404 });
-  }
-
-  return { page };
+export const loader = async ({ params }: LoaderArgs) => {
+  return await getPost(params.slug as string);
 };
 
 export default function Product() {

@@ -1,30 +1,13 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-
-import { parseJSON } from "date-fns";
-import { sortBy } from "sort-by-typescript";
-
-import groq from "groq";
-import { client } from "~/sanity/client";
 
 import ContentList from "~/components/ContentList";
 import ContentListItem from "~/components/ContentListItem";
-import type { Post } from "~/models/post.server";
-import type { Page } from "~/sanity/types/Page";
+import { getPosts, Post } from "~/models/post.server";
 
-export const loader: LoaderFunction = async () => {
-  const pageList = await client.fetch(
-    groq`*[_type == "page"]{ _id, title, slug, _updatedAt }`
-  );
-
-  const pages = pageList.map((page) => ({
-    title: page.title,
-    slug: page.slug.current,
-    date: parseJSON(page._updatedAt),
-  }));
-
-  return groupByYear(pages.sort(sortBy("-date")));
-};
+export async function loader(args: LoaderArgs) {
+  return await getPosts();
+}
 
 export default function Index() {
   const data = useLoaderData<typeof loader>();
@@ -56,14 +39,4 @@ export default function Index() {
   }) as unknown as string;
 
   return <ContentList title="Posts" description="" list={postsByYear} />;
-}
-
-function groupByYear(objectArray: Post) {
-  const InitialValue: Post[] = {} as Post[];
-  return objectArray.reduce((acc, obj) => {
-    const key = parseJSON(obj["date"]).getFullYear();
-    (acc[key] as unknown as any[]) ??= [];
-    (acc[key] as unknown as any[]).push(obj);
-    return acc;
-  }, InitialValue);
 }
