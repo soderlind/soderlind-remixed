@@ -125,40 +125,17 @@ export default function App() {
           >
             <ul className="main-menu mobile">
               <MobileMenu />
+              {/* <li className="toggle-mobile-search-wrapper">
+                <a href="#" className="toggle-mobile-search">
+                  Search
+                </a>
+              </li> */}
             </ul>
+
+            <div className="social-menu mobile">
+              <SocialLink />
+            </div>
           </animated.div>
-
-          {/* <div className="mobile-menu-wrapper">
-
-			<ul className="main-menu mobile">
-				<?php
-				if ( has_nav_menu( 'main-menu' ) ) {
-					wp_nav_menu( $main_menu_args );
-				} else {
-					wp_list_pages( $fallback_args );
-				}
-				if ( ! get_theme_mod( 'mcluhan_hide_social', false ) ) : ?>
-					<li className="toggle-mobile-search-wrapper"><a href="#" className="toggle-mobile-search"><?php _e( 'Search', 'mcluhan' ); ?></a></li>
-				<?php endif; ?>
-			</ul><!-- .main-menu.mobile -->
-
-			<?php if ( has_nav_menu( 'social-menu' ) && ( ! get_theme_mod( 'mcluhan_hide_social', false ) || is_customize_preview() ) ) : ?>
-
-				<div className="social-menu mobile">
-
-					<ul className="social-menu-inner">
-
-						<?php wp_nav_menu( $social_args ); ?>
-
-					</ul><!-- .social-menu-inner -->
-
-				</div><!-- .social-menu -->
-
-			<?php endif; ?>
-
-		</div><!-- .mobile-menu-wrapper --> */}
-
-          {/* <?php if ( ! get_theme_mod( 'mcluhan_hide_social', false ) ) : ?> */}
 
           <div className="mobile-search">
             <div className="untoggle-mobile-search"></div>
@@ -173,8 +150,6 @@ export default function App() {
           <div className="search-overlay">
             {/* <?php get_search_form(); ?> */}
           </div>
-
-          {/* <?php endif; ?> */}
 
           <main className="site-content" id="site-content">
             {outlet}
@@ -197,23 +172,6 @@ export default function App() {
   }
 }
 
-// export function ErrorBoundary({ error }) {
-//   console.log(error);
-//   // return (
-//   //   <Document>
-//   //     <Layout>
-//   //       <h1>Error</h1>
-//   //       <p>{error.message}</p>
-//   //     </Layout>
-//   //   </Document>
-//   // );
-// }
-
-// export function CatchBoundary() {
-//   // const caught = useCatch();
-
-//   return redirect("/404/");
-// }
 export function ErrorBoundary({ error }) {
   console.error(error);
   return (
