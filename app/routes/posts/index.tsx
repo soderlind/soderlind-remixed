@@ -17,6 +17,9 @@ export async function loader() {
 
 export default function Index() {
   const data = useLoaderData<typeof loader>();
+  if (!data) {
+    return null;
+  }
   const entries = data; // as Post[];
   const years = Object.keys(entries) as string[];
   const sortedYears = years.sort((a, b) => b.localeCompare(a));
