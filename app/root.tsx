@@ -182,8 +182,10 @@ export function ErrorBoundary({ error }: { error: Error }) {
         <Links />
       </head>
       <body>
+        <h1>Oh no!</h1>
+        <p>{error.message}</p>
         {/* add the UI you want your users to see */}
-        {/* <Scripts /> */}
+        <Scripts />
       </body>
     </html>
   );
