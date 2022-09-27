@@ -18,7 +18,7 @@ function handleEmbedderError({ url }: { url: string }): string {
   return `<p>Error embedding <a href="${url}">${url}</a>.`;
 }
 
-export async function getArchiveContent(slug: string | undefined) {
+export async function getArchiveContent(slug: string) {
   if (!slug) {
     throw new Error("slug is required");
   }
@@ -47,7 +47,7 @@ export async function getArchiveContent(slug: string | undefined) {
   }
 }
 
-export async function getArchive() {
+export async function getArchive(): Promise<Jekyll[]> {
   const postsPath = await fsp.readdir(`${archivePath}`, {
     withFileTypes: true,
   });

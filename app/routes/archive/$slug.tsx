@@ -40,7 +40,7 @@ type StrDate = {
 };
 
 export default function ArchiveContent() {
-  const { title, content, slug } = useLoaderData<LoaderData>();
+  const { title, content, slug } = useLoaderData<typeof loader>();
 
   const strDate = formatISO(
     new Date(

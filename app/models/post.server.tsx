@@ -3,6 +3,7 @@ import { parseJSON } from "date-fns";
 import groq from "groq";
 import { sortBy } from "sort-by-typescript";
 import { client } from "~/sanity/client";
+import { Page } from "~/sanity/types/Page";
 
 type Post = {
   title: string;
@@ -20,11 +21,18 @@ export async function getPosts(): Promise<Posts> {
     groq`*[_type == "page"]{ _id, title, slug, _updatedAt }`
   );
 
-  const pages = pageList.map((page) => ({
-    title: page.title,
-    slug: page.slug.current,
-    date: parseJSON(page._updatedAt),
-  }));
+  const pages = pageList.map((page: Page) => {
+    const slug = page.slug as { current: string };
+    if (slug !== undefined) {
+      return {
+        title: page.title,
+        slug: slug.current as string,
+        date: parseJSON(page._updatedAt as string) as unknown as string,
+      };
+    } else {
+      return undefined;
+    }
+  });
 
   return groupByYear(pages.sort(sortBy("-date")));
 }
@@ -43,7 +51,7 @@ export async function getPost(slug: string) {
   return page;
 }
 
-function groupByYear(objectArray: Post) {
+function groupByYear(objectArray: any[]) {
   const InitialValue: Post[] = {} as Post[];
   return objectArray.reduce((acc, obj) => {
     const key = parseJSON(obj["date"]).getFullYear();
