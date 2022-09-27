@@ -40,7 +40,7 @@ export async function getPost(slug: string) {
     });
   }
 
-  return { page };
+  return page;
 }
 
 function groupByYear(objectArray: Post) {
