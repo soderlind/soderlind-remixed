@@ -1,12 +1,18 @@
-import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 
 import ContentList from "~/components/ContentList";
 import ContentListItem from "~/components/ContentListItem";
 import { getPosts, Post } from "~/models/post.server";
+import { cache, DAY_IN_SECONDS } from "~/utils/cache.server";
 
-export async function loader(args: LoaderArgs) {
-  return await getPosts();
+export async function loader() {
+  if (cache.has("Posts")) {
+    return json(cache.get("Posts"));
+  }
+  const posts = await getPosts();
+  cache.set("Posts", posts, DAY_IN_SECONDS);
+  return json(posts);
 }
 
 export default function Index() {

@@ -6,18 +6,28 @@ import coynoshadows from "~/styles/prism-coy-without-shadows.css";
 import SanityContent from "~/components/SanityContent";
 import type { Page } from "~/sanity/types/Page";
 import { getPost } from "~/models/post.server";
+import { json } from "remix-utils";
+import { cache, DAY_IN_SECONDS } from "~/utils/cache.server";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: coynoshadows }];
 };
 
 export const loader = async ({ params }: LoaderArgs) => {
-  return await getPost(params.slug as string);
+  const slug = params.slug as string;
+  const cacheKey = `Post-${slug}`;
+  if (cache.has(cacheKey)) {
+    const cached = cache.get(cacheKey) as string;
+    return JSON.parse(cached);
+  }
+  const post = await getPost(slug);
+
+  cache.set(cacheKey, JSON.stringify(post), DAY_IN_SECONDS);
+  return post;
 };
 
 export default function Product() {
-  const { page } = useLoaderData<{ page: Page }>();
-  console.log(page);
+  const page = useLoaderData<typeof loader>();
 
   return (
     <article className="post">
