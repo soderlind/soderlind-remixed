@@ -9,7 +9,7 @@ type ContentListItemProps = {
   post: Post;
   date: string;
   urlPrefix?: string | "";
-  prefetch?: string | "";
+  prefetch?: PrefetchBehavior;
 };
 
 const ContentListItem = ({
@@ -28,7 +28,7 @@ const ContentListItem = ({
         key={"link-" + post.slug}
         to={urlPrefix + post.slug}
         className=""
-        prefetch="{prefetch}"
+        prefetch={prefetch}
       >
         <h2 className="title">
           <span>{post.title}</span>
