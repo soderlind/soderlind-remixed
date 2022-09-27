@@ -4,7 +4,7 @@ import { json, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getGitHubRepos } from "~/models/github.server";
 import type { Repo } from "~/models/github.server";
-import { cache } from "~/utils/cache.server";
+import { cache, DAY_IN_SECONDS } from "~/utils/cache.server";
 import { FormatDate } from "~/components/FormatDate";
 import { parseJSON } from "date-fns";
 
@@ -18,7 +18,7 @@ export async function loader(args: LoaderArgs) {
     return json(cache.get("GitHubRepos"));
   }
   const repos = await getGitHubRepos();
-  cache.set("GitHubRepos", repos, 60 * 60 * 24);
+  cache.set("GitHubRepos", repos, DAY_IN_SECONDS);
   return json(repos);
 }
 
