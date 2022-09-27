@@ -59,7 +59,7 @@ export default function ArchiveContent() {
           <h2 className="entry-title">{title}</h2>
 
           <div className="meta">
-            <FormatDate date={date} timeZone="CET" />
+            Updated: <FormatDate date={date} pattern="d.M.yyyy" />
           </div>
         </header>
 
