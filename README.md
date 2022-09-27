@@ -1,6 +1,6 @@
 # soderlind.no, remixed
 
-> Note, this is a work in progress, and the site is not yet ready for public consumption. I'm learning (TypeScript and React) by doing.
+> Note, this is a work in progress, and the site is not yet ready for public consumption. I'm learning by doing.
 
 <img src="assets/soderlind-remixed.gif">
 
