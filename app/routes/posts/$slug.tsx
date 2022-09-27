@@ -1,6 +1,8 @@
 import type { LinksFunction, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
+import { parseJSON } from "date-fns";
+
 import coynoshadows from "~/styles/prism-coy-without-shadows.css";
 
 import SanityContent from "~/components/SanityContent";
@@ -8,6 +10,7 @@ import type { Page } from "~/sanity/types/Page";
 import { getPost } from "~/models/post.server";
 import { json } from "remix-utils";
 import { cache, DAY_IN_SECONDS } from "~/utils/cache.server";
+import { FormatDate } from "~/components/FormatDate";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: coynoshadows }];
@@ -28,13 +31,16 @@ export const loader = async ({ params }: LoaderArgs) => {
 
 export default function Product() {
   const page = useLoaderData<typeof loader>();
-
+  const date = parseJSON(page._updatedAt);
   return (
     <article className="post">
       <div className="featured-image"></div>
       <header className="entry-header section-inner">
         {page?.title ? <h2 className="entry-title">{page.title}</h2> : null}
         {page?.ingress ? <p className="excerpt">{page.ingress} </p> : null}
+        <div className="meta">
+          Updated: <FormatDate date={date} pattern="d.M.yyyy" />
+        </div>
       </header>
       <div className="entry-content section-inner">
         {page?.content && page.content?.length > 0 ? (
