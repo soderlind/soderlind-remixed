@@ -1030,6 +1030,7 @@ body.hide-social .social-menu {
 
 .entry-header {
 	/* margin: 80px auto 60px; */
+	margin-bottom: 60px;
 }
 
 .entry-header .excerpt {
@@ -2140,7 +2141,12 @@ input.search-field::-moz-placeholder { color: #121212; }
 		padding-left: 320px;
 	}
 
+	.page-header{
+			margin-top: 1em;
+	}
+
 	.site-header {
+	
 		padding: 80px 40px;
 		width: 320px;
 	}
