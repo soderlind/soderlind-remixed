@@ -1,4 +1,4 @@
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { Outlet } from "@remix-run/react";
 
 export default function Post() {
   return (
@@ -13,12 +13,12 @@ export function CatchBoundary() {
     <article className="post">
       <div className="featured-image"></div>
       <header className="entry-header section-inner">
-        <h1 className="entry-title">You&#x27;re alone here</h1>
+        <h1 className="entry-title">P:You&#x27;re alone here</h1>
         <p className="excerpt">
           Oops! Looks like you tried to visit a page that does not exist.
         </p>
       </header>
-      {/* <div className="entry-content section-inner">{caught.statusText}</div> */}
+      <div className="entry-content section-inner">{caught.statusText}</div>
     </article>
   );
 }

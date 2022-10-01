@@ -1,31 +1,40 @@
 import type { LoaderFunction } from "@remix-run/node"; // or cloudflare/deno
-import { redirect, json } from "@remix-run/node"; // or cloudflare/deno
+import { redirect } from "@remix-run/node"; // or cloudflare/deno
 
 type Path = {
   path: string;
 };
 type Paths = Path[];
 
+const ignorePaths = [
+	"/about",
+	"/archive",
+	"/post",
+];
+
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const path = url.pathname;
   const paths = require("~/paths.json") as Paths;
   const p = require("path");
-
   const basename = p.basename(path);
+	const dirname = p.dirname(path);
 
-  const regexp = new RegExp(`${basename}`, "i");
-  const pathMatch = paths.find((p) => regexp.test(p.path));
+	const ignore = ignorePaths.some((oath) => dirname.startsWith(oath));
+	if (!ignore) {
+		const regexp = new RegExp(`${basename}`, "i");
+		const pathMatch = paths.find((p) => regexp.test(p.path));
 
-  if (pathMatch) {
-    const slug = pathMatch.path.replace(/\.[^/.]+$/, ""); // remove extension.
+		if (pathMatch) {
+			const slug = pathMatch.path.replace(/\.[^/.]+$/, ""); // remove extension.
 
-    return redirect(`/archive/${slug}`, 301);
-  }
+			return redirect(`/archive/${slug}`, 301);
+		}
+	}
 
-  throw new Response("Not Found", {
-    status: 404,
-  });
+	throw new Response("Not Found", {
+		status: 404,
+	});
 };
 
 export function CatchBoundary() {

@@ -1,4 +1,3 @@
-import { LoaderArgs, redirect } from "@remix-run/node";
 
 // export async function loader(args: LoaderArgs) {
 //   return redirect("/posts");

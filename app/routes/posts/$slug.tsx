@@ -1,14 +1,12 @@
 import type { LinksFunction, LoaderArgs } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 
 import { parseJSON } from "date-fns";
 
 import coynoshadows from "~/styles/prism-coy-without-shadows.css";
 
 import SanityContent from "~/components/SanityContent";
-import type { Page } from "~/sanity/types/Page";
 import { getPost } from "~/models/post.server";
-import { json } from "remix-utils";
 import { cache, DAY_IN_SECONDS } from "~/utils/cache.server";
 import { FormatDate } from "~/components/FormatDate";
 
@@ -24,7 +22,9 @@ export const loader = async ({ params }: LoaderArgs) => {
     return JSON.parse(cached);
   }
   const post = await getPost(slug);
-
+  if (!post) {
+    throw new Response("Not found", { status: 404 });
+  }
   cache.set(cacheKey, JSON.stringify(post), DAY_IN_SECONDS);
   return post;
 };
@@ -46,6 +46,11 @@ export default function Product() {
         {page?.content && page.content?.length > 0 ? (
           <SanityContent value={page.content} />
         ) : null}
+        <div className="post-nav">
+          <Link className="meta" to="/posts/">
+            ← Posts index
+          </Link>
+        </div>
       </div>
     </article>
   );

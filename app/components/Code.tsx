@@ -1,5 +1,4 @@
 import React from "react";
-import render from "react-dom";
 import Refractor from "react-refractor";
 import js from "refractor/lang/javascript";
 import typescript from "refractor/lang/typescript";

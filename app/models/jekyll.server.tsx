@@ -1,9 +1,10 @@
 import path from "path";
 import { promises as fsp } from "fs";
-import parseFrontMatter, {
+import type {
   FrontMatterOptions,
   FrontMatterResult,
 } from "front-matter";
+import parseFrontMatter from "front-matter";
 import { parseJSON, formatISO } from "date-fns";
 
 import { sortBy } from "sort-by-typescript";
@@ -73,7 +74,7 @@ export async function getArchive(): Promise<Jekyll[]> {
 
 function getDateFromFilename(filename: string): string {
   const strDate = filename
-    .replace(/\[.md|\.html]/, "") // remove .md or .html
+    // .replace(/\[.md|\.html]/, "") // remove .md or .html
     .slice(0, 10) // get the date part
     .split("-") // split into array
     .map((s) => s.replace(/^0+/, "")) // remove leading zeros
@@ -86,8 +87,8 @@ function groupByYear<Type>(objectArray: Type, property: string) {
   const oArray = objectArray as unknown as any[];
   return oArray.reduce<Type>((acc, obj) => {
     const key = parseJSON(obj[property]).getFullYear() as keyof Type; //as unknown as string;
-    (acc[key] as unknown as any[]) ??= [];
-    (acc[key] as unknown as any[]).push(obj);
+    (acc[key] as any[]) ??= [];
+    (acc[key] as any[]).push(obj);
     return acc;
   }, InitialValue);
 }

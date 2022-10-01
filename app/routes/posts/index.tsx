@@ -3,7 +3,7 @@ import { Link, useLoaderData } from "@remix-run/react";
 
 import ContentList from "~/components/ContentList";
 import ContentListItem from "~/components/ContentListItem";
-import { getPosts, Post } from "~/models/post.server";
+import { getPosts } from "~/models/post.server";
 import { cache, DAY_IN_SECONDS } from "~/utils/cache.server";
 
 export async function loader() {

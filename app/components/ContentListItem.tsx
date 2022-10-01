@@ -1,6 +1,6 @@
 import { Link } from "@remix-run/react";
 import { parseJSON } from "date-fns";
-import { Post } from "~/models/post.server";
+import type { Post } from "~/models/post.server";
 import { FormatDate } from "./FormatDate";
 
 type PrefetchBehavior = "intent" | "none" | "render";

@@ -1,9 +1,8 @@
-import { json } from "@remix-run/node";
 import { parseJSON } from "date-fns";
 import groq from "groq";
 import { sortBy } from "sort-by-typescript";
 import { client } from "~/sanity/client";
-import { Page } from "~/sanity/types/Page";
+import type { Page } from "~/sanity/types/Page";
 
 type Post = {
   title: string;
@@ -38,17 +37,20 @@ export async function getPosts(): Promise<Posts> {
 }
 
 export async function getPost(slug: string) {
-  const page = await client.fetch(
+  // const page = await client.fetch(
+  //   groq`*[_type == "page" && slug.current == $slug][0]{ title, ingress, content, _updatedAt }`,
+  //   { slug }
+  // );
+  // if (!page) {
+  //   throw new Response("Not Found", {
+  //     status: 404,
+  //   });
+  // }
+
+  return await client.fetch(
     groq`*[_type == "page" && slug.current == $slug][0]{ title, ingress, content, _updatedAt }`,
     { slug }
   );
-  if (!page) {
-    throw new Response("Not Found", {
-      status: 404,
-    });
-  }
-
-  return page;
 }
 
 function groupByYear(objectArray: any[]) {

@@ -1,4 +1,4 @@
-import { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { useLoaderData, Link } from "@remix-run/react";
 
 import { parseJSON, formatISO } from "date-fns";
@@ -58,7 +58,7 @@ export default function ArchiveContent() {
             rehypePlugins={[rehypeRaw, rehypeHighlight]}
           />
           <div className="post-nav">
-            <Link className="meta" to="/archive">
+            <Link className="meta" to="/archive/">
               ← Archive index
             </Link>
           </div>

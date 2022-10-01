@@ -1,5 +1,5 @@
 import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { useState } from "react";
 import { animated, useSpring } from "react-spring";
 import {

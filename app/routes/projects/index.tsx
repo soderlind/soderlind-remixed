@@ -1,6 +1,7 @@
 import { FaPhp, FaCss3, FaJs, FaHtml5, FaCode } from "react-icons/fa";
 
-import { json, LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getGitHubRepos } from "~/models/github.server";
 import type { Repo } from "~/models/github.server";
