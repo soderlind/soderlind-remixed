@@ -19,6 +19,9 @@ export default defineType({
     defineField({
       name: "ingress",
       type: "text",
+      options: {
+        charCount: true,
+      },
     }),
     defineField({
       name: "content",

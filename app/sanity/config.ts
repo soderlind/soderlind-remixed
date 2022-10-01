@@ -1,7 +1,7 @@
 import { codeInput } from "@sanity/code-input";
 import { createConfig } from "sanity";
 import { deskTool } from "sanity/desk";
-
+import textStats from "./plugins/textStats";
 import schema from "./schema";
 
 export const projectDetails = () => ({
@@ -21,7 +21,7 @@ export const projectDetails = () => ({
 
 export const config = createConfig({
   ...projectDetails(),
-  plugins: [deskTool(), codeInput()],
+  plugins: [deskTool(), codeInput(), textStats()],
   basePath: `/studio`,
   schema: {
     types: schema,
