@@ -1,4 +1,4 @@
-import { Outlet } from "@remix-run/react";
+import { Outlet, useCatch } from "@remix-run/react";
 
 export default function Post() {
   return (
@@ -8,7 +8,7 @@ export default function Post() {
   );
 }
 export function CatchBoundary() {
-  // let caught = useCatch();
+  let caught = useCatch();
   return (
     <article className="post">
       <div className="featured-image"></div>
@@ -22,3 +22,5 @@ export function CatchBoundary() {
     </article>
   );
 }
+
+

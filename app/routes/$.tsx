@@ -1,5 +1,6 @@
 import type { LoaderFunction } from "@remix-run/node"; // or cloudflare/deno
 import { redirect } from "@remix-run/node"; // or cloudflare/deno
+import { useCatch } from '@remix-run/react';
 
 type Path = {
   path: string;
@@ -38,7 +39,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export function CatchBoundary() {
-  // let caught = useCatch();
+  let caught = useCatch();
   return (
     <article className="post">
       <div className="featured-image"></div>
@@ -48,7 +49,7 @@ export function CatchBoundary() {
           Oops! Looks like you tried to visit a page that does not exist.
         </p>
       </header>
-      {/* <div className="entry-content section-inner">{caught.statusText}</div> */}
+      <div className="entry-content section-inner">{caught.statusText}</div>
     </article>
   );
 }
@@ -56,3 +57,5 @@ export function CatchBoundary() {
 export default function Page() {
   return <CatchBoundary />;
 }
+
+
