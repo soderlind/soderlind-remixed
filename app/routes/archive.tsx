@@ -18,9 +18,18 @@ export function CatchBoundary() {
           Oops! Looks like you tried to visit a page that does not exist.
         </p>
       </header>
-      {/* <div className="entry-content section-inner">{caught.statusText}</div> */}
+      <div className="entry-content section-inner">{caught.statusText}</div>
     </article>
   );
 }
 
+export function ErrorBoundary({ error }: { error: Error }) {
+  console.error(error);
+	return (
+		<>
+      <h1>Oh no!</h1>
+      <p>{error.message}</p>
+   </>
+  );
+}
 

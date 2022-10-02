@@ -22,3 +22,13 @@ export function CatchBoundary() {
     </article>
   );
 }
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  console.error(error);
+	return (
+		<>
+      <h1>Oh no!</h1>
+      <p>{error.message}</p>
+   </>
+  );
+}

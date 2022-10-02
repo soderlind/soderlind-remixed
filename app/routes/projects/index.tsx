@@ -71,8 +71,18 @@ export default function Projects() {
   });
 
   return (
-    <div className="entry-content">
+    <>
       <div className="repos-wrapper">{projects}</div>
-    </div>
+    </>
+  );
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  console.error(error);
+	return (
+		<>
+      <h1>Oh no!</h1>
+      <p>{error.message}</p>
+   </>
   );
 }
