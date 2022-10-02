@@ -8,6 +8,7 @@ import parseFrontMatter from "front-matter";
 import { parseJSON, formatISO } from "date-fns";
 
 import { sortBy } from "sort-by-typescript";
+import { findByName } from '~/utils/fs.server';
 
 export type Jekyll = {
   slug: string;
@@ -22,23 +23,20 @@ export async function getArchiveContent(slug: string) {
   if (!slug) {
     throw new Error("slug is required");
   }
-  const paths = require("~/paths.json");
-  const pathname = slug.replace(/^\/+/, "");
 
-  const regexp = new RegExp(`${pathname}`, "i");
-  const pathMatch = paths.find((p: any) => regexp.test(p.path));
+	const pathMatch = await findByName(archivePath, slug);
 
-  if (pathMatch) {
-    const source = await fsp.readFile(
-      path.join(`${archivePath}`, pathMatch.path),
-      "utf-8"
-    );
+	if (pathMatch && pathMatch.length > 0) {
+		const source = await fsp.readFile(
+			path.join(`${archivePath}`, pathMatch[0]),
+			"utf-8"
+		);
 
     const { attributes, body } = parseFrontMatter<FrontMatterOptions>(source);
     return {
       ...attributes,
       content: body,
-      slug: pathMatch.path,
+      slug: pathMatch[0].replace(/\.[^/.]+$/, ""), // remove extension.
     };
   } else {
     throw new Response("Not Found", {

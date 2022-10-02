@@ -1,6 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node"; // or cloudflare/deno
 import { redirect } from "@remix-run/node"; // or cloudflare/deno
 import { useCatch } from '@remix-run/react';
+import { findByName } from '~/utils/fs.server';
 
 type Path = {
   path: string;
@@ -13,22 +14,22 @@ const ignorePaths = [
 	"/post",
 ];
 
+
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const path = url.pathname;
-  const paths = require("~/paths.json") as Paths;
-  const p = require("path");
+	const p = require("path");
+	const archivePath = p.resolve("public/jekyll");
+	
   const basename = p.basename(path);
 	const dirname = p.dirname(path);
 
 	const ignore = ignorePaths.some((oath) => dirname.startsWith(oath));
 	if (!ignore) {
-		const regexp = new RegExp(`${basename}`, "i");
-		const pathMatch = paths.find((p) => regexp.test(p.path));
+		const pathMatch =  (await findByName(archivePath, basename))
 
-		if (pathMatch) {
-			const slug = pathMatch.path.replace(/\.[^/.]+$/, ""); // remove extension.
-
+		if (pathMatch && pathMatch.length > 0) {
+			const slug = pathMatch[0].replace(/\.[^/.]+$/, ""); // remove extension.
 			return redirect(`/archive/${slug}`, 301);
 		}
 	}
