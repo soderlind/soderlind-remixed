@@ -7,9 +7,7 @@ import { projectDetails } from "~/sanity/config";
 
 type SanityImageAssetWithAlt = SanityImageSource & { alt?: string };
 
-export default function SanityImage(
-  props: PortableTextComponentProps<SanityImageAssetWithAlt>
-) {
+export default function SanityImage(props: PortableTextComponentProps<SanityImageAssetWithAlt>) {
   const { value, isInline } = props;
   const { width, height } = getImageDimensions(value);
 

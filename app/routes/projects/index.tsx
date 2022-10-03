@@ -9,14 +9,37 @@ import { cache, DAY_IN_SECONDS } from "~/utils/cache.server";
 import { FormatDate } from "~/components/FormatDate";
 import { parseJSON } from "date-fns";
 
-const sleep = (time: number) =>
-  new Promise((resolve) => setTimeout(resolve, time));
-
-export { sleep };
+const REPO_QUERY = /* GraphQL */ `
+  viewer {
+    repositories(
+      first: 100
+      privacy: PUBLIC
+      ownerAffiliations: [OWNER]
+      isFork: false
+      orderBy: {field: CREATED_AT, direction: DESC}
+    ) {
+      totalCount
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+      nodes {
+        name
+        owner {
+          login
+        }
+        description
+        updatedAt
+        createdAt
+      }
+    }
+  }
+}
+`;
 
 export async function loader(args: LoaderArgs) {
   if (cache.has("GitHubRepos")) {
-    return json(cache.get("GitHubRepos"));
+    // return json(cache.get("GitHubRepos"));
   }
   const repos = await getGitHubRepos();
   cache.set("GitHubRepos", repos, DAY_IN_SECONDS);
@@ -29,23 +52,23 @@ export default function Projects() {
   const projects = repositoryList.map((repo: Repo) => {
     let language = repo.language.toLowerCase();
 
-    let FaIcon = <FaJs className="faicon" />;
+    let FaIcon = <FaJs />;
     switch (language) {
       case "typescript":
       case "javascript":
-        FaIcon = <FaJs className="faicon" />;
+        FaIcon = <FaJs />;
         break;
       case "css":
-        FaIcon = <FaCss3 className="faicon" />;
+        FaIcon = <FaCss3 />;
         break;
       case "html":
-        FaIcon = <FaHtml5 className="faicon" />;
+        FaIcon = <FaHtml5 />;
         break;
       case "php":
-        FaIcon = <FaPhp className="faicon" />;
+        FaIcon = <FaPhp />;
         break;
       case "shell":
-        FaIcon = <FaCode className="faicon" />;
+        FaIcon = <FaCode />;
 
         break;
     }
@@ -53,7 +76,8 @@ export default function Projects() {
     return (
       <div key={repo.name} className="">
         <h3 className="">
-          {FaIcon} <a href={repo.html_url}>{repo.name}</a>
+          <span className="faicon"> {FaIcon} </span>
+          <a href={repo.html_url}>{repo.name}</a>
         </h3>
 
         <p className="">{repo.description}</p>
@@ -79,10 +103,10 @@ export default function Projects() {
 
 export function ErrorBoundary({ error }: { error: Error }) {
   console.error(error);
-	return (
-		<>
+  return (
+    <>
       <h1>Oh no!</h1>
       <p>{error.message}</p>
-   </>
+    </>
   );
 }

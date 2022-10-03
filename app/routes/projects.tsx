@@ -8,10 +8,7 @@ export default function About() {
       <header className="entry-header section-inner">
         <h1 className="entry-title">Projects</h1>
         <p className="excerpt">
-          Here's{" "}
-          <a href="https://github.com/soderlind?tab=repositories">
-            my projects at GitHub
-          </a>
+          Here's <a href="https://github.com/soderlind?tab=repositories">my projects at GitHub</a>
         </p>
       </header>
       <div className="entry-content section-inner">

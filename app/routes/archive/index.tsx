@@ -21,12 +21,7 @@ export default function Index() {
     const y = parseInt(year, 10);
     const posts = entries[y] as unknown as any[];
     const linksByYear = posts.map((post) => (
-      <ContentListItem
-        key={post.slug}
-        post={post}
-        date={post.date}
-        prefetch="intent"
-      />
+      <ContentListItem key={post.slug} post={post} date={post.date} prefetch="intent" />
     ));
     return (
       <li key={year}>

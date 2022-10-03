@@ -26,11 +26,7 @@ export async function getGitHubRepos() {
   const repositories = await repositoriesResp.json();
 
   const projects = repositories.map((repo: Repo) => {
-    if (
-      repo.fork === false &&
-      repo.description !== null &&
-      repo.visibility === "public"
-    ) {
+    if (repo.fork === false && repo.description !== null && repo.visibility === "public") {
       return {
         name: repo.name,
         description: repo.description || "",
@@ -46,9 +42,7 @@ export async function getGitHubRepos() {
   });
 
   // remove undefined projects
-  const filteredProjects = projects.filter(
-    (project: Object) => project !== undefined
-  );
+  const filteredProjects = projects.filter((project: Object) => project !== undefined);
 
   return filteredProjects;
 }

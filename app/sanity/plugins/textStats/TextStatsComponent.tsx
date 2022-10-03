@@ -1,12 +1,10 @@
 import type { InputProps, RenderInputCallback } from "sanity";
 import { Stack, Text } from "@sanity/ui";
 
-const isStringOrText = (schemaType) =>
-  ["string", "text"].includes(schemaType.name);
+const isStringOrText = (schemaType) => ["string", "text"].includes(schemaType.name);
 
 const isPortableText = (schemaType) =>
-  schemaType.name === "array" &&
-  schemaType.of?.some((type) => type.name === "block");
+  schemaType.name === "array" && schemaType.of?.some((type) => type.name === "block");
 
 function toPlainText(blocks) {
   return (

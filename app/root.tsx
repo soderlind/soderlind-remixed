@@ -13,6 +13,7 @@ import {
   useLocation,
   useOutlet,
 } from "@remix-run/react";
+
 import { projectDetails } from "~/sanity/config";
 
 import themeStyle from "./styles/style.css";
@@ -21,7 +22,6 @@ import fontAwesome from "~/styles/font-awesome.css";
 import NavBar from "./components/NavBar";
 import SocialLink from "./components/SocialLink";
 import MobileMenu from "./components/MobileMenu";
-// import { GlobalLoading } from "./components/GlobalLoading";
 
 export const links: LinksFunction = () => {
   return [
@@ -60,9 +60,7 @@ export default function App() {
         <head>
           <Meta />
           <Links />
-          {isStudioRoute && typeof document === "undefined"
-            ? "__STYLES__"
-            : null}
+          {isStudioRoute && typeof document === "undefined" ? "__STYLES__" : null}
         </head>
         <body>
           <Outlet />
@@ -100,10 +98,7 @@ export default function App() {
 
             <div className="site-description">I code for fun</div>
 
-            <div
-              className="nav-toggle"
-              onClick={() => setFullMenuVisible(!fullMenuVisible)}
-            >
+            <div className="nav-toggle" onClick={() => setFullMenuVisible(!fullMenuVisible)}>
               <div className="bar"></div>
               <div className="bar"></div>
             </div>
@@ -119,10 +114,7 @@ export default function App() {
             </div>
           </header>
 
-          <animated.div
-            className="mobile-menu-wrapper"
-            style={fullMenuAnimation}
-          >
+          <animated.div className="mobile-menu-wrapper" style={fullMenuAnimation}>
             <ul className="main-menu mobile">
               <MobileMenu />
               {/* <li className="toggle-mobile-search-wrapper">
@@ -147,9 +139,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="search-overlay">
-            {/* <?php get_search_form(); ?> */}
-          </div>
+          <div className="search-overlay">{/* <?php get_search_form(); ?> */}</div>
 
           <main className="site-content" id="site-content">
             {outlet}

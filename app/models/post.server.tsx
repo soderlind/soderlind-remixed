@@ -16,9 +16,7 @@ type Posts = {
 export type { Post, Posts };
 
 export async function getPosts(): Promise<Posts> {
-  const pageList = await client.fetch(
-    groq`*[_type == "page"]{ _id, title, slug, _updatedAt }`
-  );
+  const pageList = await client.fetch(groq`*[_type == "page"]{ _id, title, slug, _updatedAt }`);
 
   const pages = pageList.map((page: Page) => {
     const slug = page.slug as { current: string };
@@ -37,18 +35,15 @@ export async function getPosts(): Promise<Posts> {
 }
 
 export async function getPost(slug: string) {
-  // const page = await client.fetch(
-  //   groq`*[_type == "page" && slug.current == $slug][0]{ title, ingress, content, _updatedAt }`,
-  //   { slug }
-  // );
-  // if (!page) {
-  //   throw new Response("Not Found", {
-  //     status: 404,
-  //   });
-  // }
-
   return await client.fetch(
     groq`*[_type == "page" && slug.current == $slug][0]{ title, ingress, content, _updatedAt }`,
+    { slug }
+  );
+}
+
+export async function getToc(slug: string) {
+  return await client.fetch(
+    groq`*[_type == "page" && slug.current == $slug]{ "tableOfContents": content[length(style) == 2 && string::startsWith(style, "h")]}`,
     { slug }
   );
 }

@@ -1,4 +1,4 @@
-import type { LoaderArgs, MetaFunction} from "@remix-run/node";
+import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { cache } from "~/utils/cache.server";
 

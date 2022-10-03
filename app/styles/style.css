@@ -3059,7 +3059,10 @@ input.search-field::-moz-placeholder { color: #121212; }
 }
 
 .repos-wrapper .faicon {
+	margin: 0;
+	padding: 0;
 	float: right;
+	vertical-align: sub;
 }
 
 @media ( max-width: 1050px ) {

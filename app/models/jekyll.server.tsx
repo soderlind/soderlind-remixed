@@ -1,14 +1,11 @@
 import path from "path";
 import { promises as fsp } from "fs";
-import type {
-  FrontMatterOptions,
-  FrontMatterResult,
-} from "front-matter";
+import type { FrontMatterOptions, FrontMatterResult } from "front-matter";
 import parseFrontMatter from "front-matter";
 import { parseJSON, formatISO } from "date-fns";
 
 import { sortBy } from "sort-by-typescript";
-import { findByName } from '~/utils/fs.server';
+import { findByName } from "~/utils/fs.server";
 
 export type Jekyll = {
   slug: string;
@@ -24,19 +21,16 @@ export async function getArchiveContent(slug: string) {
     throw new Error("slug is required");
   }
 
-	const pathMatch = await findByName(archivePath, slug);
+  const files = await findByName(archivePath, slug);
 
-	if (pathMatch && pathMatch.length > 0) {
-		const source = await fsp.readFile(
-			path.join(`${archivePath}`, pathMatch[0]),
-			"utf-8"
-		);
+  if (files && files.length > 0) {
+    const source = await fsp.readFile(path.join(`${archivePath}`, files[0]), "utf-8");
 
     const { attributes, body } = parseFrontMatter<FrontMatterOptions>(source);
     return {
       ...attributes,
       content: body,
-      slug: pathMatch[0].replace(/\.[^/.]+$/, ""), // remove extension.
+      slug: files[0].replace(/\.[^/.]+$/, ""), // remove extension.
     };
   } else {
     throw new Response("Not Found", {
@@ -53,9 +47,7 @@ export async function getArchive(): Promise<Jekyll[]> {
   const posts = await Promise.all(
     postsPath.map(async (dirent) => {
       const file = await fsp.readFile(path.join(`${archivePath}`, dirent.name));
-      const { attributes } = parseFrontMatter(
-        file.toString()
-      ) as FrontMatterResult<Jekyll>;
+      const { attributes } = parseFrontMatter(file.toString()) as FrontMatterResult<Jekyll>;
       const title = attributes.title as string;
       const filename = dirent.name as string;
       const dstr = getDateFromFilename(filename);

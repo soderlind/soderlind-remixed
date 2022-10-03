@@ -22,9 +22,7 @@ export default function handleRequest(
     if (isStudioRoute) {
       const sheet = new ServerStyleSheet();
       let markup = renderToString(
-        sheet.collectStyles(
-          <RemixServer context={remixContext} url={request.url} />
-        )
+        sheet.collectStyles(<RemixServer context={remixContext} url={request.url} />)
       );
       const styles = sheet.getStyleTags();
       markup = markup.replace("__STYLES__", styles);

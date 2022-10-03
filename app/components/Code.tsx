@@ -17,11 +17,5 @@ type CodeProps = {
 };
 export function Code(props: CodeProps) {
   const { code, language, highlightedLines } = props.value;
-  return (
-    <Refractor
-      language={language || "javascript"}
-      value={code}
-      markers={highlightedLines}
-    />
-  );
+  return <Refractor language={language || "javascript"} value={code} markers={highlightedLines} />;
 }
