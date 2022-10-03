@@ -5,7 +5,8 @@
     "prettier"
   ],
   "ignorePatterns": ["node_modules", "build", ".cache"],
-  "plugins": ["prettier", "unused-imports"],
+	"parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "prettier", "unused-imports"],
   "rules": {
     "prettier/prettier": [
       "error",
