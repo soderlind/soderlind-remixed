@@ -10,8 +10,8 @@ import rehypeRaw from "rehype-raw";
 import rehypeHighlight from "rehype-highlight";
 import styles from "highlight.js/styles/night-owl.css";
 
-import { getArchiveContent } from "~/models/jekyll.server";
-import type { Jekyll } from "~/models/jekyll.server";
+import { getArchiveContent } from "~/services/jekyll.server";
+import type { Jekyll } from "~/services/jekyll.server";
 import { FormatDate } from "~/components/FormatDate";
 
 export async function loader({ params }: LoaderArgs) {

@@ -3,12 +3,12 @@ import { Link, useLoaderData } from "@remix-run/react";
 
 import ContentList from "~/components/ContentList";
 import ContentListItem from "~/components/ContentListItem";
-import { getPosts } from "~/models/post.server";
+import { getPosts } from "~/services/post.server";
 import { cache, DAY_IN_SECONDS } from "~/utils/cache.server";
 
 export async function loader() {
   if (cache.has("Posts")) {
-    return json(cache.get("Posts"));
+    // return json(cache.get("Posts"));
   }
   const posts = await getPosts();
   cache.set("Posts", posts, DAY_IN_SECONDS);
@@ -28,7 +28,12 @@ export default function Index() {
     const y = parseInt(year, 10);
     const posts = entries[y] as unknown as any[];
     const linksByYear = posts.map((post) => (
-      <ContentListItem key={post.slug} post={post} date={post.date} prefetch="intent" />
+      <ContentListItem
+        key={post.slug}
+        post={post}
+        date={post.date}
+        prefetch="intent"
+      />
     ));
     return (
       <li key={year}>

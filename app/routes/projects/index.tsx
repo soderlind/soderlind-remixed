@@ -2,44 +2,18 @@ import { FaPhp, FaCss3, FaJs, FaHtml5, FaCode } from "react-icons/fa";
 
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { getGitHubRepos } from "~/models/github.server";
-import type { Repo } from "~/models/github.server";
-import { cache, DAY_IN_SECONDS } from "~/utils/cache.server";
-import { FormatDate } from "~/components/FormatDate";
+import { useCatch, useLoaderData } from "@remix-run/react";
+
 import { parseJSON } from "date-fns";
 
-const REPO_QUERY = /* GraphQL */ `
-  viewer {
-    repositories(
-      first: 100
-      privacy: PUBLIC
-      ownerAffiliations: [OWNER]
-      isFork: false
-      orderBy: {field: CREATED_AT, direction: DESC}
-    ) {
-      totalCount
-      pageInfo {
-        endCursor
-        hasNextPage
-      }
-      nodes {
-        name
-        owner {
-          login
-        }
-        description
-        updatedAt
-        createdAt
-      }
-    }
-  }
-}
-`;
+import { getGitHubRepos } from "~/services/github.server";
+import type { Repo } from "~/services/github.server";
+import { cache, DAY_IN_SECONDS } from "~/utils/cache.server";
+import { FormatDate } from "~/components/FormatDate";
 
 export async function loader(args: LoaderArgs) {
   if (cache.has("GitHubRepos")) {
-    // return json(cache.get("GitHubRepos"));
+    return json(cache.get("GitHubRepos"));
   }
   const repos = await getGitHubRepos();
   cache.set("GitHubRepos", repos, DAY_IN_SECONDS);
@@ -52,31 +26,11 @@ export default function Projects() {
   const projects = repositoryList.map((repo: Repo) => {
     let language = repo.language.toLowerCase();
 
-    let FaIcon = <FaJs />;
-    switch (language) {
-      case "typescript":
-      case "javascript":
-        FaIcon = <FaJs />;
-        break;
-      case "css":
-        FaIcon = <FaCss3 />;
-        break;
-      case "html":
-        FaIcon = <FaHtml5 />;
-        break;
-      case "php":
-        FaIcon = <FaPhp />;
-        break;
-      case "shell":
-        FaIcon = <FaCode />;
-
-        break;
-    }
-
+    const icon = getIcon(language);
     return (
       <div key={repo.name} className="">
         <h3 className="">
-          <span className="faicon"> {FaIcon} </span>
+          <span className="faicon"> {icon} </span>
           <a href={repo.html_url}>{repo.name}</a>
         </h3>
 
@@ -88,7 +42,7 @@ export default function Projects() {
           Created:{" "}
           <FormatDate date={parseJSON(repo.created_at)} pattern="d.M.yyyy" />{" "}
           &bull; Updated:{" "}
-          <FormatDate date={parseJSON(repo.updated_at)} pattern="d.M.yyyy" />
+          <FormatDate date={parseJSON(repo.pushed_at)} pattern="d.M.yyyy" />
         </p>
       </div>
     );
@@ -101,6 +55,15 @@ export default function Projects() {
   );
 }
 
+export function CatchBoundary() {
+  const caught = useCatch();
+  return (
+    <p>
+      {caught.status}: {caught.data}
+    </p>
+  );
+}
+
 export function ErrorBoundary({ error }: { error: Error }) {
   console.error(error);
   return (
@@ -109,4 +72,27 @@ export function ErrorBoundary({ error }: { error: Error }) {
       <p>{error.message}</p>
     </>
   );
+}
+function getIcon(language: string) {
+  let FaIcon = <FaJs />;
+  switch (language) {
+    case "typescript":
+    case "javascript":
+      FaIcon = <FaJs />;
+      break;
+    case "css":
+      FaIcon = <FaCss3 />;
+      break;
+    case "html":
+      FaIcon = <FaHtml5 />;
+      break;
+    case "php":
+      FaIcon = <FaPhp />;
+      break;
+    default:
+      FaIcon = <FaCode />;
+
+      break;
+  }
+  return FaIcon;
 }

@@ -6,7 +6,7 @@ import { parseJSON } from "date-fns";
 import coynoshadows from "~/styles/prism-coy-without-shadows.css";
 
 import SanityContent from "~/components/SanityContent";
-import { getPost, getToc } from "~/models/post.server";
+import { getPost, getToc } from "~/services/post.server";
 import { cache, DAY_IN_SECONDS } from "~/utils/cache.server";
 import { FormatDate } from "~/components/FormatDate";
 
@@ -44,7 +44,9 @@ export default function Product() {
         </div>
       </header>
       <div className="entry-content section-inner">
-        {page?.content && page.content?.length > 0 ? <SanityContent value={page.content} /> : null}
+        {page?.content && page.content?.length > 0 ? (
+          <SanityContent value={page.content} />
+        ) : null}
         <div className="post-nav">
           <Link className="meta" to="/posts/">
             ← Posts index
