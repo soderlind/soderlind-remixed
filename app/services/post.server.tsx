@@ -1,6 +1,7 @@
 import { parseJSON } from "date-fns";
 import groq from "groq";
 import { sortBy } from "sort-by-typescript";
+import { z } from "zod";
 import { client } from "~/sanity/client";
 import type { Page } from "~/sanity/types/Page";
 
@@ -13,10 +14,22 @@ type Post = {
 type Posts = {
   [key: string]: Post[];
 };
+
+const PostSchema = z.object({
+  title: z.string(),
+  slug: z.string(),
+  updatedAt: z.string(),
+  markdown: z.string(),
+});
+
+const PostsSchema = z.array(PostSchema);
+
 export type { Post, Posts };
 
 export async function getPosts(): Promise<Posts> {
-  const pageList = await client.fetch(groq`*[_type == "page"]{ _id, title, slug, _updatedAt }`);
+  const pageList = await client.fetch(
+    groq`*[_type == "page"]{ _id, title, slug, _updatedAt }`
+  );
 
   const pages = pageList.map((page: Page) => {
     const slug = page.slug as { current: string };
@@ -31,7 +44,9 @@ export async function getPosts(): Promise<Posts> {
     }
   });
 
-  return groupByYear(pages.sort(sortBy("-date")));
+  const pagesParsed = pages.filter((page) => page !== undefined) as Post[];
+
+  return groupByYear(pagesParsed.sort(sortBy("-date")));
 }
 
 export async function getPost(slug: string) {
