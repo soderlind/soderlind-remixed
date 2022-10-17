@@ -1,5 +1,6 @@
-import type { LinksFunction } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
+import type { LinksFunction, ActionArgs, LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+// import { redirect } from "@remix-run/node";
 import { ClientOnly } from "remix-utils";
 import { Studio } from "sanity";
 
@@ -17,7 +18,7 @@ export async function loader({ request }: LoaderArgs) {
     failureRedirect: "/login",
   });
 
-  return null;
+  return json({ user });
 }
 
 export default function StudioPage() {
