@@ -33,15 +33,13 @@ export async function getPosts(): Promise<Posts> {
 
   const pages = pageList.map((page: Page) => {
     const slug = page.slug as { current: string };
-    if (slug !== undefined) {
-      return {
-        title: page.title,
-        slug: slug.current as string,
-        date: parseJSON(page._updatedAt as string) as unknown as string,
-      };
-    } else {
-      return undefined;
-    }
+    return slug !== undefined
+      ? {
+          title: page.title,
+          slug: slug.current as string,
+          date: parseJSON(page._updatedAt as string) as unknown as string,
+        }
+      : undefined;
   });
 
   const pagesParsed = pages.filter((page) => page !== undefined) as Post[];
@@ -66,7 +64,7 @@ export async function getToc(slug: string) {
 function groupByYear(objectArray: any[]) {
   const InitialValue: Post[] = {} as Post[];
   return objectArray.reduce((acc, obj) => {
-    const key = parseJSON(obj["date"]).getFullYear();
+    const key = parseJSON(obj.date).getFullYear();
     (acc[key] as unknown as any[]) ??= [];
     (acc[key] as unknown as any[]).push(obj);
     return acc;

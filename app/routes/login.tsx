@@ -4,7 +4,7 @@ export default function About() {
   // const { post, html } = useLoaderData() as LoaderData;
   return (
     <article className="post">
-      <div className="featured-image"></div>
+      <div className="featured-image" />
       <header className="page-header section-inner">
         <h1 className="entry-title">Login</h1>
       </header>

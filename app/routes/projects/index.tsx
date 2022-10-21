@@ -11,7 +11,7 @@ import type { Repo } from "~/services/github.server";
 import { cache, DAY_IN_SECONDS } from "~/utils/cache.server";
 import { FormatDate } from "~/components/FormatDate";
 
-export async function loader(args: LoaderArgs) {
+export async function loader() {
   if (cache.has("GitHubRepos")) {
     return json(cache.get("GitHubRepos"));
   }
@@ -24,7 +24,7 @@ export default function Projects() {
   const repositoryList = useLoaderData<typeof loader>() as Repo[];
 
   const projects = repositoryList.map((repo: Repo) => {
-    let language = repo.language.toLowerCase();
+    const language = repo.language.toLowerCase();
 
     const icon = getIcon(language);
     return (
@@ -48,11 +48,7 @@ export default function Projects() {
     );
   });
 
-  return (
-    <>
-      <div className="repos-wrapper">{projects}</div>
-    </>
-  );
+  return <div className="repos-wrapper">{projects}</div>;
 }
 
 export function CatchBoundary() {
@@ -74,25 +70,17 @@ export function ErrorBoundary({ error }: { error: Error }) {
   );
 }
 function getIcon(language: string) {
-  let FaIcon = <FaJs />;
   switch (language) {
     case "typescript":
     case "javascript":
-      FaIcon = <FaJs />;
-      break;
+      return <FaJs />;
     case "css":
-      FaIcon = <FaCss3 />;
-      break;
+      return <FaCss3 />;
     case "html":
-      FaIcon = <FaHtml5 />;
-      break;
+      return <FaHtml5 />;
     case "php":
-      FaIcon = <FaPhp />;
-      break;
+      return <FaPhp />;
     default:
-      FaIcon = <FaCode />;
-
-      break;
+      return <FaCode />;
   }
-  return FaIcon;
 }

@@ -48,14 +48,6 @@ export async function getGitHubRepos() {
 
   const data = ReposSchema.parse(await response.json()) as Repo[];
 
-  // if (response.status !== 200) {
-  //   throw new Response(data.message, {
-  //     status: response.status,
-  //   });
-  // }
-
-  // projects = data.map((repo: Repo) => {
-
   const projects = data.map((repo: Repo) => {
     if (
       repo.fork === false &&
@@ -76,8 +68,6 @@ export async function getGitHubRepos() {
       };
     }
   });
-  // remove undefined projects
-  const filteredProjects = projects.filter((project) => project !== undefined);
 
-  return filteredProjects;
+  return projects.filter((project) => project !== undefined);
 }

@@ -3,7 +3,7 @@ import { createCookieSessionStorage } from "@remix-run/node";
 
 const secret = process.env.SESSION_SECRET || "secret";
 // export the whole sessionStorage object
-export let sessionStorage = createCookieSessionStorage({
+export const sessionStorage = createCookieSessionStorage({
   cookie: {
     name: "_session", // use any name you want here
     sameSite: "lax", // this helps with CSRF

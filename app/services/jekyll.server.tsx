@@ -24,7 +24,10 @@ export async function getArchiveContent(slug: string) {
   const files = await findByName(archivePath, slug);
 
   if (files && files.length > 0) {
-    const source = await fsp.readFile(path.join(`${archivePath}`, files[0]), "utf-8");
+    const source = await fsp.readFile(
+      path.join(`${archivePath}`, files[0]),
+      "utf-8"
+    );
 
     const { attributes, body } = parseFrontMatter<FrontMatterOptions>(source);
     return {
@@ -32,11 +35,10 @@ export async function getArchiveContent(slug: string) {
       content: body,
       slug: files[0].replace(/\.[^/.]+$/, ""), // remove extension.
     };
-  } else {
-    throw new Response("Not Found", {
-      status: 404,
-    });
   }
+  throw new Response("Not Found", {
+    status: 404,
+  });
 }
 
 export async function getArchive(): Promise<Jekyll[]> {
@@ -47,14 +49,16 @@ export async function getArchive(): Promise<Jekyll[]> {
   const posts = await Promise.all(
     postsPath.map(async (dirent) => {
       const file = await fsp.readFile(path.join(`${archivePath}`, dirent.name));
-      const { attributes } = parseFrontMatter(file.toString()) as FrontMatterResult<Jekyll>;
+      const { attributes } = parseFrontMatter(
+        file.toString()
+      ) as FrontMatterResult<Jekyll>;
       const title = attributes.title as string;
       const filename = dirent.name as string;
       const dstr = getDateFromFilename(filename);
       return {
-        slug: "/archive/" + dirent.name.replace(/\.md|\.html/, "").slice(11),
+        slug: `/archive/${dirent.name.replace(/\.md|\.html/, "").slice(11)}`,
         date: parseJSON(formatISO(new Date(dstr))),
-        title: title,
+        title,
       };
     })
   );
@@ -63,13 +67,11 @@ export async function getArchive(): Promise<Jekyll[]> {
 }
 
 function getDateFromFilename(filename: string): string {
-  const strDate = filename
-    // .replace(/\[.md|\.html]/, "") // remove .md or .html
+  return filename
     .slice(0, 10) // get the date part
     .split("-") // split into array
     .map((s) => s.replace(/^0+/, "")) // remove leading zeros
-    .join("-"); // join back into string
-  return strDate;
+    .join("-");
 }
 
 function groupByYear<Type>(objectArray: Type, property: string) {

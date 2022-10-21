@@ -20,13 +20,12 @@ export default function Index() {
   if (!data) {
     return null;
   }
-  const entries = data; // as Post[];
-  const years = Object.keys(entries) as string[];
+  const years = Object.keys(data) as string[];
   const sortedYears = years.sort((a, b) => b.localeCompare(a));
 
   const postsByYear = sortedYears.map((year) => {
     const y = parseInt(year, 10);
-    const posts = entries[y] as unknown as any[];
+    const posts = data[y] as unknown as any[];
     const linksByYear = posts.map((post) => (
       <ContentListItem
         key={post.slug}
