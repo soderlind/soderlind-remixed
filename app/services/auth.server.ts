@@ -3,46 +3,40 @@ import { FormStrategy } from "remix-auth-form";
 import { Authenticator } from "remix-auth";
 import { sessionStorage, User } from "~/services/session.server";
 import invariant from "tiny-invariant";
-
+import { StringSchemaType } from "sanity";
+import { zx } from "zodix";
+import { z } from "zod";
 // Create an instance of the authenticator, pass a generic with what
 // strategies will return and will store in the session
-export let authenticator = new Authenticator<User>(sessionStorage);
+export const authenticator = new Authenticator<User>(sessionStorage);
+
+const formStrategy = new FormStrategy(async ({ form }) => {
+  const { email, password } = await zx.parseForm(form, {
+    email: z.string().email(),
+    password: z.string(),
+  });
+
+  const hashedPassword = await hashCode(password);
+
+  const adminUser = process.env.ADMIN_USER;
+  const adminPassword = process.env.ADMIN_PASSWORD;
+
+  if (email === adminUser && password === adminPassword) {
+    return {
+      name: email,
+      token: `${hashedPassword}-${new Date().getTime()}`,
+    };
+  }
+  return null;
+});
 
 // Tell the Authenticator to use the form strategy
-authenticator.use(
-  new FormStrategy(async ({ form }) => {
-    const email = form.get("email");
-    const password = form.get("password");
+authenticator.use(formStrategy, "user-pass");
 
-    // You can validate the inputs however you want
-    // invariant(typeof username === "string", "username must be a string");
-    // invariant(username.length > 0, "username must not be empty");
-
-    // invariant(typeof password === "string", "password must be a string");
-    // invariant(password.length > 0, "password must not be empty");
-
-    // // And if you have a password you should hash it
-    const hashedPassword = await hashCode(password);
-
-    const adminUser = process.env.ADMIN_USER;
-    const adminPassword = process.env.ADMIN_PASSWORD;
-    let user = null;
-
-    if (email === adminUser && password === adminPassword) {
-      user = {
-        name: email,
-        token: `${hashedPassword}-${new Date().getTime()}`,
-      };
-    }
-    return user;
-  }),
-  "user-pass"
-);
-
-async function hashCode(str) {
-  var hash = 0,
-    i = 0,
-    len = str.length;
+async function hashCode(str: string) {
+  let hash = 0;
+  let i = 0;
+  const len = str.length;
   while (i < len) {
     hash = ((hash << 5) - hash + str.charCodeAt(i++)) << 0;
   }
