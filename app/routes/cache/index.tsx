@@ -7,7 +7,6 @@ export const meta: MetaFunction = () => ({
 });
 
 export const loader = async ({ params }: LoaderArgs) => {
-  // cache.keys().map((key) => cache.del(key));
   cache.del(cache.keys());
   return redirect("/");
 };
