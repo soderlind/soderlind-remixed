@@ -9,7 +9,7 @@ export default function NavBar() {
         </Link>
       </li>
       <li key="projects">
-        <Link to="/projects/" className="" prefetch="intent">
+        <Link to="/projects/" className="">
           Projects
         </Link>
       </li>
