@@ -5,7 +5,7 @@ import parseFrontMatter from "front-matter";
 import { parseJSON, formatISO } from "date-fns";
 
 import { sortBy } from "sort-by-typescript";
-import { findByName } from "~/utils/fs.server";
+import { findByName, FindFirstFile } from "~/utils/fs.server";
 
 export type Jekyll = {
   slug: string;
@@ -14,18 +14,17 @@ export type Jekyll = {
   content: string;
 };
 
-const archivePath = path.resolve("public/jekyll");
+const archivePath = path.resolve("app/jekyll");
 
 export async function getArchiveContent(slug: string) {
   if (!slug) {
     throw new Error("slug is required");
   }
 
-  const files = await findByName(archivePath, slug);
-
-  if (files && files.length > 0) {
+  const file = await FindFirstFile(archivePath, slug);
+  if (file) {
     const source = await fsp.readFile(
-      path.join(`${archivePath}`, files[0]),
+      path.join(`${archivePath}`, file),
       "utf-8"
     );
 
@@ -33,7 +32,7 @@ export async function getArchiveContent(slug: string) {
     return {
       ...attributes,
       content: body,
-      slug: files[0].replace(/\.[^/.]+$/, ""), // remove extension.
+      slug: file.replace(/\.[^/.]+$/, ""), // remove extension.
     };
   }
   throw new Response("Not Found", {
