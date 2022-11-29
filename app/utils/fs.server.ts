@@ -5,23 +5,20 @@ export { promises as fsp } from "fs";
 export { resolve, join } from "path";
 
 /**
- * Find files by name
+ * Find first file by partial name
  *
  * @see https://www.webmound.com/nodejs-find-files-matching-name-pattern-extension/
  * @param dir: PathLike - directory to search
  * @param name: string - name of file to search for
- * @returns Promise<string[]> - array of matched files
+ * @returns Promise<string|null> - matched files or null.
  */
-export const findByName = async (dir: PathLike, name: string) => {
-  const matchedFiles = [];
-
-  const files = await fsp.readdir(dir);
-
+export const FindFirstFile = async (dir: PathLike, name: string) => {
+  const files = (await fsp.readdir(dir)).sort((a, b) => b.localeCompare(a)); // sort by name descending
   for (const file of files) {
     if (file.includes(name)) {
-      matchedFiles.push(file);
+      return file;
     }
   }
 
-  return matchedFiles;
+  return null;
 };
