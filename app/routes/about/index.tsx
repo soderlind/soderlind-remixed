@@ -7,9 +7,16 @@ export default function About() {
         <p className="excerpt">TODO: excerpt excerpt excerpt excerpt </p>
       </header>
       <div className="entry-content section-inner">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maxime eum pariatur odit similique
-        enim recusandae, impedit quo expedita commodi eaque cupiditate beatae eligendi ipsa debitis
-        mollitia asperiores iste minus ducimus.
+        <p>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maxime eum
+          pariatur odit similique enim recusandae, impedit quo expedita commodi
+          eaque cupiditate beatae eligendi ipsa debitis mollitia asperiores iste
+          minus ducimus.
+        </p>
+        <p>
+          Content on this site is copyright © 2022 Per Søderlind. All rights
+          reserved.
+        </p>
       </div>
     </article>
   );
