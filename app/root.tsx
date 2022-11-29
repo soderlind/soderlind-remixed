@@ -22,6 +22,8 @@ import fontAwesome from "~/styles/font-awesome.css";
 import NavBar from "./components/NavBar";
 import SocialLink from "./components/SocialLink";
 import MobileMenu from "./components/MobileMenu";
+import Description from "./components/Description";
+// import { StructuredData } from "remix-utils";
 
 export const links: LinksFunction = () => {
   return [
@@ -58,6 +60,7 @@ export default function App() {
       <head>
         <Meta />
         <Links />
+        {/* <StructuredData /> */}
         {isStudioRoute && typeof document === "undefined" ? "__STYLES__" : null}
       </head>
       <body>
@@ -92,7 +95,9 @@ export default function App() {
             </a>
           </h1>
 
-          <div className="site-description">I code for fun</div>
+          <div className="site-description">
+            <Description />
+          </div>
 
           <div
             className="nav-toggle"
@@ -145,18 +150,18 @@ export default function App() {
         <main className="site-content" id="site-content">
           {outlet}
 
-          <footer className="site-footer section-inner">
+          {/* <footer className="site-footer section-inner">
             <p className="copyright">
               &copy; 2022{" "}
               <a href="/" className="site-name">
                 soderlind.no
               </a>
             </p>
-          </footer>
+          </footer> */}
         </main>
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
+        {process.env.NODE_ENV === "development" && <LiveReload />}
       </body>
     </html>
   );
@@ -167,13 +172,14 @@ export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <html>
       <head>
-        <title>Oh no!</title>
+        <title>Oh no! An error :(</title>
         <Meta />
         <Links />
       </head>
       <body>
         <h1>Oh no!</h1>
         <p>{error.message}</p>
+        <pre>{error.stack}</pre>
         {/* add the UI you want your users to see */}
         <Scripts />
       </body>
