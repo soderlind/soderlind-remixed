@@ -28,7 +28,29 @@ export default defineType({
       type: "array" as const,
       of: [
         { type: "block" },
-        { type: "image" },
+        {
+          type: "image",
+          fields: [
+            {
+              title: "Alignment",
+              name: "alignment",
+              type: "string",
+              options: {
+                list: [
+                  { title: "None", value: "None" },
+                  { title: "Left", value: "left" },
+                  { title: "Right", value: "right" },
+                  { title: "Center", value: "center" },
+                ],
+              },
+            },
+            {
+              title: "Caption",
+              name: "caption",
+              type: "string",
+            },
+          ],
+        },
         {
           title: "Code Block",
           type: "code",
