@@ -16,6 +16,11 @@ export default function SocialLink() {
           <span className="screen-reader-text">LinkedIn</span>
         </a>
       </li>
+      <li className="menu-item-custom menu-social group ">
+        <a href="/copyright/">
+          <span className="screen-reader-text">Copyright</span>
+        </a>
+      </li>
     </ul>
   );
 }
