@@ -808,6 +808,7 @@ body.hide-social .social-menu {
 .social-menu a[href*="mailto"]::before { content: '\f0e0'; }
 .social-menu a[href*="/feed/"]::before,
 .social-menu a[href*="rss"]::before { content: '\f09e'; }
+.social-menu a[href*="/copyright/"]::before { content: '\f1f9'; }
 
 /* BRAND ICONS */
 
@@ -3122,4 +3123,85 @@ pre {
   margin-left: -8px;
   color: rgb(156, 163, 175); /* Line number color */
   content: attr(line);
+}
+
+
+/* Description, css from https://codepen.io/jh3y/pen/poKNJZj */
+
+.site-description {
+	--ease-elastic-2:cubic-bezier(.5,1,.75,1.25);
+	--gray-9:#212529;
+	--gray-0:#f8f9fa
+	--text-1:var(--gray-0);
+	--surface-1:var(--gray-9);
+	--gradient-11:#aaa;
+	/* --gradient-11:conic-gradient(at bottom left,#ccc,#000); */
+	/* --gradient-11:conic-gradient(at bottom left,#f8f9fa,#000); */
+
+  display: grid;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+[aria-hidden] span:nth-of-type(2) {
+  position: relative;
+  color: transparent;
+	color: var(--text-1);
+  width: calc((var(--stretch, 0) * 4ch) + var(--width, 1.3ch)); /* was 1.14 */
+  text-align: left;
+  transition: width 0.2s var(--ease-elastic-2);
+}
+
+[aria-hidden] span:nth-of-type(2) span {
+  position: absolute;
+  background:var(--text-1);
+  left: 0;
+  right: 0;
+  top: 12%;
+  bottom: 14%;
+  border-radius: 0.57ch;
+}
+
+[aria-hidden] span:nth-of-type(2) span:before {
+  content: "";
+  position: absolute;
+  background: var(--gradient-11);
+  inset: 0;
+  opacity: var(--stretch, 0);
+  transition: opacity 0.2s var(--ease-elastic-2);
+  border-radius: 0.59ch;
+}
+
+[aria-hidden] span:nth-of-type(2) span:after {
+  content: "";
+  position: absolute;
+  background: var(--surface-1);
+  inset: 0.25ch;
+	
+  border-radius: 0.59ch;
+  z-index: 2;
+}
+
+.site-description:hover [aria-hidden] span:nth-of-type(2) {
+  --stretch: 1;
+}
+
+.site-description:hover [aria-hidden] span:nth-of-type(2) span:after {
+  inset: 0.14ch;
+}
+
+[aria-hidden] {
+  display: flex;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
