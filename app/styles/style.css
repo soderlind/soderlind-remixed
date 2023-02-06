@@ -3130,7 +3130,7 @@ pre {
 
 .site-description {
 	--ease-elastic-2:cubic-bezier(.5,1,.75,1.25);
-	--gray-9:#212529;
+	--gray-9:#121212;
 	--gray-0:#f8f9fa
 	--text-1:var(--gray-0);
 	--surface-1:var(--gray-9);
