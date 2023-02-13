@@ -41,7 +41,7 @@ export async function getGitHubRepos(): Promise<Repo[]> {
       headers: {
         Authorization: `token ${process.env.GITHUB_TOKEN}`,
         Accept: "application/vnd.github.v3+json",
-        Username: "soderlind",
+        Username: process.env.GITHUB_USERNAME,
       },
     }
   );
