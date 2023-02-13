@@ -34,7 +34,7 @@ const RepoSchema = z.object({
 
 const ReposSchema = z.array(RepoSchema);
 
-export async function getGitHubRepos() {
+export async function getGitHubRepos(): Promise<Repo[]> {
   const response = await fetch(
     "https://api.github.com/users/soderlind/repos?username=soderlind&type=owner&per_page=1000&sort=pushed&directionstring=desc",
     {
@@ -67,7 +67,7 @@ export async function getGitHubRepos() {
         language: repo.language,
       };
     }
-  });
+  }) as unknown as Repo[];
 
   return projects.filter((project) => project !== undefined);
 }

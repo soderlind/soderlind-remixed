@@ -1,8 +1,8 @@
 import { FaPhp, FaCss3, FaJs, FaHtml5, FaCode } from "react-icons/fa";
 
-import type { LoaderArgs } from "@remix-run/node";
+import { defer, LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useCatch, useLoaderData } from "@remix-run/react";
+import { Await, useCatch, useLoaderData } from "@remix-run/react";
 
 import { parseJSON } from "date-fns";
 
@@ -10,27 +10,34 @@ import { getGitHubRepos } from "~/services/github.server";
 import type { Repo } from "~/services/github.server";
 import { cache, DAY_IN_SECONDS } from "~/utils/cache.server";
 import { FormatDate } from "~/components/FormatDate";
+import { Suspense } from "react";
 
 export async function loader() {
+  let repos = null;
   if (cache.has("GitHubRepos")) {
-    return json(cache.get("GitHubRepos"));
+    repos = await cache.get("GitHubRepos");
   }
-  const repos = await getGitHubRepos();
-  cache.set("GitHubRepos", repos, DAY_IN_SECONDS);
-  return json(repos);
+  if (!repos) {
+    repos = await getGitHubRepos();
+    cache.set("GitHubRepos", repos, DAY_IN_SECONDS);
+  }
+
+  if (repos !== null) {
+    return json({ repos });
+  }
+  throw new Response("Error loading repos!");
 }
 
 export default function Projects() {
-  const repositoryList = useLoaderData<typeof loader>() as Repo[];
-
-  const projects = repositoryList.map((repo: Repo) => {
-    const language = repo.language.toLowerCase();
-
-    const icon = getIcon(language);
+  const { repos } = useLoaderData<typeof loader>();
+  const projects = repos.map((repo: Repo) => {
     return (
       <div key={repo.name} className="">
         <h3 className="">
-          <span className="faicon"> {icon} </span>
+          <span className="faicon">
+            {" "}
+            {getIcon(repo.language.toLowerCase())}{" "}
+          </span>
           <a href={repo.html_url}>{repo.name}</a>
         </h3>
 
@@ -55,7 +62,8 @@ export function CatchBoundary() {
   const caught = useCatch();
   return (
     <p>
-      {caught.status}: {caught.data}
+      {/* {caught.status}: */}
+      {caught.data}
     </p>
   );
 }
