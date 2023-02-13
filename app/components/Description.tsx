@@ -3,16 +3,14 @@ export default function Description() {
     <>
       <span>I code</span>
       <span>
+        <span className="sr-only">For</span>
         <span aria-hidden="true">
-          <span>f</span>
-          <span>
-            o<span></span>
-          </span>
+          <span>F</span>
+          <span className="stretch-o"></span>
           <span>r</span>
         </span>
-        <span className="sr-only">for</span>
+        <span>fun</span>
       </span>
-      <span>fun</span>
     </>
   );
 }
