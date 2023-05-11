@@ -1,50 +1,43 @@
-import { json } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { LoaderArgs, LoaderFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 
-import ContentList from "~/components/ContentList";
-import ContentListItem from "~/components/ContentListItem";
-import { getPosts } from "~/services/post.server";
-import { cache, DAY_IN_SECONDS } from "~/utils/cache.server";
+import { getPosts, getPostsQuery } from "~/services/post.server";
+import { cache, DAY_IN_SECONDS } from "~/services/cache.server";
+import { getSession } from "~/sessions";
+import { lazy } from "react";
+import { PreviewSuspense } from "@sanity/preview-kit";
+import { Posts } from "~/components/Posts";
 
-export async function loader() {
-  if (cache.has("Posts")) {
-    // return json(cache.get("Posts"));
+const PostsPreview = lazy(() => import("../../components/PostsPreview"));
+
+export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
+  // export async function loader({ request }: LoaderArgs) {
+  //   if (cache.has("Posts")) {
+  //     return json(cache.get("Posts"));
+  //   }
+
+  //   const query = `*[_type == "post" && defined(slug.current)]`;
+  const session = await getSession(request.headers.get("Cookie"));
+  const preview = session.get("preview");
+
+  // Preview session cookie found, return early and query client-side!
+  if (preview) {
+    const query = getPostsQuery();
+    return { preview: true, query };
   }
+
   const posts = await getPosts();
-  cache.set("Posts", posts, DAY_IN_SECONDS);
-  return json(posts);
-}
+  return { preview: false, posts };
+};
 
 export default function Index() {
-  const data = useLoaderData<typeof loader>();
-  if (!data) {
-    return null;
-  }
-  const years = Object.keys(data) as string[];
-  const sortedYears = years.sort((a, b) => b.localeCompare(a));
+  const { preview, query, posts } = useLoaderData();
 
-  const postsByYear = sortedYears.map((year) => {
-    const y = parseInt(year, 10);
-    const posts = data[y] as unknown as any[];
-    const linksByYear = posts.map((post) => (
-      <ContentListItem
-        key={post.slug}
-        post={post}
-        date={post.date}
-        prefetch="intent"
-      />
-    ));
-    return (
-      <li key={year}>
-        <h3 className="list-title">
-          <Link to="#" className="">
-            {year}
-          </Link>
-        </h3>
-        <ul>{linksByYear}</ul>
-      </li>
-    );
-  }) as unknown as string;
-
-  return <ContentList title="Posts" description="" list={postsByYear} />;
+  return preview ? (
+    <PreviewSuspense fallback="Loading...">
+      <PostsPreview query={query} />
+    </PreviewSuspense>
+  ) : (
+    <Posts posts={posts} />
+  );
 }

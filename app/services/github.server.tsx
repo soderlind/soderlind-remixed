@@ -2,21 +2,6 @@ import { z } from "zod";
 
 import { ErrorBoundary } from "~/root";
 
-export type Repo = {
-  fork: boolean;
-  description: null;
-  visibility: string;
-  name: string;
-  updated_at: string;
-  created_at: string;
-  pushed_at: string;
-  html_url: string;
-  forks_count: number;
-  watchers_count: number;
-  stargazers_count: number;
-  language: string;
-};
-
 const RepoSchema = z.object({
   fork: z.boolean(),
   description: z.string().or(z.null()),
@@ -34,6 +19,9 @@ const RepoSchema = z.object({
 
 const ReposSchema = z.array(RepoSchema);
 
+export type Repo = z.infer<typeof RepoSchema>;
+export type Repos = z.infer<typeof ReposSchema>;
+
 export async function getGitHubRepos(): Promise<Repo[]> {
   const response = await fetch(
     "https://api.github.com/users/soderlind/repos?username=soderlind&type=owner&per_page=1000&sort=pushed&directionstring=desc",
@@ -41,12 +29,12 @@ export async function getGitHubRepos(): Promise<Repo[]> {
       headers: {
         Authorization: `token ${process.env.GITHUB_TOKEN}`,
         Accept: "application/vnd.github.v3+json",
-        Username: process.env.GITHUB_USERNAME,
+        Username: `${process.env.GITHUB_USERNAME}`,
       },
     }
   );
 
-  const data = ReposSchema.parse(await response.json()) as Repo[];
+  const data = ReposSchema.parse(await response.json()); // as Repo[];
 
   const projects = data.map((repo: Repo) => {
     if (
@@ -67,7 +55,7 @@ export async function getGitHubRepos(): Promise<Repo[]> {
         language: repo.language,
       };
     }
-  }) as unknown as Repo[];
+  }) as Repos;
 
   return projects.filter((project) => project !== undefined);
 }

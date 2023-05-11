@@ -31,5 +31,7 @@ module.exports = {
     "ccount",
     "markdown-table",
     "fault",
+    "is-plain-obj",
+    "escape-string-regexp",
   ],
 };

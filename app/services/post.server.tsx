@@ -1,57 +1,50 @@
+import { SanityDocument, SanityDocumentStub } from "@sanity/client";
 import { parseJSON } from "date-fns";
 import groq from "groq";
 import { sortBy } from "sort-by-typescript";
-import { z } from "zod";
-import { client } from "~/sanity/client";
-import type { Page } from "~/sanity/types/Page";
+import { isAborted, z } from "zod";
+import { client } from "~/lib/sanity";
+import { groupByYear } from "~/lib/utils";
 
-type Post = {
-  title: string;
-  slug: string;
-  updatedAt: string;
-  markdown: string;
-};
-type Posts = {
-  [key: string]: Post[];
-};
-
-const PostSchema = z.object({
-  title: z.string(),
-  slug: z.string(),
-  updatedAt: z.string(),
-  markdown: z.string(),
-});
-
-const PostsSchema = z.array(PostSchema);
-
-export type { Post, Posts };
-
-export async function getPosts(): Promise<Posts> {
-  const pageList = await client.fetch(
-    groq`*[_type == "page"]{ _id, title, slug, _updatedAt }`
-  );
-
-  const pages = pageList.map((page: Page) => {
-    const slug = page.slug as { current: string };
-    return slug !== undefined
-      ? {
-          title: page.title,
-          slug: slug.current as string,
-          date: parseJSON(page._updatedAt as string) as unknown as string,
-        }
-      : undefined;
-  });
-
-  const pagesParsed = pages.filter((page) => page !== undefined) as Post[];
-
-  return groupByYear(pagesParsed.sort(sortBy("-date")));
+export function getPostsQuery() {
+  return `*[_type == "post" && defined(slug.current)]`;
 }
 
-export async function getPost(slug: string) {
-  return await client.fetch(
-    groq`*[_type == "page" && slug.current == $slug][0]{ title, ingress, content, _updatedAt }`,
-    { slug }
-  );
+export function getPostQuery() {
+  return `*[_type == "post" && slug.current == $slug]`;
+}
+
+export type PostType = {
+  title: string;
+  slug: string;
+  date: string;
+  body: object;
+};
+export type PostsType = {
+  [key: string]: PostType[];
+};
+
+export async function getPosts() {
+  const postsList: SanityDocument[] = await client.fetch(getPostsQuery());
+  const posts = postsList.map((post) => {
+    const slug = post.slug as { current: string };
+    return slug !== undefined
+      ? {
+          title: post.title,
+          slug: slug.current as string,
+          date: parseJSON(post._updatedAt as string) as unknown as string,
+        }
+      : undefined;
+  }) as unknown as PostType[];
+  const postsParsed = posts.filter((post) => post !== undefined);
+  return groupByYear<PostsType>(
+    postsParsed.sort(sortBy("-date")),
+    "date"
+  ) as PostsType;
+}
+
+export async function getPost(params) {
+  return (await client.fetch(getPostQuery(), params)) as SanityDocumentStub;
 }
 
 export async function getToc(slug: string) {
@@ -59,14 +52,4 @@ export async function getToc(slug: string) {
     groq`*[_type == "page" && slug.current == $slug]{ "tableOfContents": content[length(style) == 2 && string::startsWith(style, "h")]}`,
     { slug }
   );
-}
-
-function groupByYear(objectArray: any[]) {
-  const InitialValue: Post[] = {} as Post[];
-  return objectArray.reduce((acc, obj) => {
-    const key = parseJSON(obj.date).getFullYear();
-    (acc[key] as unknown as any[]) ??= [];
-    (acc[key] as unknown as any[]).push(obj);
-    return acc;
-  }, InitialValue);
 }
