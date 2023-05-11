@@ -4,6 +4,9 @@
 
 <img src="assets/soderlind-remixed.gif">
 
+Sanity Studio for this site is at https://github.com/soderlind/soderlind-sanity
+
+## Learn more
 - [How to build a Remix website with Sanity.io and live preview](https://www.sanity.io/guides/remix-run-live-preview)
 - [Sanity Studio v3 Docs](https://beta.sanity.io)
 - [Remix Docs](https://remix.run/docs)
