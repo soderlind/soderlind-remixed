@@ -5,7 +5,8 @@ import parseFrontMatter from "front-matter";
 import { parseJSON, formatISO } from "date-fns";
 
 import { sortBy } from "sort-by-typescript";
-import { findByName, FindFirstFile } from "~/utils/fs.server";
+import { findByName, FindFirstFile } from "~/services/fs.server";
+import { groupByYear } from "~/lib/utils";
 
 export type Jekyll = {
   slug: string;
@@ -71,15 +72,4 @@ function getDateFromFilename(filename: string): string {
     .split("-") // split into array
     .map((s) => s.replace(/^0+/, "")) // remove leading zeros
     .join("-");
-}
-
-function groupByYear<Type>(objectArray: Type, property: string) {
-  const InitialValue: Type = {} as Type;
-  const oArray = objectArray as unknown as any[];
-  return oArray.reduce<Type>((acc, obj) => {
-    const key = parseJSON(obj[property]).getFullYear() as keyof Type; //as unknown as string;
-    (acc[key] as any[]) ??= [];
-    (acc[key] as any[]).push(obj);
-    return acc;
-  }, InitialValue);
 }

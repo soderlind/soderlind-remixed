@@ -8,7 +8,7 @@ import { parseJSON } from "date-fns";
 
 import { getGitHubRepos } from "~/services/github.server";
 import type { Repo } from "~/services/github.server";
-import { cache, DAY_IN_SECONDS } from "~/utils/cache.server";
+import { cache, DAY_IN_SECONDS } from "~/services/cache.server";
 import { FormatDate } from "~/components/FormatDate";
 import { Suspense } from "react";
 
@@ -36,7 +36,7 @@ export default function Projects() {
         <h3 className="">
           <span className="faicon">
             {" "}
-            {getIcon(repo.language.toLowerCase())}{" "}
+            {getIcon((repo.language || "").toLowerCase())}{" "}
           </span>
           <a href={repo.html_url}>{repo.name}</a>
         </h3>
@@ -77,7 +77,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
     </>
   );
 }
-function getIcon(language: string) {
+function getIcon(language: string): JSX.Element {
   switch (language) {
     case "typescript":
     case "javascript":

@@ -4,7 +4,7 @@ import { useCatch } from "@remix-run/react";
 
 import { z } from "zod";
 import { zx } from "zodix";
-import { FindFirstFile } from "~/utils/fs.server";
+import { FindFirstFile } from "~/services/fs.server";
 
 type Path = {
   path: string;

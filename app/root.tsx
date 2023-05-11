@@ -14,7 +14,7 @@ import {
   useOutlet,
 } from "@remix-run/react";
 
-import { projectDetails } from "~/sanity/config";
+// import { projectDetails } from "~/sanity/config";
 
 import themeStyle from "./styles/style.css";
 import fontStyles from "~/styles/fonts.css";
@@ -40,7 +40,8 @@ export const meta: MetaFunction = () => ({
 });
 
 export async function loader() {
-  return json({ ENV: projectDetails() });
+  //   return json({ ENV: projectDetails() });
+  return null;
 }
 
 export default function App() {
@@ -52,34 +53,12 @@ export default function App() {
     opacity: fullMenuVisible ? 1 : 0,
   });
 
-  const { pathname } = useLocation();
-  const isStudioRoute = pathname.startsWith("/studio");
-
-  return isStudioRoute ? (
+  return (
     <html lang="en">
       <head>
         <Meta />
         <Links />
-        {/* <StructuredData /> */}
-        {isStudioRoute && typeof document === "undefined" ? "__STYLES__" : null}
-      </head>
-      <body>
-        <Outlet />
-        <ScrollRestoration />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
-          }}
-        />
-        <Scripts />
-        <LiveReload />
-      </body>
-    </html>
-  ) : (
-    <html lang="en">
-      <head>
-        <Meta />
-        <Links />
+        <script src="https://cdn.tailwindcss.com?plugins=typography" />
         {/* {isStudioRoute && typeof document === "undefined"
           ? "__STYLES__"
           : null} */}
@@ -167,22 +146,22 @@ export default function App() {
   );
 }
 
-export function ErrorBoundary({ error }: { error: Error }) {
-  console.error(error);
-  return (
-    <html>
-      <head>
-        <title>Oh no! An error :(</title>
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <h1>Oh no!</h1>
-        <p>{error.message}</p>
-        <pre>{error.stack}</pre>
-        {/* add the UI you want your users to see */}
-        <Scripts />
-      </body>
-    </html>
-  );
-}
+// export function ErrorBoundary({ error }: { error: Error }) {
+//   console.error(error);
+//   return (
+//     <html>
+//       <head>
+//         <title>Oh no! An error :(</title>
+//         <Meta />
+//         <Links />
+//       </head>
+//       <body>
+//         <h1>Oh no!</h1>
+//         <p>{error.message}</p>
+//         <pre>{error.stack}</pre>
+//         {/* add the UI you want your users to see */}
+//         <Scripts />
+//       </body>
+//     </html>
+//   );
+// }
