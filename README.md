@@ -4,7 +4,7 @@
 
 <img src="assets/soderlind-remixed.gif">
 
-- [Sanity Studio v3 + Remix](https://github.com/SimeonGriggs/remix-sanity-studio-v3)
+- [How to build a Remix website with Sanity.io and live preview](https://www.sanity.io/guides/remix-run-live-preview)
 - [Sanity Studio v3 Docs](https://beta.sanity.io)
 - [Remix Docs](https://remix.run/docs)
 
