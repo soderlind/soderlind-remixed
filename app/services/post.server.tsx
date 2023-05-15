@@ -1,3 +1,4 @@
+import { Params } from "@remix-run/react";
 import { SanityDocument, SanityDocumentStub } from "@sanity/client";
 import { parseJSON } from "date-fns";
 import groq from "groq";
@@ -43,7 +44,7 @@ export async function getPosts() {
   ) as PostsType;
 }
 
-export async function getPost(params) {
+export async function getPost(params: Params) {
   return (await client.fetch(getPostQuery(), params)) as SanityDocumentStub;
 }
 
