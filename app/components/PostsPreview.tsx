@@ -8,8 +8,9 @@ import { groupByYear } from "~/lib/utils";
 
 export default function PostsPreview({ query }: { query: string }) {
   const postsList = usePreview(null, query) as any[];
+
   const posts = postsList.map((post) => {
-    const slug = post.slug;
+    const slug = post.slug.current as string;
     return slug !== undefined
       ? {
           title: post.title,
@@ -18,7 +19,6 @@ export default function PostsPreview({ query }: { query: string }) {
         }
       : undefined;
   });
-
   const postsParsed = posts.filter((post) => post !== undefined);
   const p = groupByYear<PostsType>(postsParsed.sort(sortBy("-date")), "date");
   return (
