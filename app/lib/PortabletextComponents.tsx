@@ -5,6 +5,8 @@ import imageUrlBuilder from "@sanity/image-url";
 import urlBuilder from "@sanity/image-url";
 import { dataset, projectId } from "./sanity";
 
+import { Code } from "~/components/Code";
+
 const builder = imageUrlBuilder({ projectId, dataset });
 
 const ImageComponent = ({
@@ -25,7 +27,7 @@ const ImageComponent = ({
         .fit("max")
         .auto("format")
         .url()}
-      alt={value.alt || " "}
+      alt={value.alt || undefined}
       loading="lazy"
       style={{
         // Display alongside text if image appears inside a block text span
@@ -41,6 +43,8 @@ const ImageComponent = ({
 export const CustomPortableTextComponents = {
   types: {
     image: ImageComponent,
+    code: Code,
+
     // Any other custom types you have in your content
     // Examples: mapLocation, contactForm, code, featuredProjects, latestNews, etc.
   },
