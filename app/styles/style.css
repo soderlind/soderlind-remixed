@@ -88,6 +88,10 @@ td {
 	text-align: inherit;
 }
 
+.prism-code {
+	font-size: 0.8em;
+}
+
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
@@ -3631,7 +3635,7 @@ pre {
 	/* Set highlight accent border color */
 }
 
-.line-number::before {
+.line-number {
 	display: inline-block;
 	width: 1rem;
 	text-align: right;
@@ -3721,4 +3725,9 @@ pre {
 .site-description .stretch-o:after {
 	--color: var(--color-two);
 	mask: radial-gradient(circle at top left, var(--color), transparent);
+}
+
+
+.refractor-marker {
+	background: rgba(253, 239, 182, 0.75);
 }
