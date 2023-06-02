@@ -1,11 +1,13 @@
 import Refractor from "react-refractor";
-import js from "refractor/lang/javascript";
+import javascript from "refractor/lang/javascript";
 import typescript from "refractor/lang/typescript";
 import php from "refractor/lang/php";
+import css from "refractor/lang/css";
 
-Refractor.registerLanguage(js);
+Refractor.registerLanguage(javascript);
 Refractor.registerLanguage(typescript);
 Refractor.registerLanguage(php);
+Refractor.registerLanguage(css);
 
 type CodeProps = {
   value: {
