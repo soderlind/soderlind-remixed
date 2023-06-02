@@ -2,6 +2,12 @@ import { json, LinksFunction, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
 import coynoshadows from "~/styles/prism-coy-without-shadows.css";
+import vscdark from "~/styles/prism-vsc-dark-plus.css";
+import tomorrow from "~/styles/prism-tomorrow.css";
+import twilight from "~/styles/prism-twilight.css";
+import dark from "~/styles/prism-dark.css";
+import okaidia from "~/styles/prism-okaidia.css";
+import vs from "~/styles/prism-vs.css";
 
 import { cache, DAY_IN_SECONDS } from "~/services/cache.server";
 import { zx } from "zodix";
@@ -11,7 +17,6 @@ import { getSession } from "~/sessions";
 import { Post } from "~/components/Post";
 import { PreviewSuspense } from "@sanity/preview-kit";
 import { lazy } from "react";
-// import PostPreview from "~/components/PostPreview";
 
 const PostPreview = lazy(() => import("../../components/PostPreview"));
 
