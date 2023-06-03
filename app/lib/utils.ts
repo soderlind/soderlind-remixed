@@ -19,3 +19,7 @@ export function groupByYear<Type>(objectArray: any[], property: string) {
     return acc;
   }, InitialValue);
 }
+
+export const isDefinitelyAnError = (error: any): error is Error => {
+  return error instanceof Error && error.message !== undefined;
+};
