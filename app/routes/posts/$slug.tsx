@@ -49,7 +49,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 
   const post = (await getPost(params))[0];
   if (!post) {
-    throw new Response("Not found", { status: 404 });
+    throw new Response("Not found", { status: 404, statusText: "Not found" });
   }
   cache.set(cacheKey, JSON.stringify(post), DAY_IN_SECONDS);
   return json({ post });

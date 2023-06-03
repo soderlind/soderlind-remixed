@@ -22,7 +22,7 @@ export async function loader({ params }: LoaderArgs) {
 
   const source = (await getArchiveContent(slug)) as Jekyll;
   if (!source) {
-    throw new Response("Not found", { status: 404 });
+    throw new Response("Not found", { status: 404, statusText: "Not found" });
   }
   return { source };
 }

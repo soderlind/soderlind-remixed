@@ -38,6 +38,7 @@ export async function getArchiveContent(slug: string) {
   }
   throw new Response("Not Found", {
     status: 404,
+    statusText: "Not Found",
   });
 }
 
