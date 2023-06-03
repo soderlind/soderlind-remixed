@@ -2,7 +2,13 @@ import { FaPhp, FaCss3, FaJs, FaHtml5, FaCode } from "react-icons/fa";
 
 import { defer, LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Await, useCatch, useLoaderData } from "@remix-run/react";
+import {
+  Await,
+  isRouteErrorResponse,
+  useCatch,
+  useLoaderData,
+  useRouteError,
+} from "@remix-run/react";
 
 import { parseJSON } from "date-fns";
 
@@ -11,6 +17,7 @@ import type { Repo } from "~/services/github.server";
 import { cache, DAY_IN_SECONDS } from "~/services/cache.server";
 import { FormatDate } from "~/components/FormatDate";
 import { Suspense } from "react";
+import { isDefinitelyAnError } from "~/lib/utils";
 
 export async function loader() {
   let repos = null;
@@ -58,23 +65,33 @@ export default function Projects() {
   return <div className="repos-wrapper">{projects}</div>;
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
-  return (
-    <p>
-      {/* {caught.status}: */}
-      {caught.data}
-    </p>
-  );
-}
+export function ErrorBoundary() {
+  const error = useRouteError();
 
-export function ErrorBoundary({ error }: { error: Error }) {
-  console.error(error);
+  // when true, this is what used to go to `CatchBoundary`
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div>
+        <h1>Oops</h1>
+        <p>Status: {error.status}</p>
+        <p>{error.data.message}</p>
+      </div>
+    );
+  }
+
+  // Don't forget to typecheck with your own logic.
+  // Any value can be thrown, not just errors!
+  let errorMessage = "Unknown error";
+  if (isDefinitelyAnError(error)) {
+    errorMessage = error.message;
+  }
+
   return (
-    <>
-      <h1>Oh no!</h1>
-      <p>{error.message}</p>
-    </>
+    <div>
+      <h1>Uh oh ...</h1>
+      <p>Something went wrong.</p>
+      <pre>{errorMessage}</pre>
+    </div>
   );
 }
 function getIcon(language: string): JSX.Element {

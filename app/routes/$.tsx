@@ -1,9 +1,11 @@
 import type { LoaderArgs } from "@remix-run/node"; // or cloudflare/deno
 import { redirect } from "@remix-run/node"; // or cloudflare/deno
-import { useCatch } from "@remix-run/react";
-
-import { z } from "zod";
-import { zx } from "zodix";
+import {
+  isRouteErrorResponse,
+  useCatch,
+  useRouteError,
+} from "@remix-run/react";
+import { isDefinitelyAnError } from "~/lib/utils";
 import { FindFirstFile } from "~/services/fs.server";
 
 type Path = {
@@ -34,24 +36,38 @@ export const loader = async ({ request }: LoaderArgs) => {
   });
 };
 
-export function CatchBoundary() {
-  const caught = useCatch();
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  // when true, this is what used to go to `CatchBoundary`
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div>
+        <h1>Oops</h1>
+        <p>Status: {error.status}</p>
+        <p>{error.data.message}</p>
+      </div>
+    );
+  }
+
+  // Don't forget to typecheck with your own logic.
+  // Any value can be thrown, not just errors!
+  let errorMessage = "Unknown error";
+  if (isDefinitelyAnError(error)) {
+    errorMessage = error.message;
+  }
+
   return (
-    <article className="post">
-      <div className="featured-image"></div>
-      <header className="entry-header section-inner">
-        <h1 className="entry-title">You&#x27;re alone here</h1>
-        <p className="excerpt">
-          Oops! Looks like you tried to visit a page that does not exist.
-        </p>
-      </header>
-      <div className="entry-content section-inner">{caught.statusText}</div>
-    </article>
+    <div>
+      <h1>Uh oh ...</h1>
+      <p>Something went wrong.</p>
+      <pre>{errorMessage}</pre>
+    </div>
   );
 }
 
 export default function Page() {
-  return <CatchBoundary />;
+  return <ErrorBoundary />;
 }
 function findFirstFile(archivePath: any, basename: any) {
   throw new Error("Function not implemented.");
